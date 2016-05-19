@@ -93,6 +93,20 @@ public class Member extends User implements java.io.Serializable {
 				+ mmemberGroupHxid + ", MMemberPermission=" + mmemberPermission
 				+ "]";
 	}
-	
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Member)) return false;
+
+		Member member = (Member) o;
+
+		return mmemberId.equals(member.mmemberId);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return mmemberId.hashCode();
+	}
 }
