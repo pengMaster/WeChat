@@ -295,4 +295,64 @@
     <string name="toast_updatenick_fail">update nickname fail!</string>
     <string name="toast_updatephoto_success">update photo success!</string>
     <string name="toast_updatephoto_fail">update photo fail!</string>
+
+
+
+    <string name="msg_900">msg:connection success				     </string>
+    <string name="msg_901">msg:connection fail					     </string>
+    <string name="msg_902">msg:upload avatar success			     </string>
+    <string name="msg_903">msg:upload avatar fail				     </string>
+    <string name="msg_101">msg:register success				     </string>
+    <string name="msg_102">msg:register username exists		     </string>
+    <string name="msg_103">msg:register upload avatar fail		     </string>
+    <string name="msg_104">msg:register upload avatar success	     </string>
+    <string name="msg_105">msg:register fail					     </string>
+    <string name="msg_106">msg:unregister success				     </string>
+    <string name="msg_107">msg:unregister fail					     </string>
+    <string name="msg_201">msg:contact firended				     </string>
+    <string name="msg_202">msg:contact fail					     </string>
+    <string name="msg_301">msg:group create scuuess			     </string>
+    <string name="msg_302">msg:group hxid exists				     </string>
+    <string name="msg_303">msg:group create fail				     </string>
+    <string name="msg_304">msg:group add member fail			     </string>
+    <string name="msg_305">msg:group add member scuuess		     </string>
+    <string name="msg_306">msg:group unkonw					     </string>
+    <string name="msg_307">msg:group same name					     </string>
+    <string name="msg_308">msg:group update name success		     </string>
+    <string name="msg_309">msg:group update name fail			     </string>
+    <string name="msg_310">msg:group delete member success		     </string>
+    <string name="msg_311">msg:group delete member fail		     </string>
+    <string name="msg_312">msg:group delete success			     </string>
+    <string name="msg_313">msg:group delete fail				     </string>
+    <string name="msg_401">msg:login unknow user				     </string>
+    <string name="msg_402">msg:login error password			     </string>
+    <string name="msg_403">msg:login success					     </string>
+    <string name="msg_404">msg:user same nick					     </string>
+    <string name="msg_405">msg:user update nick success		     </string>
+    <string name="msg_406">msg:user update nick fail			     </string>
+    <string name="msg_407">msg:user same password				     </string>
+    <string name="msg_408">msg:user update password success	     </string>
+    <string name="msg_409">msg:user update password fail		     </string>
+    <string name="msg_501">msg:location upload success			     </string>
+    <string name="msg_502">msg:location upload fail			     </string>
+    <string name="msg_503">msg:location update success			     </string>
+    <string name="msg_504">msg:location update fail			     </string>
+    <string name="msg_999">msg:unknow							     </string>
+
+
+    <string name="send_message">Send Message</string>
+    <string name="Delete_successfully">Removed successfuly</string>
+    <string name="User_name_cannot_be_wd">user name can be num,word！</string>
+    <string name="upload_avatar_failed">upload avatar failed!</string>
+    <string name="cancel_register_failed">cancel register failed</string>
+    <string name="Add_buddy_success">add buddy success</string>
+    <string name="Add_buddy_failed">add buddy failed</string>
+    <string name="Nick_name_cannot_be_empty">Nick name cannot be empty!</string>
+    <string name="Group_name_existed">Group name existed</string>
+    <string name="Create_groups_Success">Success to create groups</string>
+    <string name="Create_groups_Failed">Failed to create groups</string>
+    <string name="photo">photo</string>
+    <string name="near_people_hint">See nearby people\'s function will get your location information, your location information will be kept for a period of time. Through the list of the top right corner to remove functions can be manually remove location information at any time.</string>
+
+
 </resources>
