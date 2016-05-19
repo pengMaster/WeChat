@@ -117,17 +117,18 @@ public class SuperWeChatApplication extends Application {
 	    hxSDKHelper.logout(isGCM,emCallBack);
 	}
 
+	/**全局的当前登录用户对象*/
 	private User user;
-
+	/**全局的当前登录用户的好友列表*/
 	private ArrayList<Contact> contactList = new ArrayList<Contact>();
-
-	private HashMap<String, Contact> userList = new HashMap<String, Contact>();
-
+	/**全局的当前登录用户的好友集合*/
+	private HashMap<String,Contact> userList = new HashMap<String, Contact>();
+	/**全局的群组集合*/
 	private ArrayList<Group> groupList = new ArrayList<Group>();
-
+	/**全局的当前公共群列表*/
 	private ArrayList<Group> publicGroupList = new ArrayList<Group>();
-
-	private HashMap<String, ArrayList<Member>> groupMembers = new HashMap<String, ArrayList<Member>>();
+	/**全局的群组成员列表*/
+	private HashMap<String,ArrayList<Member>> groupMembers = new HashMap<String, ArrayList<Member>>();
 
 	public User getUser() {
 		return user;
