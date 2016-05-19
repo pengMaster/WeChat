@@ -208,4 +208,8 @@ public interface I {
 	String REQUEST_FIND_GROUP_BY_ID					= 		"find_group_by_group_id";
 	/** 客户端发送的根据群组环信id查找群组请求 */
 	String REQUEST_FIND_GROUP_BY_HXID 				= 		"find_group_by_group_hxid";
+	String REQUEST_DOWNLOAD_AVATAR_USER = SuperWeChatApplication.SERVER_ROOT + "?"
+			+ KEY_REQUEST + "=" + REQUEST_DOWNLOAD_AVATAR + "&" + AVATAR_TYPE + "=";
+	String REQUEST_DOWNLOAD_AVATAR_GROUP = SuperWeChatApplication.SERVER_ROOT + "?"
+			+ KEY_REQUEST + "=" + REQUEST_DOWNLOAD_GROUP_AVATAR + "&" + AVATAR_TYPE + "=";
 }
