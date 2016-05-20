@@ -82,6 +82,13 @@ public class RegisterActivity extends BaseActivity {
 		});
 
 	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			mOnSetAvatarListener.setAvatar(requestCode, data, ivAvatar);
+		}
+	}
 
 	private String  getAvatarName() {
 		avatarName = System.currentTimeMillis() + "";
