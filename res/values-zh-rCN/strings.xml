@@ -199,6 +199,7 @@
     <string name="Video_footage">拍摄录像</string>
     <string name="User_name_cannot_be_empty">用户名不能为空！</string>
     <string name="Password_cannot_be_empty">密码不能为空！</string>
+    <string name="Nick_cannot_be_empty">昵称不能为空！</string>
     <string name="please_set_the_current">设置当前用户的昵称\n用于ios离线推送时显示用户昵称</string>
     <string name="Is_landing">正在登录...</string>
     <string name="list_is_for">将在后台获取好友和群聊列表...</string>

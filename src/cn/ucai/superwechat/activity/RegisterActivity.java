@@ -48,6 +48,9 @@ public class RegisterActivity extends BaseActivity {
 	ImageView ivAvatar;
 	Activity mContext;
 	String avatarName;
+	String username;
+	String nick;
+	String pwd;
 	OnSetAvatarListener mOnSetAvatarListener;
 
 	@Override
@@ -123,20 +126,30 @@ public class RegisterActivity extends BaseActivity {
 		findViewById(R.id.btnregister).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final String username = userNameEditText.getText().toString().trim();
-				final String pwd = passwordEditText.getText().toString().trim();
+				username = userNameEditText.getText().toString().trim();
+				pwd = passwordEditText.getText().toString().trim();
+				nick = userNickEditText.getText().toString().trim();
 				String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 				if (TextUtils.isEmpty(username)) {
-					Toast.makeText(mContext, getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 					userNameEditText.requestFocus();
+					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_empty));
+					return;
+				} else if (username.matches("[\\w][\\w\\d_]+")) {
+					userNameEditText.requestFocus();
+					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_wd));
+
+				}else if (TextUtils.isEmpty(nick)) {
+					userNickEditText.requestFocus();
+					userNickEditText.setError(getResources().getString(R.string.Nick_cannot_be_empty));
 					return;
 				} else if (TextUtils.isEmpty(pwd)) {
-					Toast.makeText(mContext, getResources().getString(cn.ucai.superwechat.R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 					passwordEditText.requestFocus();
+					passwordEditText.setError(getResources().getString(R.string.Password_cannot_be_empty));
 					return;
-				} else if (TextUtils.isEmpty(confirm_pwd)) {
-					Toast.makeText(mContext, getResources().getString(cn.ucai.superwechat.R.string.Confirm_password_cannot_be_empty), Toast.LENGTH_SHORT).show();
+				}
+				else if (TextUtils.isEmpty(confirm_pwd)) {
 					confirmPwdEditText.requestFocus();
+					confirmPwdEditText.setError(getResources().getString(R.string.Confirm_password_cannot_be_empty));
 					return;
 				} else if (!pwd.equals(confirm_pwd)) {
 					Toast.makeText(mContext, getResources().getString(cn.ucai.superwechat.R.string.Two_input_password), Toast.LENGTH_SHORT).show();
