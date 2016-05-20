@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.superwechat.applib.utils.HXPreferenceUtils;
-import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.db.EMUserDao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,7 +36,7 @@ import android.preference.PreferenceManager;
 public class DefaultHXSDKModel extends HXSDKModel{
     private static final String PREF_USERNAME = "username";
     private static final String PREF_PWD = "pwd";
-    UserDao dao = null;
+    EMUserDao dao = null;
     protected Context context = null;
     protected Map<Key,Object> valueCache = new HashMap<Key,Object>();
     
@@ -153,7 +153,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
     
     public void setDisabledGroups(List<String> groups){
         if(dao == null){
-            dao = new UserDao(context);
+            dao = new EMUserDao(context);
         }
         
         dao.setDisabledGroups(groups);
@@ -164,7 +164,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
         Object val = valueCache.get(Key.DisabledGroups);
 
         if(dao == null){
-            dao = new UserDao(context);
+            dao = new EMUserDao(context);
         }
         
         if(val == null){
@@ -177,7 +177,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
     
     public void setDisabledIds(List<String> ids){
         if(dao == null){
-            dao = new UserDao(context);
+            dao = new EMUserDao(context);
         }
         
         dao.setDisabledIds(ids);
@@ -188,7 +188,7 @@ public class DefaultHXSDKModel extends HXSDKModel{
         Object val = valueCache.get(Key.DisabledIds);
         
         if(dao == null){
-            dao = new UserDao(context);
+            dao = new EMUserDao(context);
         }
 
         if(val == null){

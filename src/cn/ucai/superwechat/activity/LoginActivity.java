@@ -38,8 +38,8 @@ import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
-import cn.ucai.superwechat.db.UserDao;
-import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.db.EMUserDao;
+import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.utils.CommonUtils;
 
 /**
@@ -201,9 +201,9 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void initializeContacts() {
-		Map<String, User> userlist = new HashMap<String, User>();
+		Map<String, EMUser> userlist = new HashMap<String, EMUser>();
 		// 添加user"申请与通知"
-		User newFriends = new User();
+		EMUser newFriends = new EMUser();
 		newFriends.setUsername(Constant.NEW_FRIENDS_USERNAME);
 		String strChat = getResources().getString(
 				cn.ucai.superwechat.R.string.Application_and_notify);
@@ -211,7 +211,7 @@ public class LoginActivity extends BaseActivity {
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
 		// 添加"群聊"
-		User groupUser = new User();
+		EMUser groupUser = new EMUser();
 		String strGroup = getResources().getString(cn.ucai.superwechat.R.string.group_chat);
 		groupUser.setUsername(Constant.GROUP_USERNAME);
 		groupUser.setNick(strGroup);
@@ -219,7 +219,7 @@ public class LoginActivity extends BaseActivity {
 		userlist.put(Constant.GROUP_USERNAME, groupUser);
 		
 		// 添加"Robot"
-		User robotUser = new User();
+		EMUser robotUser = new EMUser();
 		String strRobot = getResources().getString(cn.ucai.superwechat.R.string.robot_chat);
 		robotUser.setUsername(Constant.CHAT_ROBOT);
 		robotUser.setNick(strRobot);
@@ -229,8 +229,8 @@ public class LoginActivity extends BaseActivity {
 		// 存入内存
 		((DemoHXSDKHelper) HXSDKHelper.getInstance()).setContactList(userlist);
 		// 存入db
-		UserDao dao = new UserDao(LoginActivity.this);
-		List<User> users = new ArrayList<User>(userlist.values());
+		EMUserDao dao = new EMUserDao(LoginActivity.this);
+		List<EMUser> users = new ArrayList<EMUser>(userlist.values());
 		dao.saveContactList(users);
 	}
 	

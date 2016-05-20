@@ -16,10 +16,10 @@ package cn.ucai.superwechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.domain.EMUser;
 
 public class ForwardMessageActivity extends PickContactNoCheckboxActivity {
-	private User selectUser;
+	private EMUser selectUser;
 	private String forward_msg_id;
 
 	 

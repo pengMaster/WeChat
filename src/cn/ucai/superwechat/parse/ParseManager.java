@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import com.easemob.EMValueCallBack;
 import com.easemob.chat.EMChatManager;
 
-import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.utils.UserUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.HanziToPinyin;
@@ -83,7 +83,7 @@ public class ParseManager {
 		return false;
 	}
 
-	public void getContactInfos(List<String> usernames, final EMValueCallBack<List<User>> callback) {
+	public void getContactInfos(List<String> usernames, final EMValueCallBack<List<EMUser>> callback) {
 		ParseQuery<ParseObject> pQuery = ParseQuery.getQuery(CONFIG_TABLE_NAME);
 		pQuery.whereContainedIn(CONFIG_USERNAME, usernames);
 		pQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -91,9 +91,9 @@ public class ParseManager {
 			@Override
 			public void done(List<ParseObject> arg0, ParseException arg1) {
 				if (arg0 != null) {
-					List<User> mList = new ArrayList<User>();
+					List<EMUser> mList = new ArrayList<EMUser>();
 					for (ParseObject pObject : arg0) {
-						User user = new User();
+						EMUser user = new EMUser();
 						ParseFile parseFile = pObject.getParseFile(CONFIG_AVATAR);
 						if (parseFile != null) {
 							user.setAvatar(parseFile.getUrl());
@@ -117,7 +117,7 @@ public class ParseManager {
      * @param username
      * @param user
      */
-    private static void setUserHearder(User user) {
+    private static void setUserHearder(EMUser user) {
         String headerName = null;
         if (!TextUtils.isEmpty(user.getNick())) {
             headerName = user.getNick();
@@ -136,12 +136,12 @@ public class ParseManager {
         }
     }
 	
-	public void asyncGetCurrentUserInfo(final EMValueCallBack<User> callback){
+	public void asyncGetCurrentUserInfo(final EMValueCallBack<EMUser> callback){
 		final String username = EMChatManager.getInstance().getCurrentUser();
-		asyncGetUserInfo(username, new EMValueCallBack<User>() {
+		asyncGetUserInfo(username, new EMValueCallBack<EMUser>() {
 
 			@Override
-			public void onSuccess(User value) {
+			public void onSuccess(EMUser value) {
 				callback.onSuccess(value);
 			}
 
@@ -155,7 +155,7 @@ public class ParseManager {
 						@Override
 						public void done(ParseException arg0) {
 							if(arg0==null){
-								callback.onSuccess(new User(username));
+								callback.onSuccess(new EMUser(username));
 							}
 						}
 					});
@@ -166,7 +166,7 @@ public class ParseManager {
 		});
 	}
 	
-	public void asyncGetUserInfo(final String username,final EMValueCallBack<User> callback){
+	public void asyncGetUserInfo(final String username,final EMValueCallBack<EMUser> callback){
 		ParseQuery<ParseObject> pQuery = ParseQuery.getQuery(CONFIG_TABLE_NAME);
 		pQuery.whereEqualTo(CONFIG_USERNAME, username);
 		pQuery.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -177,7 +177,7 @@ public class ParseManager {
 					String nick = pUser.getString(CONFIG_NICK);
 					ParseFile pFile = pUser.getParseFile(CONFIG_AVATAR);
 					if(callback!=null){
-						User user = UserUtils.getUserInfo(username);
+						EMUser user = UserUtils.getUserInfo(username);
 						if(user!=null){
 							user.setNick(nick);
 							if (pFile != null && pFile.getUrl() != null) {

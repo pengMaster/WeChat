@@ -10,7 +10,7 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper.HXSyncListener;
 import cn.ucai.superwechat.applib.utils.HXPreferenceUtils;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
-import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.parse.ParseManager;
 
 public class UserProfileManager {
@@ -33,7 +33,7 @@ public class UserProfileManager {
 
 	private boolean isSyncingContactInfosWithServer = false;
 
-	private User currentUser;
+	private EMUser currentUser;
 
 	public UserProfileManager() {
 	}
@@ -66,15 +66,15 @@ public class UserProfileManager {
 		}
 	}
 
-	public void asyncFetchContactInfosFromServer(List<String> usernames, final EMValueCallBack<List<User>> callback) {
+	public void asyncFetchContactInfosFromServer(List<String> usernames, final EMValueCallBack<List<EMUser>> callback) {
 		if (isSyncingContactInfosWithServer) {
 			return;
 		}
 		isSyncingContactInfosWithServer = true;
-		ParseManager.getInstance().getContactInfos(usernames, new EMValueCallBack<List<User>>() {
+		ParseManager.getInstance().getContactInfos(usernames, new EMValueCallBack<List<EMUser>>() {
 
 			@Override
-			public void onSuccess(List<User> value) {
+			public void onSuccess(List<EMUser> value) {
 				isSyncingContactInfosWithServer = false;
 				// in case that logout already before server returns,we should
 				// return immediately
@@ -114,10 +114,10 @@ public class UserProfileManager {
 		HXPreferenceUtils.getInstance().removeCurrentUserInfo();
 	}
 
-	public synchronized User getCurrentUserInfo() {
+	public synchronized EMUser getCurrentUserInfo() {
 		if (currentUser == null) {
 			String username = EMChatManager.getInstance().getCurrentUser();
-			currentUser = new User(username);
+			currentUser = new EMUser(username);
 			String nick = getCurrentUserNick();
 			currentUser.setNick((nick != null) ? nick : username);
 			currentUser.setAvatar(getCurrentUserAvatar());
@@ -142,10 +142,10 @@ public class UserProfileManager {
 	}
 
 	public void asyncGetCurrentUserInfo() {
-		ParseManager.getInstance().asyncGetCurrentUserInfo(new EMValueCallBack<User>() {
+		ParseManager.getInstance().asyncGetCurrentUserInfo(new EMValueCallBack<EMUser>() {
 
 			@Override
-			public void onSuccess(User value) {
+			public void onSuccess(EMUser value) {
 				setCurrentUserNick(value.getNick());
 				setCurrentUserAvatar(value.getAvatar());
 			}
@@ -157,7 +157,7 @@ public class UserProfileManager {
 		});
 
 	}
-	public void asyncGetUserInfo(final String username,final EMValueCallBack<User> callback){
+	public void asyncGetUserInfo(final String username,final EMValueCallBack<EMUser> callback){
 		ParseManager.getInstance().asyncGetUserInfo(username, callback);
 	}
 	private void setCurrentUserNick(String nickname) {

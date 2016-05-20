@@ -57,8 +57,8 @@ import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.adapter.ContactAdapter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
-import cn.ucai.superwechat.db.UserDao;
-import cn.ucai.superwechat.domain.User;
+import cn.ucai.superwechat.db.EMUserDao;
+import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
@@ -70,7 +70,7 @@ import com.easemob.util.EMLog;
 public class ContactlistFragment extends Fragment {
 	public static final String TAG = "ContactlistFragment";
 	private ContactAdapter adapter;
-	private List<User> contactList;
+	private List<EMUser> contactList;
 	private ListView listView;
 	private boolean hidden;
 	private Sidebar sidebar;
@@ -83,7 +83,7 @@ public class ContactlistFragment extends Fragment {
 	HXContactInfoSyncListener contactInfoSyncListener;
 	View progressBar;
 	Handler handler = new Handler();
-    private User toBeProcessUser;
+    private EMUser toBeProcessUser;
     private String toBeProcessUsername;
 
 	class HXContactSyncListener implements HXSDKHelper.HXSyncListener {
@@ -166,7 +166,7 @@ public class ContactlistFragment extends Fragment {
         
 		//黑名单列表
 		blackList = EMContactManager.getInstance().getBlackListUsernames();
-		contactList = new ArrayList<User>();
+		contactList = new ArrayList<EMUser>();
 		// 获取设置contactlist
 		getContactList();
 		
@@ -209,7 +209,7 @@ public class ContactlistFragment extends Fragment {
 				String username = adapter.getItem(position).getUsername();
 				if (Constant.NEW_FRIENDS_USERNAME.equals(username)) {
 					// 进入申请与通知页面
-					User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().get(Constant.NEW_FRIENDS_USERNAME);
+					EMUser user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().get(Constant.NEW_FRIENDS_USERNAME);
 					user.setUnreadMsgCount(0);
 					startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
 				} else if (Constant.GROUP_USERNAME.equals(username)) {
@@ -322,7 +322,7 @@ public class ContactlistFragment extends Fragment {
 	 * 
 	 * @param toDeleteUser
 	 */
-	public void deleteContact(final User tobeDeleteUser) {
+	public void deleteContact(final EMUser tobeDeleteUser) {
 		String st1 = getResources().getString(R.string.deleting);
 		final String st2 = getResources().getString(R.string.Delete_failed);
 		final ProgressDialog pd = new ProgressDialog(getActivity());
@@ -334,7 +334,7 @@ public class ContactlistFragment extends Fragment {
 				try {
 					EMContactManager.getInstance().deleteContact(tobeDeleteUser.getUsername());
 					// 删除db和内存中此用户的数据
-					UserDao dao = new UserDao(getActivity());
+					EMUserDao dao = new EMUserDao(getActivity());
 					dao.deleteContact(tobeDeleteUser.getUsername());
 					((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().remove(tobeDeleteUser.getUsername());
 					getActivity().runOnUiThread(new Runnable() {
@@ -445,10 +445,10 @@ public class ContactlistFragment extends Fragment {
 	private void getContactList() {
 		contactList.clear();
 		//获取本地好友列表
-		Map<String, User> users = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
-		Iterator<Entry<String, User>> iterator = users.entrySet().iterator();
+		Map<String, EMUser> users = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
+		Iterator<Entry<String, EMUser>> iterator = users.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Entry<String, User> entry = iterator.next();
+			Entry<String, EMUser> entry = iterator.next();
 			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME)
 			        && !entry.getKey().equals(Constant.GROUP_USERNAME)
 			        && !entry.getKey().equals(Constant.CHAT_ROOM)
@@ -457,10 +457,10 @@ public class ContactlistFragment extends Fragment {
 				contactList.add(entry.getValue());
 		}
 		// 排序
-		Collections.sort(contactList, new Comparator<User>() {
+		Collections.sort(contactList, new Comparator<EMUser>() {
 
 			@Override
-			public int compare(User lhs, User rhs) {
+			public int compare(EMUser lhs, EMUser rhs) {
 				return lhs.getUsername().compareTo(rhs.getUsername());
 			}
 		});

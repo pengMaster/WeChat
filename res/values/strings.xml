@@ -101,10 +101,10 @@
     <string name="Group_of_Lord">The group owner</string>
     <string name="Introduction">Brief</string>
     <string name="To_join_the_chat">Join the group</string>
-    <string name="login">Login</string>
-    <string name="user_name">User name</string>
-    <string name="password">Password</string>
-    <string name="register">Register</string>
+    <string name="login">登录</string>
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
+    <string name="register">注册</string>
     <string name="confirmpassword">Confirm password</string>
     <string name="downwaiting">Downloading the file, please try again later</string>
     <string name="mute">Mute</string>

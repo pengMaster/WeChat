@@ -25,10 +25,10 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	private static DbOpenHelper instance;
 
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
-			+ UserDao.TABLE_NAME + " ("
-			+ UserDao.COLUMN_NAME_NICK + " TEXT, "
-			+ UserDao.COLUMN_NAME_AVATAR + " TEXT, "
-			+ UserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
+			+ EMUserDao.TABLE_NAME + " ("
+			+ EMUserDao.COLUMN_NAME_NICK + " TEXT, "
+			+ EMUserDao.COLUMN_NAME_AVATAR + " TEXT, "
+			+ EMUserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
 	
 	private static final String INIVTE_MESSAGE_TABLE_CREATE = "CREATE TABLE "
 			+ InviteMessgeDao.TABLE_NAME + " ("
@@ -42,15 +42,15 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 			+ InviteMessgeDao.COLUMN_NAME_TIME + " TEXT); ";
 			
 	private static final String ROBOT_TABLE_CREATE = "CREATE TABLE "
-			+ UserDao.ROBOT_TABLE_NAME + " ("
-			+ UserDao.ROBOT_COLUMN_NAME_ID + " TEXT PRIMARY KEY, "
-			+ UserDao.ROBOT_COLUMN_NAME_NICK + " TEXT, "
-			+ UserDao.ROBOT_COLUMN_NAME_AVATAR + " TEXT);";
+			+ EMUserDao.ROBOT_TABLE_NAME + " ("
+			+ EMUserDao.ROBOT_COLUMN_NAME_ID + " TEXT PRIMARY KEY, "
+			+ EMUserDao.ROBOT_COLUMN_NAME_NICK + " TEXT, "
+			+ EMUserDao.ROBOT_COLUMN_NAME_AVATAR + " TEXT);";
 			
 	private static final String CREATE_PREF_TABLE = "CREATE TABLE "
-            + UserDao.PREF_TABLE_NAME + " ("
-            + UserDao.COLUMN_NAME_DISABLED_GROUPS + " TEXT, "
-            + UserDao.COLUMN_NAME_DISABLED_IDS + " TEXT);";
+            + EMUserDao.PREF_TABLE_NAME + " ("
+            + EMUserDao.COLUMN_NAME_DISABLED_GROUPS + " TEXT, "
+            + EMUserDao.COLUMN_NAME_DISABLED_IDS + " TEXT);";
 	
 	private DbOpenHelper(Context context) {
 		super(context, getUserDatabaseName(), null, DATABASE_VERSION);
@@ -79,8 +79,8 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if(oldVersion < 2){
-		    db.execSQL("ALTER TABLE "+ UserDao.TABLE_NAME +" ADD COLUMN "+ 
-		            UserDao.COLUMN_NAME_AVATAR + " TEXT ;");
+		    db.execSQL("ALTER TABLE "+ EMUserDao.TABLE_NAME +" ADD COLUMN "+
+		            EMUserDao.COLUMN_NAME_AVATAR + " TEXT ;");
 		}
 		
 		if(oldVersion < 3){

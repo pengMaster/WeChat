@@ -169,4 +169,8 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:background">@drawable/edit_text_bg</item>
     </style>
+    <style name="styles_pop_window">
+        <item name="@android:windowEnterAnimation">@anim/pop_enter</item>
+        <item name="@android:windowExitAnimation">@anim/pop_exit</item>
+    </style>
 </resources>
