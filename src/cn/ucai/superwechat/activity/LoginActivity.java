@@ -66,7 +66,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListener();
+
 		mContext = this;
 
 
@@ -86,12 +86,13 @@ public class LoginActivity extends BaseActivity {
 		if (SuperWeChatApplication.getInstance().getUserName() != null) {
 			usernameEditText.setText(SuperWeChatApplication.getInstance().getUserName());
 		}
+		setListener();
 	}
 
 	private void setListener() {
 		onLoginListener();
-		onRegisterListener();
 		OnUserNameChangeListener();
+		onRegisterListener();
 
 	}
 
