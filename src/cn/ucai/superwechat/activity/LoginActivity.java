@@ -96,6 +96,10 @@ public class LoginActivity extends BaseActivity {
 		}
 	}
 
+
+
+
+
 	/**
 	 * 登录
 	 * 
@@ -199,6 +203,7 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 	}
+
 
 	private void initializeContacts() {
 		Map<String, EMUser> userlist = new HashMap<String, EMUser>();

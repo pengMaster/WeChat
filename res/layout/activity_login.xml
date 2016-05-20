@@ -130,6 +130,7 @@
         </LinearLayout>
     </RelativeLayout>
     <Button
+        android:id="@+id/set_server_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="设置服务器的IP地址"

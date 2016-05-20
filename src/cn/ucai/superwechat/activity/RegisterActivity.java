@@ -14,6 +14,7 @@
 package cn.ucai.superwechat.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,6 +45,19 @@ public class RegisterActivity extends BaseActivity {
 		confirmPwdEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.confirm_password);
 	}
 
+
+	/**
+	 * 登录
+	 *
+	 * @param view
+	 */
+
+	public void login(View view) {
+		Intent intent = new Intent(this,LoginActivity.class);
+		startActivity(intent);
+
+
+	}
 	/**
 	 * 注册
 	 * 
