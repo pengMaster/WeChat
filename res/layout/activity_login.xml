@@ -10,12 +10,16 @@
         android:layout_height="0dip"
         android:layout_weight="1" >
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/welcom_logo" />
+            android:drawableLeft="@drawable/mobile"
+            android:text="超级微信"
+            android:textColor="#000"
+            android:gravity="center"
+            android:textSize="30dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -124,6 +128,14 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设置服务器的IP地址"
+            android:textSize="20dp"
+            android:textColor="#000"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
 </LinearLayout>
