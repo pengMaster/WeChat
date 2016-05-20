@@ -134,7 +134,7 @@ public class RegisterActivity extends BaseActivity {
 					userNameEditText.requestFocus();
 					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_empty));
 					return;
-				} else if (username.matches("[\\w][\\w\\d_]+")) {
+				} else if (!username.matches("[\\w][\\w\\d_]+")) {
 					userNameEditText.requestFocus();
 					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_wd));
 
