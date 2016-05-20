@@ -2,24 +2,17 @@
     android:id="@+id/splash_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/splash" >
+    android:background="#fff"
+    >
 
     <ImageView
         android:id="@+id/iv_splash_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/splash_logo" />
+        android:src="@drawable/geek" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/iv_splash_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip"
-        android:text="即时通讯云领导者"
-        android:textColor="#fff"
-        android:textSize="30sp" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,8 +25,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="环信DEMO"
-            android:textColor="#fff"
+            android:text="超级微信"
+            android:textColor="#000"
             android:textSize="20dip"
             android:typeface="normal" >
         </TextView>
@@ -43,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:text="2.1.7"
-            android:textColor="#fff"
+            android:text="2.2.5"
+            android:textColor="#000"
             android:textSize="20sp" >
         </TextView>
     </LinearLayout>
