@@ -128,14 +128,14 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="设置服务器的IP地址"
-            android:textSize="20dp"
-            android:textColor="#000"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置服务器的IP地址"
+        android:textSize="20dp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:background="@null" />
 
 </LinearLayout>
