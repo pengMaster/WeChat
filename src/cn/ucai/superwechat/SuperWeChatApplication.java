@@ -28,7 +28,7 @@ import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.RequestManager;
 
 public class SuperWeChatApplication extends Application {
-	public  static String SERVER_ROOT = "http://192.168.3.11:8080/SuperWeChatServer/Server";
+	public  static String SERVER_ROOT = "http://192.168.191.1:8080/SuperWeChatServer/Server";
 
 	public static Context applicationContext;
 	private static SuperWeChatApplication instance;
