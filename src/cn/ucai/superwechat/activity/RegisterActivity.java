@@ -15,10 +15,8 @@ package cn.ucai.superwechat.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,145 +46,128 @@ import java.io.File;
  */
 public class RegisterActivity extends BaseActivity {
 	private final static String TAG = RegisterActivity.class.getName();
+	Activity mcontext;
 	private EditText userNameEditText;
+	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
-	private EditText userNickEditText;
-	ImageView ivAvatar;
-	Activity mContext;
+	ImageView mIVAvatar;
 	String avatarName;
-	String username;
-	String nick;
-	String pwd;
-	ProgressDialog pd;
+
 	OnSetAvatarListener mOnSetAvatarListener;
+
+	String username;
+	String pwd;
+	String nick;
+
+	ProgressDialog pd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(cn.ucai.superwechat.R.layout.activity_register);
-		userNameEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.username);
-		passwordEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.password);
-		confirmPwdEditText = (EditText) findViewById(cn.ucai.superwechat.R.id.confirm_password);
-		userNickEditText = (EditText) findViewById(R.id.nick);
-		ivAvatar = (ImageView) findViewById(R.id.iv_avatar);
-		mContext = this;
+		setContentView(R.layout.activity_register);
+		mcontext = this;
+		initView();
 		setListener();
-
 
 	}
 
 	private void setListener() {
-		onloginListener();
-		onregisterListener();
-		onSetAvatarListener();
-
+		OnSetRegisterListener();
+		OnSetLoginListener();
+		OnSetAvatarListener();
 	}
 
-	private void onSetAvatarListener() {
+	private void OnSetAvatarListener() {
 		findViewById(R.id.layout_user_avatar).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mOnSetAvatarListener = new OnSetAvatarListener(mContext, R.id.layout_register, getAvatarName(), I.AVATAR_TYPE_USER_PATH);
-
+				mOnSetAvatarListener = new OnSetAvatarListener(mcontext, R.id.layout_register, getAvatarName(), I.AVATAR_TYPE_USER_PATH);
 			}
 		});
-
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			mOnSetAvatarListener.setAvatar(requestCode, data, ivAvatar);
+			mOnSetAvatarListener.setAvatar(requestCode, data, mIVAvatar);
 		}
 	}
 
-	private String  getAvatarName() {
+	private String getAvatarName() {
 		avatarName = System.currentTimeMillis() + "";
 		return avatarName;
-
-
+	}
+	private void initView() {
+		userNameEditText = (EditText) findViewById(R.id.username);
+		passwordEditText = (EditText) findViewById(R.id.password);
+		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+		userNickEditText = (EditText) findViewById(R.id.nick);
+		mIVAvatar = (ImageView) findViewById(R.id.iv_avatar);
 	}
 
-
-	/**
-	 * 登录
-	 *
-	 */
-
-	private void onloginListener() {
-		findViewById(R.id.btnlogin).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			finish();
-
-			}
-		});
-
-
-
-	}
 	/**
 	 * 注册
-	 *
 	 */
-	private void onregisterListener() {
+	private void OnSetRegisterListener() {
 		findViewById(R.id.btnregister).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				username = userNameEditText.getText().toString().trim();
-				pwd = passwordEditText.getText().toString().trim();
 				nick = userNickEditText.getText().toString().trim();
+				pwd = passwordEditText.getText().toString().trim();
 				String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 				if (TextUtils.isEmpty(username)) {
 					userNameEditText.requestFocus();
-					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_empty));
+					userNameEditText.setError(getResources().getString(R.string.User_name_cannot_be_empty));
 					return;
-				} else if (!username.matches("[\\w][\\w\\d_]+")) {
+				}else if (!username.matches("[\\w][\\w\\d_]+")){
 					userNameEditText.requestFocus();
-					userNameEditText.setError(getResources().getString(cn.ucai.superwechat.R.string.User_name_cannot_be_wd));
-
-				}else if (TextUtils.isEmpty(nick)) {
+					userNameEditText.setError(getResources().getString(R.string.User_name_cannot_be_wd));
+					return;
+				} else if (TextUtils.isEmpty(nick)) {
 					userNickEditText.requestFocus();
-					userNickEditText.setError(getResources().getString(R.string.Nick_cannot_be_empty));
+					userNickEditText.setError(getResources().getString(R.string.Nick_name_cannot_be_empty));
 					return;
 				} else if (TextUtils.isEmpty(pwd)) {
 					passwordEditText.requestFocus();
 					passwordEditText.setError(getResources().getString(R.string.Password_cannot_be_empty));
 					return;
-				}
-				else if (TextUtils.isEmpty(confirm_pwd)) {
+				} else if (TextUtils.isEmpty(confirm_pwd)) {
 					confirmPwdEditText.requestFocus();
 					confirmPwdEditText.setError(getResources().getString(R.string.Confirm_password_cannot_be_empty));
 					return;
 				} else if (!pwd.equals(confirm_pwd)) {
-					Toast.makeText(mContext, getResources().getString(cn.ucai.superwechat.R.string.Two_input_password), Toast.LENGTH_SHORT).show();
+					confirmPwdEditText.requestFocus();
+					confirmPwdEditText.setError(getResources().getString(R.string.Two_input_password));
 					return;
 				}
 
 				if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
-					pd = new ProgressDialog(mContext);
-					pd.setMessage(getResources().getString(cn.ucai.superwechat.R.string.Is_the_registered));
+					pd = new ProgressDialog(mcontext);
+					pd.setMessage(getResources().getString(R.string.Is_the_registered));
 					pd.show();
+
 					registerAppServer();
-
-
 				}
-
 			}
 		});
 
 	}
 
 	private void registerAppServer() {
-		File file = new File(ImageUtils.getAvatarPath(mContext, I.AVATAR_TYPE_USER_PATH),
+		//首先注册远端服务器账号，并上传头像----okhttp
+		//注册环信的账号
+		//如果环信注册失败，调用取消注册的方法，删除远端账号和图片
+		File file = new File(ImageUtils.getAvatarPath(mcontext, I.AVATAR_TYPE_USER_PATH),
 				avatarName + I.AVATAR_SUFFIX_JPG);
-		final OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
+		OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
 		utils.url(SuperWeChatApplication.SERVER_ROOT)
 				.addParam(I.KEY_REQUEST,I.REQUEST_REGISTER)
 				.addParam(I.User.USER_NAME,username)
-				.addParam(I.User.PASSWORD,pwd)
 				.addParam(I.User.NICK,nick)
+				.addParam(I.User.PASSWORD,pwd)
 				.targetClass(Message.class)
 				.addFile(file)
 				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
@@ -196,26 +177,24 @@ public class RegisterActivity extends BaseActivity {
 							registerEMServer();
 						} else {
 							pd.dismiss();
-							Utils.showToast(mContext, Utils.getResourceString(mContext, result.getMsg()), Toast.LENGTH_LONG);
-							Log.e(TAG, "register fail , error " + result.getMsg());
-
+							Utils.showToast(mcontext, Utils.getResourceString(mcontext, result.getMsg()), Toast.LENGTH_SHORT);
+							Log.e(TAG, "register fail,error:" + result.getMsg());
 						}
-
 					}
 
 					@Override
 					public void onError(String error) {
 						pd.dismiss();
-						Utils.showToast(mContext, error, Toast.LENGTH_LONG);
-						Log.e(TAG, "register fail , error " + error);
+						Utils.showToast(mcontext, error, Toast.LENGTH_SHORT);
+						Log.e(TAG, "register fail,error: " + error);
 					}
 				});
 	}
 
 	/**
-	 * 注册环信的账号
+	 * 注册环信账号
 	 */
-	private void registerEMServer() {
+	private void registerEMServer(){
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -227,7 +206,7 @@ public class RegisterActivity extends BaseActivity {
 								pd.dismiss();
 							// 保存用户名
 							SuperWeChatApplication.getInstance().setUserName(username);
-							Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
 							finish();
 						}
 					});
@@ -239,30 +218,27 @@ public class RegisterActivity extends BaseActivity {
 								pd.dismiss();
 							int errorCode=e.getErrorCode();
 							if(errorCode==EMError.NONETWORK_ERROR){
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.network_anomalies), Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
 							}else if(errorCode == EMError.USER_ALREADY_EXISTS){
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.User_already_exists), Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.User_already_exists), Toast.LENGTH_SHORT).show();
 							}else if(errorCode == EMError.UNAUTHORIZED){
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
 							}else if(errorCode == EMError.ILLEGAL_USER_NAME){
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
 							}else{
-								Toast.makeText(getApplicationContext(), getResources().getString(cn.ucai.superwechat.R.string.Registration_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed) + e.getMessage(), Toast.LENGTH_SHORT).show();
 							}
 						}
 					});
 				}
 			}
 		}).start();
-	}
 
-	/**
-	 *取消注册
-	 */
+	}
 
 	private void unRegister() {
 		//url=http://10.0.2.2:8080/SuperWeChatServer/Server?request=unregister&m_user_name=
-		final OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
+		OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
 		utils.url(SuperWeChatApplication.SERVER_ROOT)
 				.addParam(I.KEY_REQUEST,I.REQUEST_UNREGISTER)
 				.addParam(I.User.USER_NAME,username)
@@ -270,12 +246,6 @@ public class RegisterActivity extends BaseActivity {
 				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
 					@Override
 					public void onSuccess(Message result) {
-						if (result.isResult()) {
-							Log.e(TAG, "取消注册成功" + result.getMsg());
-						} else {
-							Log.e(TAG, "取消注册失败" + result.getMsg());
-
-						}
 
 					}
 
@@ -284,11 +254,23 @@ public class RegisterActivity extends BaseActivity {
 
 					}
 				});
-
-
-
 	}
 
+	/**
+	 * 登录
+	 */
+
+	private void OnSetLoginListener() {
+		findViewById(R.id.btnlogin).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+//		Intent intent = new Intent(this,LoginActivity.class);
+//		startActivity(intent);
+
+	}
 	public void back(View view) {
 		finish();
 	}
