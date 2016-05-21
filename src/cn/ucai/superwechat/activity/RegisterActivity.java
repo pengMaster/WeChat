@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,8 +32,11 @@ import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.bean.Message;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
 import cn.ucai.superwechat.utils.ImageUtils;
+import cn.ucai.superwechat.utils.Utils;
 
 import com.easemob.exceptions.EaseMobException;
 
@@ -177,6 +181,35 @@ public class RegisterActivity extends BaseActivity {
 	private void registerAppServer() {
 		File file = new File(ImageUtils.getAvatarPath(mContext, I.AVATAR_TYPE_USER_PATH),
 				avatarName + I.AVATAR_SUFFIX_JPG);
+		final OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
+		utils.url(SuperWeChatApplication.SERVER_ROOT)
+				.addParam(I.KEY_REQUEST,I.REQUEST_REGISTER)
+				.addParam(I.User.USER_NAME,username)
+				.addParam(I.User.PASSWORD,pwd)
+				.addParam(I.User.NICK,nick)
+				.targetClass(Message.class)
+				.addFile(file)
+				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
+					@Override
+					public void onSuccess(Message result) {
+						if (result.isResult()) {
+							registerEMServer();
+						} else {
+							pd.dismiss();
+							Utils.showToast(mContext, Utils.getResourceString(mContext, result.getMsg()), Toast.LENGTH_LONG);
+							Log.e(TAG, "register fail , error " + result.getMsg());
+
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						pd.dismiss();
+						Utils.showToast(mContext, error, Toast.LENGTH_LONG);
+						Log.e(TAG, "register fail , error " + error);
+					}
+				});
 	}
 
 	/**
@@ -199,6 +232,7 @@ public class RegisterActivity extends BaseActivity {
 						}
 					});
 				} catch (final EaseMobException e) {
+					unRegister();
 					runOnUiThread(new Runnable() {
 						public void run() {
 							if (!RegisterActivity.this.isFinishing())
@@ -221,6 +255,8 @@ public class RegisterActivity extends BaseActivity {
 			}
 		}).start();
 	}
+
+	
 
 	public void back(View view) {
 		finish();
