@@ -12,6 +12,7 @@ import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.activity.BaseActivity;
 import cn.ucai.superwechat.bean.Contact;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.data.ApiParams;
 import cn.ucai.superwechat.data.GsonRequest;
 import cn.ucai.superwechat.utils.Utils;
@@ -44,32 +45,27 @@ public class DownloadAllGroupTask  extends BaseActivity {
     }
 
     public void execute() {
-        executeRequest(new GsonRequest<Contact[]>(path, Contact[].class,
-                responseDownloadContactListTaskListener(), errorListener()));
+        executeRequest(new GsonRequest<Group[]>(path, Group[].class,
+                responseDownloadGroupListTaskListener(), errorListener()));
     }
 
-    private Response.Listener<Contact[]> responseDownloadContactListTaskListener() {
-        return new Response.Listener<Contact[]>() {
+    private Response.Listener<Group[]> responseDownloadGroupListTaskListener() {
+        return new Response.Listener<Group[]>() {
             @Override
-            public void onResponse(Contact[] response) {
+            public void onResponse(Group[] response) {
                 if (response != null) {
-                    ArrayList<Contact> contactArrayList = SuperWeChatApplication.getInstance().getContactList();
-                    ArrayList<Contact> list = Utils.array2List(response);
+                    ArrayList<Group> contactArrayList = SuperWeChatApplication.getInstance().getGroupList();
+                    ArrayList<Group> list = Utils.array2List(response);
                     contactArrayList.clear();
                     contactArrayList.addAll(list);
-                    HashMap<String, Contact> userList =
-                            SuperWeChatApplication.getInstance().getUserList();
-                    userList.clear();
-                    for (Contact c : list) {
-                        userList.put(c.getMContactCname(),c);
 
 
-                    }
-                    mContext.sendStickyBroadcast(new Intent("update_group_list"));
                 }
-
+                mContext.sendStickyBroadcast(new Intent("update_group_list"));
             }
+
         };
+        }
 
     }
-}
+
