@@ -1,4 +1,4 @@
-package cn.ucai.superwechat.activity;
+package cn.ucai.superwechat.fragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +40,8 @@ import com.easemob.chat.EMConversation.EMConversationType;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.activity.ChatActivity;
+import cn.ucai.superwechat.activity.MainActivity;
 import cn.ucai.superwechat.adapter.ChatAllHistoryAdapter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 
