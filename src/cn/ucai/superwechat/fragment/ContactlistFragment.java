@@ -85,6 +85,7 @@ public class ContactlistFragment extends Fragment {
 	public static final String TAG = "ContactlistFragment";
 	private ContactAdapter adapter;
 	private List<Contact> mcontactList;
+	private List<EMUser> contactList;
 	private ListView listView;
 	private boolean hidden;
 	private Sidebar sidebar;
@@ -184,7 +185,7 @@ public class ContactlistFragment extends Fragment {
 		mcontactList = new ArrayList<Contact>();
 		// 获取设置contactlist
 		getContactList();
-
+		setListener();
 		//搜索框
 		query = (EditText) getView().findViewById(R.id.query);
 		query.setHint(R.string.search);
@@ -199,10 +200,9 @@ public class ContactlistFragment extends Fragment {
 		});
 
 		// 设置adapter
-		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, mcontactList);
+		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList);
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
-		setListener();
 		progressBar = (View) getView().findViewById(R.id.progress_bar);
 
 		contactSyncListener = new HXContactSyncListener();
