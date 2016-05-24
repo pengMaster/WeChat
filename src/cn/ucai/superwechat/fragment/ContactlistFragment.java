@@ -58,6 +58,7 @@ import java.util.Map.Entry;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.activity.AddContactActivity;
 import cn.ucai.superwechat.activity.ChatActivity;
 import cn.ucai.superwechat.activity.GroupsActivity;
@@ -68,6 +69,8 @@ import cn.ucai.superwechat.activity.RobotsActivity;
 import cn.ucai.superwechat.adapter.ContactAdapter;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper.HXSyncListener;
+import cn.ucai.superwechat.bean.Contact;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.db.EMUserDao;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.EMUser;
@@ -80,7 +83,7 @@ import cn.ucai.superwechat.widget.Sidebar;
 public class ContactlistFragment extends Fragment {
 	public static final String TAG = "ContactlistFragment";
 	private ContactAdapter adapter;
-	private List<EMUser> contactList;
+	private List<Contact> mcontactList;
 	private ListView listView;
 	private boolean hidden;
 	private Sidebar sidebar;
@@ -177,7 +180,7 @@ public class ContactlistFragment extends Fragment {
 
 		//黑名单列表
 		blackList = EMContactManager.getInstance().getBlackListUsernames();
-		contactList = new ArrayList<EMUser>();
+		mcontactList = new ArrayList<Contact>();
 		// 获取设置contactlist
 		getContactList();
 
@@ -198,7 +201,7 @@ public class ContactlistFragment extends Fragment {
 		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList);
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
-		
+		setListener();
 		progressBar = (View) getView().findViewById(R.id.progress_bar);
 
 		contactSyncListener = new HXContactSyncListener();
@@ -228,7 +231,6 @@ public class ContactlistFragment extends Fragment {
 
 	private void setaddContactView() {
 		ImageView addContactView = (ImageView) getView().findViewById(R.id.iv_new_contact);
-		setListener();
 		// 进入添加好友页
 		addContactView.setOnClickListener(new OnClickListener() {
 
@@ -481,43 +483,41 @@ public class ContactlistFragment extends Fragment {
 	 * 获取联系人列表，并过滤掉黑名单和排序
 	 */
 	private void getContactList() {
-		contactList.clear();
+		mcontactList.clear();
+		ArrayList<Contact> contactList = SuperWeChatApplication.getInstance().getContactList();
+		mcontactList.addAll(contactList);
 		//获取本地好友列表
-		Map<String, EMUser> users = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
-		Iterator<Entry<String, EMUser>> iterator = users.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, EMUser> entry = iterator.next();
-			if (!entry.getKey().equals(Constant.NEW_FRIENDS_USERNAME)
-			        && !entry.getKey().equals(Constant.GROUP_USERNAME)
-			        && !entry.getKey().equals(Constant.CHAT_ROOM)
-					&& !entry.getKey().equals(Constant.CHAT_ROBOT)
-					&& !blackList.contains(entry.getKey()))
-				contactList.add(entry.getValue());
+		// 添加user"申请与通知"
+
+		Contact newFriends = new Contact();
+		newFriends.setMContactUserName(Constant.NEW_FRIENDS_USERNAME);
+		String strChat = getActivity().getString(R.string.Application_and_notify);
+		newFriends.setMUserNick(strChat);
+		if (mcontactList.indexOf(newFriends) == -1) {
+			contactList.add(0, newFriends);
 		}
-		// 排序
-		Collections.sort(contactList, new Comparator<EMUser>() {
 
-			@Override
-			public int compare(EMUser lhs, EMUser rhs) {
-				return lhs.getUsername().compareTo(rhs.getUsername());
-			}
-		});
+		// 添加"群聊"
+		Contact groupUser = new Contact();
+		String strGroup = getActivity().getString(R.string.group_chat);
+		groupUser.setMContactUserName(Constant.GROUP_USERNAME);
+		groupUser.setMUserNick(strGroup);
+		groupUser.setHeader("");
+		if (mcontactList.indexOf(groupUser) == -1) {
 
-//		if(users.get(Constant.CHAT_ROBOT)!=null){
-//			contactList.add(0, users.get(Constant.CHAT_ROBOT));
-//		}
-		// 加入"群聊"和"聊天室"
-//        if(users.get(Constant.CHAT_ROOM) != null)
-//            contactList.add(0, users.get(Constant.CHAT_ROOM));
-        if(users.get(Constant.GROUP_USERNAME) != null)
-            contactList.add(0, users.get(Constant.GROUP_USERNAME));
-        
-		// 把"申请与通知"添加到首位
-		if(users.get(Constant.NEW_FRIENDS_USERNAME) != null)
-		    contactList.add(0, users.get(Constant.NEW_FRIENDS_USERNAME));
-		
+			contactList.add(0, groupUser);
+		}
 	}
-	
+
+//		// 排序
+//		Collections.sort(contactList, new Comparator<Contact>() {
+//
+//			@Override
+//			public int compare(EMUser lhs, EMUser rhs) {
+//				return lhs.getUsername().compareTo(rhs.getUsername());
+//			}
+//		});
+
 	void hideSoftKeyboard() {
         if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
             if (getActivity().getCurrentFocus() != null)
