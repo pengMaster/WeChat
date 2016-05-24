@@ -212,6 +212,11 @@ public interface I {
 	String REQUEST_FIND_GROUP_BY_HXID 				= 		"find_group_by_group_hxid";
 	String REQUEST_DOWNLOAD_AVATAR_USER = SuperWeChatApplication.SERVER_ROOT + "?"
 			+ KEY_REQUEST + "=" + REQUEST_DOWNLOAD_AVATAR + "&" + AVATAR_TYPE + "=";
+
+
+	String REQUEST_DOWNLOAD_UPDATE_USER_NICK = SuperWeChatApplication.SERVER_ROOT + "?"
+			+ KEY_REQUEST + "=" + REQUEST_UPDATE_USER_NICK + "&" + AVATAR_TYPE + "=";
+
 	String REQUEST_DOWNLOAD_AVATAR_GROUP = SuperWeChatApplication.SERVER_ROOT + "?"
 			+ KEY_REQUEST + "=" + REQUEST_DOWNLOAD_GROUP_AVATAR + "&" + AVATAR_TYPE + "=";
 }

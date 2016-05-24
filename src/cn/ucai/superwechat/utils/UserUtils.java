@@ -11,7 +11,9 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Contact;
+import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.RequestManager;
+import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.EMUser;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -55,6 +57,11 @@ public class UserUtils {
         }
     }
 
+	/***
+	 * 设置加载服务器自己的头像
+	 * @param username
+	 * @param imageView
+     */
 	public static void setUserBeanAvatar(String username , NetworkImageView imageView) {
 		Contact contact = getUserBeanInfo(username);
 		if (contact !=null && contact.getMContactCname()!=null) {
@@ -78,7 +85,6 @@ public class UserUtils {
 
 	}
 
-
 	/**
      * 设置当前用户头像
      */
@@ -90,20 +96,41 @@ public class UserUtils {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
 		}
 	}
-    
-    /**
-     * 设置用户昵称
+
+	/**
+	 * 设置用户昵称
+	 */
+	public static void setUserNick(String username,TextView textView){
+		EMUser user = getUserInfo(username);
+		if(user != null){
+			textView.setText(user.getNick());
+		}else{
+			textView.setText(username);
+		}
+	}
+
+	/**
+	 * 设置显示自己的昵称
+	 * @param username
+	 * @param textView
      */
-    public static void setUserNick(String username,TextView textView){
-    	EMUser user = getUserInfo(username);
-    	if(user != null){
-    		textView.setText(user.getNick());
-    	}else{
-    		textView.setText(username);
-    	}
-    }
-    
-    /**
+	public static void setUserBeanNick(String username,TextView textView) {
+		Contact userBeanInfo = getUserBeanInfo(username);
+		if (userBeanInfo != null) {
+			if (userBeanInfo.getMUserNick() != null) {
+
+				textView.setText(userBeanInfo.getMUserNick());
+			} else if (userBeanInfo.getMContactCname() != null) {
+
+				textView.setText(userBeanInfo.getMContactCname());
+			}
+		} else {
+			textView.setText(username);
+		}
+
+	}
+
+	/**
      * 设置当前用户昵称
      */
     public static void setCurrentUserNick(TextView textView){
@@ -115,7 +142,7 @@ public class UserUtils {
     
     /**
      * 保存或更新某个用户
-     * @param user
+     * @param newUser
      */
 	public static void saveUserInfo(EMUser newUser) {
 		if (newUser == null || newUser.getUsername() == null) {
