@@ -33,6 +33,7 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMMessage;
 
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
 import com.easemob.util.DateUtils;
@@ -73,8 +74,6 @@ public class ChatHistoryAdapter extends ArrayAdapter<EMContact> {
 		}else{
 			holder.list_item_layout.setBackgroundResource(R.drawable.mm_listitem_grey);
 		}
-		
-		
 		EMContact user = getItem(position);
 		if(user instanceof EMGroup){
 			//群聊消息，显示群聊头像

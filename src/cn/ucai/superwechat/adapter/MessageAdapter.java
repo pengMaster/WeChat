@@ -572,7 +572,7 @@ public class MessageAdapter extends BaseAdapter{
 	    if(message.direct == Direct.SEND){
 	        //显示自己头像
 	        //UserUtils.setUserBeanAvatar(message.getUserName(), imageView);
-	        UserUtils.setCurrentUserBeanAvatar(context, imageView);
+	        UserUtils.setCurrentUserBeanAvatar(imageView);
 	    }else{
 	        UserUtils.setUserBeanAvatar( message.getFrom(), imageView);
 	    }
@@ -1227,7 +1227,7 @@ public class MessageAdapter extends BaseAdapter{
 	 * 
 	 * @param message
 	 * @param holder
-	 * @param position
+	 *
 	 */
 	public void sendMsgInBackground(final EMMessage message, final ViewHolder holder) {
 		holder.staus_iv.setVisibility(View.GONE);

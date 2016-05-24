@@ -98,20 +98,13 @@ public class UserUtils {
 		}
 	}
 	/**
-	 * 设置自己的用户头像
+	 * 设置远端服务器的当前用户头像
 	 */
-	public static void setUserBeanAvatar(String username,TextView textView) {
-		Contact userBeanInfo = getUserBeanInfo(username);
-		if (userBeanInfo != null) {
-			if (userBeanInfo.getMUserNick() != null) {
+	public static void setCurrentUserBeanAvatar( NetworkImageView imageView) {
+		User user = SuperWeChatApplication.getInstance().getUser();
+		if (user != null) {
+			setUserAvatar(getAvatarPath(user.getMUserName()),imageView);
 
-				textView.setText(userBeanInfo.getMUserNick());
-			} else if (userBeanInfo.getMContactCname() != null) {
-
-				textView.setText(userBeanInfo.getMContactCname());
-			}
-		} else {
-			textView.setText(username);
 		}
 	}
 
