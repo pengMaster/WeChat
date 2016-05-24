@@ -389,12 +389,11 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				String nick = robotMap.get(toChatUsername).getNick();
 				if(!TextUtils.isEmpty(nick)){
 					((TextView) findViewById(R.id.name)).setText(nick);
-					Log.e(TAG, "nicheng" + nick);
 				}else{
 					((TextView) findViewById(R.id.name)).setText(toChatUsername);
-					Log.e(TAG, "nicheng" + toChatUsername);
 				}
 			}else{
+				// 设置单聊中显示自己的昵称
 				UserUtils.setUserBeanNick(toChatUsername, (TextView) findViewById(R.id.name));
 			}
 		} else {

@@ -49,13 +49,14 @@ public class UserUtils {
      * @param username
      */
     public static void setUserAvatar(Context context, String username, ImageView imageView){
-    	EMUser user = getUserInfo(username);
-        if(user != null && user.getAvatar() != null){
-            Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
-        }else{
-            Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
-        }
-    }
+		EMUser user = getUserInfo(username);
+		if(user != null && user.getAvatar() != null){
+			Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
+		}else{
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}
+
 
 	/***
 	 * 设置加载服务器自己的头像
@@ -94,6 +95,23 @@ public class UserUtils {
 			Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
 		} else {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}
+	/**
+	 * 设置自己的用户头像
+	 */
+	public static void setUserBeanAvatar(String username,TextView textView) {
+		Contact userBeanInfo = getUserBeanInfo(username);
+		if (userBeanInfo != null) {
+			if (userBeanInfo.getMUserNick() != null) {
+
+				textView.setText(userBeanInfo.getMUserNick());
+			} else if (userBeanInfo.getMContactCname() != null) {
+
+				textView.setText(userBeanInfo.getMContactCname());
+			}
+		} else {
+			textView.setText(username);
 		}
 	}
 

@@ -107,6 +107,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
 		}else {
 		    UserUtils.setUserAvatar(getContext(), username, holder.avatar);
+//		    UserUtils.setUserAvatar(getContext(), username, holder.avatar);
 			if (username.equals(Constant.GROUP_USERNAME)) {
 				holder.name.setText("群聊");
 
