@@ -74,6 +74,7 @@ import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.db.EMUserDao;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.EMUser;
+import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.widget.Sidebar;
 
 /**
@@ -198,7 +199,7 @@ public class ContactlistFragment extends Fragment {
 		});
 
 		// 设置adapter
-		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, contactList);
+		adapter = new ContactAdapter(getActivity(), R.layout.row_contact, mcontactList);
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
 		setListener();
@@ -483,10 +484,21 @@ public class ContactlistFragment extends Fragment {
 	 * 获取联系人列表，并过滤掉黑名单和排序
 	 */
 	private void getContactList() {
+
+		//获取本地好友列表
 		mcontactList.clear();
 		ArrayList<Contact> contactList = SuperWeChatApplication.getInstance().getContactList();
 		mcontactList.addAll(contactList);
-		//获取本地好友列表
+
+		// 添加"群聊"
+		Contact groupUser = new Contact();
+		String strGroup = getActivity().getString(R.string.group_chat);
+		groupUser.setMContactUserName(Constant.GROUP_USERNAME);
+		groupUser.setMUserNick(strGroup);
+		if (mcontactList.indexOf(groupUser) == -1) {
+
+			contactList.add(0, groupUser);
+		}
 		// 添加user"申请与通知"
 
 		Contact newFriends = new Contact();
@@ -496,27 +508,21 @@ public class ContactlistFragment extends Fragment {
 		if (mcontactList.indexOf(newFriends) == -1) {
 			contactList.add(0, newFriends);
 		}
-
-		// 添加"群聊"
-		Contact groupUser = new Contact();
-		String strGroup = getActivity().getString(R.string.group_chat);
-		groupUser.setMContactUserName(Constant.GROUP_USERNAME);
-		groupUser.setMUserNick(strGroup);
-		groupUser.setHeader("");
-		if (mcontactList.indexOf(groupUser) == -1) {
-
-			contactList.add(0, groupUser);
+		for (Contact contact : mcontactList) {
+			UserUtils.setUserHearder(contact.getMContactCname(),contact);
 		}
+
+
+		// 排序
+		Collections.sort(this.mcontactList, new Comparator<Contact>() {
+
+			@Override
+			public int compare(Contact lhs, Contact rhs) {
+				return lhs.getHeader().compareTo(rhs.getHeader());
+			}
+		});
 	}
 
-//		// 排序
-//		Collections.sort(contactList, new Comparator<Contact>() {
-//
-//			@Override
-//			public int compare(EMUser lhs, EMUser rhs) {
-//				return lhs.getUsername().compareTo(rhs.getUsername());
-//			}
-//		});
 
 	void hideSoftKeyboard() {
         if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
