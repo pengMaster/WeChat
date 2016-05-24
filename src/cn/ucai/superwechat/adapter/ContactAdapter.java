@@ -127,7 +127,6 @@ public class ContactAdapter extends ArrayAdapter<EMUser>  implements SectionInde
 //			UserUtils.setUserAvatar(getContext(), username, holder.avatar);
 			UserUtils.setUserBeanAvatar(username,holder.avatar);
 			UserUtils.setUserBeanNick(username,holder.nameTextview);
-
 			if(holder.unreadMsgView != null)
 			    holder.unreadMsgView.setVisibility(View.INVISIBLE);
 		}

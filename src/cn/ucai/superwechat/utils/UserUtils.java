@@ -139,8 +139,7 @@ public class UserUtils {
     		textView.setText(user.getNick());
     	}
     }
-    
-    /**
+	/**
      * 保存或更新某个用户
      * @param newUser
      */
