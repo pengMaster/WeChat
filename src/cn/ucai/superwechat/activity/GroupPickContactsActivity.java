@@ -30,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
@@ -37,6 +38,7 @@ import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.adapter.ContactAdapter;
+import cn.ucai.superwechat.bean.Contact;
 import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.widget.Sidebar;
 
@@ -67,16 +69,16 @@ public class GroupPickContactsActivity extends BaseActivity {
 		if(exitingMembers == null)
 			exitingMembers = new ArrayList<String>();
 		// 获取好友列表
-		final List<EMUser> alluserList = new ArrayList<EMUser>();
-		for (EMUser user : ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().values()) {
-			if (!user.getUsername().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getUsername().equals(Constant.GROUP_USERNAME) & !user.getUsername().equals(Constant.CHAT_ROOM) & !user.getUsername().equals(Constant.CHAT_ROBOT))
+		final ArrayList<Contact> alluserList = new ArrayList<Contact>();
+		for (Contact user : SuperWeChatApplication.getInstance().getUserList().values()) {
+			if (!user.getMContactCname().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getMContactCname().equals(Constant.GROUP_USERNAME) & !user.getMContactCname().equals(Constant.CHAT_ROOM) & !user.getMContactCname().equals(Constant.CHAT_ROBOT))
 				alluserList.add(user);
 		}
 		// 对list进行排序
-		Collections.sort(alluserList, new Comparator<EMUser>() {
+		Collections.sort(alluserList, new Comparator<Contact>() {
 			@Override
-			public int compare(EMUser lhs, EMUser rhs) {
-				return (lhs.getUsername().compareTo(rhs.getUsername()));
+			public int compare(Contact lhs, Contact rhs) {
+				return (lhs.getHeader().compareTo(rhs.getHeader()));
 
 			}
 		});
@@ -115,7 +117,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 		List<String> members = new ArrayList<String>();
 		int length = contactAdapter.isCheckedArray.length;
 		for (int i = 0; i < length; i++) {
-			String username = contactAdapter.getItem(i).getUsername();
+			String username = contactAdapter.getItem(i).getMContactCname();
 			if (contactAdapter.isCheckedArray[i] && !exitingMembers.contains(username)) {
 				members.add(username);
 			}
@@ -131,7 +133,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 
 		private boolean[] isCheckedArray;
 
-		public PickContactAdapter(Context context, int resource, List<EMUser> users) {
+		public PickContactAdapter(Context context, int resource, List<Contact> users) {
 			super(context, resource, users);
 			isCheckedArray = new boolean[users.size()];
 		}
@@ -140,7 +142,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			View view = super.getView(position, convertView, parent);
 //			if (position > 0) {
-				final String username = getItem(position).getUsername();
+				final String username = getItem(position).getMContactCname();
 				// 选择框checkbox
 				final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
 				if(exitingMembers != null && exitingMembers.contains(username)){
