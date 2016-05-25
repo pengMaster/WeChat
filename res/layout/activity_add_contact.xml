@@ -61,7 +61,7 @@
             android:background="@drawable/mm_listitem"
             android:duplicateParentState="true" >
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/avatar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -78,6 +78,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@id/avatar"
                 android:textColor="#0F0F0F"
+                android:text="无查找结果"
                 android:textSize="16sp" />
 
 

@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
+
+import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.chat.EMContactManager;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
@@ -37,7 +39,7 @@ public class AddContactActivity extends BaseActivity{
 	private LinearLayout searchedUserLayout;
 	private TextView nameText,mTextView;
 	private Button searchBtn;
-	private ImageView avatar;
+	private NetworkImageView avatar;
 	private InputMethodManager inputMethodManager;
 	private String toAddUsername;
 	private ProgressDialog progressDialog;
@@ -56,7 +58,7 @@ public class AddContactActivity extends BaseActivity{
 		searchedUserLayout = (LinearLayout) findViewById(cn.ucai.superwechat.R.id.ll_user);
 		nameText = (TextView) findViewById(cn.ucai.superwechat.R.id.name);
 		searchBtn = (Button) findViewById(cn.ucai.superwechat.R.id.search);
-		avatar = (ImageView) findViewById(cn.ucai.superwechat.R.id.avatar);
+		avatar = (NetworkImageView) findViewById(cn.ucai.superwechat.R.id.avatar);
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 	
@@ -125,7 +127,7 @@ public class AddContactActivity extends BaseActivity{
 						public void run() {
 							progressDialog.dismiss();
 							String s1 = getResources().getString(cn.ucai.superwechat.R.string.send_successful);
-							Toast.makeText(getApplicationContext(), s1, 1).show();
+							Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_LONG).show();
 						}
 					});
 				} catch (final Exception e) {
@@ -133,7 +135,7 @@ public class AddContactActivity extends BaseActivity{
 						public void run() {
 							progressDialog.dismiss();
 							String s2 = getResources().getString(cn.ucai.superwechat.R.string.Request_add_buddy_failure);
-							Toast.makeText(getApplicationContext(), s2 + e.getMessage(), 1).show();
+							Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
 				}
