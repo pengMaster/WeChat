@@ -22,7 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
@@ -34,7 +37,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	
 	private static final int REQUESTCODE_PICK = 1;
 	private static final int REQUESTCODE_CUTTING = 2;
-	private ImageView headAvatar;
+	private NetworkImageView headAvatar;
 	private ImageView headPhotoUpdate;
 	private ImageView iconRightArrow;
 	private TextView tvNickName;
@@ -53,7 +56,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void initView() {
-		headAvatar = (ImageView) findViewById(cn.ucai.superwechat.R.id.user_head_avatar);
+		headAvatar = (NetworkImageView) findViewById(cn.ucai.superwechat.R.id.user_head_avatar);
 		headPhotoUpdate = (ImageView) findViewById(cn.ucai.superwechat.R.id.user_head_headphoto_update);
 		tvUsername = (TextView) findViewById(cn.ucai.superwechat.R.id.user_username);
 		tvNickName = (TextView) findViewById(cn.ucai.superwechat.R.id.user_nickname);
@@ -74,20 +77,17 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			headPhotoUpdate.setVisibility(View.GONE);
 			iconRightArrow.setVisibility(View.INVISIBLE);
 		}
-		if (username == null) {
-			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
-		} else if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
-			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
-			UserUtils.setCurrentUserNick(tvNickName);
-			UserUtils.setCurrentUserAvatar(this, headAvatar);
-		} else {
+		if (username == null || username.equals(SuperWeChatApplication.getInstance().getUserName())) {
+			tvUsername.setText(SuperWeChatApplication.getInstance().getUserName());
+			UserUtils.setCurrentUserBeanNick(tvNickName);
+			UserUtils.setCurrentUserBeanAvatar(headAvatar);
+		}  else {
 			tvUsername.setText(username);
-			UserUtils.setUserNick(username, tvNickName);
-			UserUtils.setUserAvatar(this, username, headAvatar);
-			asyncFetchUserInfo(username);
+			UserUtils.setUserBeanNick(username, tvNickName);
+			UserUtils.setUserBeanAvatar(username, headAvatar);
+			//asyncFetchUserInfo(username);
 		}
+
 	}
 
 	@Override
