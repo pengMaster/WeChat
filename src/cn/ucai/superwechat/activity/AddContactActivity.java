@@ -34,11 +34,16 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.chat.EMContactManager;
+
+import java.util.HashMap;
+
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.DemoHXSDKHelper;
+import cn.ucai.superwechat.bean.Contact;
 import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.ApiParams;
 import cn.ucai.superwechat.data.GsonRequest;
+import cn.ucai.superwechat.utils.UserUtils;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;
@@ -78,6 +83,7 @@ public class AddContactActivity extends BaseActivity{
 	public void searchContact(View v) {
 		final String name = editText.getText().toString();
 
+
 			toAddUsername = name;
 			if(TextUtils.isEmpty(name)) {
 				String st = getResources().getString(cn.ucai.superwechat.R.string.Please_enter_a_username);
@@ -107,12 +113,22 @@ public class AddContactActivity extends BaseActivity{
 		return new Response.Listener<User>() {
 			@Override
 			public void onResponse(User user) {
-				if (user != null) {
-					//服务器存在此用户，显示此用户和添加按钮
-					searchedUserLayout.setVisibility(View.VISIBLE);
-					nameText.setText(toAddUsername);
+				if (user!=null) {
+					HashMap<String, Contact> userList = SuperWeChatApplication.getInstance().getUserList();
+					if (userList.containsKey(user.getMUserName())) {
+						startActivity(new Intent(AddContactActivity.this, UserProfileActivity.class)
+								.putExtra("username", user.getMUserName()));
+					} else {
+
+						//服务器存在此用户，显示此用户和添加按钮
+						searchedUserLayout.setVisibility(View.VISIBLE);
+						UserUtils.setUserBeanAvatar(user,avatar);
+						UserUtils.setUserBeanNick(user,nameText);
+					}
+
 					mTVnothing.setVisibility(View.GONE);
-				} else {
+				}
+				 else {
 					searchedUserLayout.setVisibility(View.GONE);
 					mTVnothing.setVisibility(View.VISIBLE);
 				}
