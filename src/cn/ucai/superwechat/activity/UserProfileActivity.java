@@ -85,7 +85,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			tvUsername.setText(username);
 			UserUtils.setUserBeanNick(username, tvNickName);
 			UserUtils.setUserBeanAvatar(username, headAvatar);
-			//asyncFetchUserInfo(username);
 		}
 
 	}
@@ -118,30 +117,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 	}
 	
-	public void asyncFetchUserInfo(String username){
-		((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().asyncGetUserInfo(username, new EMValueCallBack<EMUser>() {
-			
-			@Override
-			public void onSuccess(EMUser user) {
-				if (user != null) {
-					tvNickName.setText(user.getNick());
-					if(!TextUtils.isEmpty(user.getAvatar())){
-						 Picasso.with(UserProfileActivity.this).load(user.getAvatar()).placeholder(cn.ucai.superwechat.R.drawable.default_avatar).into(headAvatar);
-					}else{
-						Picasso.with(UserProfileActivity.this).load(cn.ucai.superwechat.R.drawable.default_avatar).into(headAvatar);
-					}
-					UserUtils.saveUserInfo(user);
-				}
-			}
-			
-			@Override
-			public void onError(int error, String errorMsg) {
-			}
-		});
-	}
-	
-	
-	
+
 	private void uploadHeadPhoto() {
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle(cn.ucai.superwechat.R.string.dl_title_upload_photo);
@@ -167,9 +143,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				});
 		builder.create().show();
 	}
-	
-	
-
 	private void updateRemoteNick(final String nickName) {
 		dialog = ProgressDialog.show(this, getString(cn.ucai.superwechat.R.string.dl_update_nick), getString(cn.ucai.superwechat.R.string.dl_waiting));
 		new Thread(new Runnable() {
