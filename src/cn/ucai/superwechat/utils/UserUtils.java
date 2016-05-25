@@ -131,7 +131,7 @@ public class UserUtils {
 	}
 
 	/**
-	 * 设置显示自己的昵称
+	 * 设置显示远端服务器的昵称
 	 * @param username
 	 * @param textView
      */
