@@ -591,12 +591,33 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 		@Override
 		public void onContactDeleted(final List<String> usernameList) {
 			// 被删除
+			HashMap<String, Contact> userList = SuperWeChatApplication.getInstance().getUserList();
 			Map<String, EMUser> localUsers = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList();
 			ArrayList<Contact> contactList = SuperWeChatApplication.getInstance().getContactList();
+			ArrayList<String> toDeleteUserNames = new ArrayList<String>();
+
 			for (String username : usernameList) {
 				localUsers.remove(username);
 				userDao.deleteContact(username);
 				inviteMessgeDao.deleteMessage(username);
+				if (userList.containsKey(username)) {
+					toDeleteUserNames.add(username);
+
+				}
+				if (toDeleteUserNames.size()>0) {
+					for (String name:toDeleteUserNames) {
+						try {
+							String path = new ApiParams()
+									.with(I.Contact.USER_NAME, SuperWeChatApplication.getInstance().getUserName())
+									.with(I.Contact.CU_NAME, username)
+									.getRequestUrl(I.REQUEST_DELETE_CONTACT);
+							executeRequest(new GsonRequest<Boolean>(path, Boolean.class,responseDeleteContactListener(username),errorListener()));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+
+				}
 			}
 			runOnUiThread(new Runnable() {
 				public void run() {
@@ -616,6 +637,20 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 			});
 
 		}
+
+		private Response.Listener<Boolean> responseDeleteContactListener(final String username) {
+			return new Response.Listener<Boolean>() {
+				@Override
+				public void onResponse(Boolean aBoolean) {
+					HashMap<String, Contact> userList = SuperWeChatApplication.getInstance().getUserList();
+					Contact contact = userList.get(username);
+					SuperWeChatApplication.getInstance().getContactList().remove(contact);
+					SuperWeChatApplication.getInstance().getUserList().remove(username);
+					sendBroadcast(new Intent("update_contact_list"));
+				}
+			};
+		}
+
 
 		@Override
 		public void onContactInvited(String username, String reason) {
