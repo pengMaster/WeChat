@@ -6,8 +6,10 @@ import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -298,6 +300,9 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v) {        
+    public void onClick(View v) {
+
     }
+
+
 }
