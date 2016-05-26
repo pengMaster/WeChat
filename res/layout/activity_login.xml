@@ -9,17 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1" >
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/mobile"
-            android:text="超级微信"
-            android:textColor="#000"
-            android:gravity="center"
-            android:textSize="30dp"/>
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/mobile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/black_deep"/>
+
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -90,6 +99,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/ll_register_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_password"
@@ -99,7 +109,6 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/btnregister"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -107,6 +116,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_register_bg"
                 android:gravity="center"
+                android:id="@+id/btnLoginRegister"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="@string/register"
@@ -114,7 +124,6 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/btnlogin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -122,21 +131,24 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_login_bg"
                 android:gravity="center"
+                android:id="@+id/btnLoginLogin"
+                android:onClick="login"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="@string/login"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColor="#000"
+            android:text="设置IP"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/ll_register_login"
+            android:id="@+id/btnSetIP"/>
     </RelativeLayout>
-    <Button
-        android:id="@+id/set_server_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置服务器的IP地址"
-        android:textSize="20dp"
-        android:textColor="#000"
-        android:gravity="center"
-        android:background="@null" />
 
 </LinearLayout>

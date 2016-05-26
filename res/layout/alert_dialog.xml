@@ -73,6 +73,7 @@
             android:visibility="gone" />
 
         <Button
+            android:id="@+id/btn_ok"
             android:layout_width="match_parent"
             android:layout_height="47dp"
             android:layout_margin="10dp"
