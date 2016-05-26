@@ -2,7 +2,6 @@ package cn.ucai.superwechat.activity;
 
 import java.io.ByteArrayOutputStream;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -28,20 +28,20 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.EMValueCallBack;
 
 import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
-import com.easemob.chat.EMChatManager;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.ApiParams;
 import cn.ucai.superwechat.data.GsonRequest;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.EMUser;
+import cn.ucai.superwechat.listener.OnSetAvatarListener;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 public class UserProfileActivity extends BaseActivity implements OnClickListener{
 	
@@ -54,30 +54,33 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private TextView tvUsername;
 	private ProgressDialog dialog;
 	private RelativeLayout rlNickName;
-	Context mContext;
+	UserProfileActivity mContext;
+	OnSetAvatarListener mOnSetAvatarListener;
+	
 	
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
-		mContext = this;
 		super.onCreate(arg0);
-		setContentView(cn.ucai.superwechat.R.layout.activity_user_profile);
+		mContext=this;
+		setContentView(R.layout.activity_user_profile);
 		initView();
 		initListener();
 	}
 	
 	private void initView() {
-		headAvatar = (NetworkImageView) findViewById(cn.ucai.superwechat.R.id.user_head_avatar);
-		headPhotoUpdate = (ImageView) findViewById(cn.ucai.superwechat.R.id.user_head_headphoto_update);
-		tvUsername = (TextView) findViewById(cn.ucai.superwechat.R.id.user_username);
-		tvNickName = (TextView) findViewById(cn.ucai.superwechat.R.id.user_nickname);
-		rlNickName = (RelativeLayout) findViewById(cn.ucai.superwechat.R.id.rl_nickname);
-		iconRightArrow = (ImageView) findViewById(cn.ucai.superwechat.R.id.ic_right_arrow);
+		headAvatar = (NetworkImageView) findViewById(R.id.user_head_avatar);
+		headPhotoUpdate = (ImageView) findViewById(R.id.user_head_headphoto_update);
+		tvUsername = (TextView) findViewById(R.id.user_username);
+		tvNickName = (TextView) findViewById(R.id.user_nickname);
+		rlNickName = (RelativeLayout) findViewById(R.id.rl_nickname);
+		iconRightArrow = (ImageView) findViewById(R.id.ic_right_arrow);
 	}
 	
 	private void initListener() {
 		Intent intent = getIntent();
 		String username = intent.getStringExtra("username");
+		Log.e("main","UserProfileActivity："+username);
 		boolean enableUpdate = intent.getBooleanExtra("setting", false);
 		if (enableUpdate) {
 			headPhotoUpdate.setVisibility(View.VISIBLE);
@@ -89,57 +92,88 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			iconRightArrow.setVisibility(View.INVISIBLE);
 		}
 		if (username == null || username.equals(SuperWeChatApplication.getInstance().getUserName())) {
+			Log.e("main",SuperWeChatApplication.getInstance().getUserName());
 			tvUsername.setText(SuperWeChatApplication.getInstance().getUserName());
 			UserUtils.setCurrentUserBeanNick(tvNickName);
+			Log.e("main",SuperWeChatApplication.getInstance().getUser().getMUserNick());
 			UserUtils.setCurrentUserBeanAvatar(headAvatar);
-		}  else {
+		} else {
 			tvUsername.setText(username);
 			UserUtils.setUserBeanNick(username, tvNickName);
 			UserUtils.setUserBeanAvatar(username, headAvatar);
+			//asyncFetchUserInfo(username);
 		}
-
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case cn.ucai.superwechat.R.id.user_head_avatar:
-			uploadHeadPhoto();
+		case R.id.user_head_avatar:
+			mOnSetAvatarListener = new OnSetAvatarListener(mContext, R.id.layout_user_profile,getAvatarName(),I.AVATAR_TYPE_USER_PATH);
+			//uploadHeadPhoto();
 			break;
-		case cn.ucai.superwechat.R.id.rl_nickname:
+		case R.id.rl_nickname:
 			final EditText editText = new EditText(this);
-			new AlertDialog.Builder(this).setTitle(cn.ucai.superwechat.R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
-					.setPositiveButton(cn.ucai.superwechat.R.string.dl_ok, new DialogInterface.OnClickListener() {
+			new Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
+					.setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							String nickString = editText.getText().toString();
 							if (TextUtils.isEmpty(nickString)) {
-								Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+								Toast.makeText(UserProfileActivity.this, getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
 								return;
 							}
-							updateUserNick(nickString);
+							updateNickName(nickString);
 						}
-					}).setNegativeButton(cn.ucai.superwechat.R.string.dl_cancel, null).show();
+					}).setNegativeButton(R.string.dl_cancel, null).show();
 			break;
 		default:
 			break;
 		}
 
 	}
-	
+	String avatarName;
+	private String getAvatarName() {
+		avatarName = System.currentTimeMillis()+"";
+		return avatarName;
+	}
 
+	public void asyncFetchUserInfo(String username){
+		((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().asyncGetUserInfo(username, new EMValueCallBack<EMUser>() {
+			
+			@Override
+			public void onSuccess(EMUser user) {
+				if (user != null) {
+					tvNickName.setText(user.getNick());
+					if(!TextUtils.isEmpty(user.getAvatar())){
+						 Picasso.with(UserProfileActivity.this).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(headAvatar);
+					}else{
+						Picasso.with(UserProfileActivity.this).load(R.drawable.default_avatar).into(headAvatar);
+					}
+					UserUtils.saveUserInfo(user);
+				}
+			}
+			
+			@Override
+			public void onError(int error, String errorMsg) {
+			}
+		});
+	}
+	
+	
+	
 	private void uploadHeadPhoto() {
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setTitle(cn.ucai.superwechat.R.string.dl_title_upload_photo);
-		builder.setItems(new String[] { getString(cn.ucai.superwechat.R.string.dl_msg_take_photo), getString(cn.ucai.superwechat.R.string.dl_msg_local_upload) },
+		Builder builder = new Builder(this);
+		builder.setTitle(R.string.dl_title_upload_photo);
+		builder.setItems(new String[] { getString(R.string.dl_msg_take_photo), getString(R.string.dl_msg_local_upload) },
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 						switch (which) {
 						case 0:
-							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_no_support),
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_no_support),
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 1:
@@ -155,42 +189,37 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		builder.create().show();
 	}
 
-	private void updateUserNick(String nickName) {
-
+	private void updateNickName(String nickName){
 		try {
 			String path = new ApiParams()
-                    .with(I.User.USER_NAME, SuperWeChatApplication.getInstance().getUserName())
-                    .with(I.User.NICK, nickName)
-                    .getRequestUrl(I.REQUEST_UPDATE_USER_NICK);
-		executeRequest(new GsonRequest<User>(path,User.class,responseUpdateNickListener(nickName),errorListener()));
+							.with(I.User.USER_NAME,SuperWeChatApplication.getInstance().getUserName())
+                            .with(I.User.NICK,nickName)
+							.getRequestUrl(I.REQUEST_UPDATE_USER_NICK);
+			executeRequest(new GsonRequest<User>(path,User.class,responseUpdateNickname(nickName),errorListener()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private Response.Listener<User> responseUpdateNickListener(final String nickName) {
+	private Response.Listener<User> responseUpdateNickname(final String nickName) {
 		return new Response.Listener<User>() {
 			@Override
 			public void onResponse(User user) {
-				if (user != null && user.isResult()) {
+				if(user!=null&&user.isResult()){
 					updateRemoteNick(nickName);
-
-				} else {
-					Utils.showToast(mContext,Utils.getResourceString(mContext,user.getMsg()), Toast.LENGTH_LONG);
+				}else {
+					Utils.showToast(mContext,Utils.getResourceString(mContext,user.getMsg()),Toast.LENGTH_SHORT);
 				}
-
-
 			}
 		};
 	}
 
 
 	private void updateRemoteNick(final String nickName) {
-		dialog = ProgressDialog.show(this, getString(cn.ucai.superwechat.R.string.dl_update_nick), getString(cn.ucai.superwechat.R.string.dl_waiting));
+		dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
 		new Thread(new Runnable() {
 
 			@Override
-
 			public void run() {
 				boolean updatenick = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().updateParseNickName(nickName);
 				if (UserProfileActivity.this.isFinishing()) {
@@ -199,10 +228,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				if (!updatenick) {
 					runOnUiThread(new Runnable() {
 						public void run() {
-							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
 									.show();
 							dialog.dismiss();
-
 						}
 					});
 				} else {
@@ -210,7 +238,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						@Override
 						public void run() {
 							dialog.dismiss();
-							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
 									.show();
 							tvNickName.setText(nickName);
 							SuperWeChatApplication.currentUserNick = nickName;
@@ -218,6 +246,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 							user.setMUserNick(nickName);
 							UserDao dao = new UserDao(mContext);
 							dao.updateUser(user);
+
 						}
 					});
 				}
@@ -227,22 +256,32 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case REQUESTCODE_PICK:
-			if (data == null || data.getData() == null) {
-				return;
-			}
-			startPhotoZoom(data.getData());
-			break;
-		case REQUESTCODE_CUTTING:
-			if (data != null) {
-				setPicToView(data);
-			}
-			break;
-		default:
-			break;
-		}
+//		switch (requestCode) {
+//		case REQUESTCODE_PICK:
+//			if (data == null || data.getData() == null) {
+//				return;
+//			}
+//			startPhotoZoom(data.getData());
+//			break;
+//		case REQUESTCODE_CUTTING:
+//			if (data != null) {
+//				setPicToView(data);
+//			}
+//			break;
+//		default:
+//			break;
+//		}
 		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode!=RESULT_OK){
+			return;
+		}
+		mOnSetAvatarListener.setAvatar(requestCode,data,headAvatar);
+		if(requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO){
+			updateUserAvatar();
+		}
+	}
+
+	private void updateUserAvatar() {
 	}
 
 	public void startPhotoZoom(Uri uri) {
@@ -275,7 +314,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void uploadUserAvatar(final byte[] data) {
-		dialog = ProgressDialog.show(this, getString(cn.ucai.superwechat.R.string.dl_update_photo), getString(cn.ucai.superwechat.R.string.dl_waiting));
+		dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
 		new Thread(new Runnable() {
 
 			@Override
@@ -286,10 +325,10 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					public void run() {
 						dialog.dismiss();
 						if (avatarUrl != null) {
-							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatephoto_success),
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 									Toast.LENGTH_SHORT).show();
 						} else {
-							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatephoto_fail),
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail),
 									Toast.LENGTH_SHORT).show();
 						}
 

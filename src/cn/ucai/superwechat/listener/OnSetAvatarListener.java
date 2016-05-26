@@ -46,7 +46,7 @@ import cn.ucai.superwechat.utils.FileUtils;
 public class OnSetAvatarListener implements View.OnClickListener {
     private static final int REQUEST_TAKE_PICTURE=1;
     private static final int REQUEST_CHOOSE_PHOTO=2;
-    private static final int REQUEST_CROP_PHOTO=3;
+    public static final int REQUEST_CROP_PHOTO=3;
     private Activity mActivity;
     /** popuWindos的布局view*/
     private View mLayout;
