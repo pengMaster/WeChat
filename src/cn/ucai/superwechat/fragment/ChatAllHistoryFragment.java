@@ -72,6 +72,7 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		registerContactReceiver();
 		if(savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
 		inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -303,6 +304,26 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
     }
+	class ContactListChangeReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			adapter.notifyDataSetChanged();
+		}
+	}
+	private ContactListChangeReceiver mContactListChangeReceiver;
 
+	private void registerContactReceiver () {
+		mContactListChangeReceiver = new ContactListChangeReceiver();
+		IntentFilter filter = new IntentFilter("update_contact_list");
+		getActivity().registerReceiver(mContactListChangeReceiver, filter);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if(mContactListChangeReceiver!=null){
+			getActivity().unregisterReceiver(mContactListChangeReceiver);
+		}
+	}
 
 }

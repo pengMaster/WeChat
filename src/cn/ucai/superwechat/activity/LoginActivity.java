@@ -335,11 +335,13 @@ public class LoginActivity extends BaseActivity {
                 if (user.isResult()) {
                     //登录成功，设置当前用户，本地数据库更新,调用环信登录成功模块
                     saveUser(user);
-                    loginSucess();
+                    user.setMUserPassword(MD5.getData(user.getMUserPassword()));
+                    UserDao dao = new UserDao(mContext);
                     dao.addUser(user);
+                    loginSucess();
                 } else {
-                    Utils.showToast(mContext, user.getMsg(), Toast.LENGTH_SHORT);
                     pd.dismiss();
+                    Utils.showToast(mContext, user.getMsg(), Toast.LENGTH_SHORT);
                 }
             }
         }, errorListener()));
