@@ -134,6 +134,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		}
 
 		UserUtils.setUserBeanAvatar(msg.getFrom(),holder.avator);
+		UserUtils.setUserBeanNick(msg.getFrom(),holder.name);
+
 
 		return convertView;
 
