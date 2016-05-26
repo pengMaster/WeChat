@@ -107,6 +107,7 @@
     <string name="password">密码</string>
     <string name="register">注册</string>
     <string name="avatar">头像</string>
+    <string name="groupavatar">群头像</string>
     <string name="confirmpassword">确认密码</string>
     <string name="downwaiting">Downloading the file, please try again later</string>
     <string name="mute">Mute</string>

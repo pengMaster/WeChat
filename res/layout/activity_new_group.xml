@@ -71,6 +71,37 @@
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
         android:textSize="18sp" />
+    <RelativeLayout
+        android:id="@+id/layout_group_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#fff" >
+
+        <ImageView
+            android:id="@+id/iv_group_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/group_icon" />
+
+        <EditText
+            android:id="@+id/group_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_group_avatar"
+            android:background="@null"
+            android:hint="@string/groupavatar"
+            android:inputType="textPassword"
+            android:paddingLeft="10dip"
+            android:singleLine="true"
+            android:textSize="18sp" />
+    </RelativeLayout>
     
     
     <LinearLayout 
@@ -80,7 +111,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_normal_shape"
+        android:layout_marginTop="16dp"
         >
+
         <TextView 
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
