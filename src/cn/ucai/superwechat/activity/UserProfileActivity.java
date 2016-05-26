@@ -35,6 +35,7 @@ import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.ApiParams;
 import cn.ucai.superwechat.data.GsonRequest;
+import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.EMUser;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
@@ -189,6 +190,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		new Thread(new Runnable() {
 
 			@Override
+
 			public void run() {
 				boolean updatenick = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().updateParseNickName(nickName);
 				if (UserProfileActivity.this.isFinishing()) {
@@ -200,6 +202,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
 									.show();
 							dialog.dismiss();
+
 						}
 					});
 				} else {
@@ -210,6 +213,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 							Toast.makeText(UserProfileActivity.this, getString(cn.ucai.superwechat.R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
 									.show();
 							tvNickName.setText(nickName);
+							SuperWeChatApplication.currentUserNick = nickName;
+							User user = SuperWeChatApplication.getInstance().getUser();
+							user.setMUserNick(nickName);
+							UserDao dao = new UserDao(mContext);
+							dao.updateUser(user);
 						}
 					});
 				}

@@ -67,9 +67,11 @@ public class UserUtils {
      */
 	public static void setUserBeanAvatar(String username , NetworkImageView imageView) {
 		Contact contact = getUserBeanInfo(username);
-		if (contact !=null && contact.getMContactCname()!=null) {
-			setUserAvatar(getAvatarPath(username),imageView);
+		if (contact != null && contact.getMContactCname() != null) {
+			setUserAvatar(getAvatarPath(username), imageView);
 
+		} else {
+			imageView.setDefaultImageResId(R.drawable.default_avatar);
 		}
 
 	}
