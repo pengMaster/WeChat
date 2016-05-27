@@ -16,6 +16,7 @@ package cn.ucai.superwechat.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -35,6 +38,7 @@ import com.easemob.chat.EMGroup;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.activity.MainActivity;
 import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.data.RequestManager;
 import cn.ucai.superwechat.db.UserDao;
@@ -50,11 +54,11 @@ public class GroupAdapter extends BaseAdapter {
 	Context mContext;
 
 	public GroupAdapter(Context context, int res, ArrayList<Group> groups) {
+		mGroupList = groups;
 		this.mContext = context;
 		this.inflater = LayoutInflater.from(context);
 		newGroup = context.getResources().getString(cn.ucai.superwechat.R.string.The_new_group_chat);
 		addPublicGroup = context.getResources().getString(cn.ucai.superwechat.R.string.add_public_group_chat);
-		mGroupList = groups;
 	}
 
 	@Override

@@ -243,5 +243,20 @@ public class UserUtils {
 			}
 		}
 	}
-    
+
+	/**
+	 * 汉字转拼音
+	 * @param hanzi
+	 * @return
+     */
+	public static String getPinYinFromHanZi(String hanzi) {
+		String pinyin = "";
+
+		for(int i=0;i<hanzi.length();i++){
+			String s = hanzi.substring(i,i+1);
+			pinyin = pinyin + HanziToPinyin.getInstance()
+					.get(s).get(0).target.toLowerCase();
+		}
+		return pinyin;
+	}
 }

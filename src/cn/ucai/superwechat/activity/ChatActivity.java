@@ -95,6 +95,7 @@ import cn.ucai.superwechat.adapter.ExpressionAdapter;
 import cn.ucai.superwechat.adapter.ExpressionPagerAdapter;
 import cn.ucai.superwechat.adapter.MessageAdapter;
 import cn.ucai.superwechat.adapter.VoicePlayClickListener;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.ImageUtils;
@@ -510,9 +511,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }
         });
 	}
-	
+
 	protected void onGroupViewCreation(){
-	    group = EMGroupManager.getInstance().getGroup(toChatUsername);
+		group = EMGroupManager.getInstance().getGroup(toChatUsername);
         if (group != null){
             ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
         }else{
