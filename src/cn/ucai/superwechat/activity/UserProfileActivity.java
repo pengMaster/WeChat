@@ -5,9 +5,11 @@ import java.io.File;
 
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,6 +34,7 @@ import com.easemob.EMValueCallBack;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.adapter.ChatAllHistoryAdapter;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.bean.Message;
@@ -62,6 +65,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private RelativeLayout rlNickName;
 	UserProfileActivity mContext;
 	OnSetAvatarListener mOnSetAvatarListener;
+
 	
 	
 	
@@ -323,7 +327,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					UserUtils.setCurrentUserBeanAvatar(headAvatar);
 					Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 							Toast.LENGTH_SHORT).show();
-				}else {
+
+				}
+				else {
 					UserUtils.setCurrentUserBeanAvatar(headAvatar);
 					Toast.makeText(UserProfileActivity.this,getString(R.string.toast_updatenick_fail),
 							Toast.LENGTH_SHORT).show();
@@ -332,7 +338,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			}
 		};
 	}
-
 
 	public byte[] getImageBytes(Bitmap bmp){
 		if(bmp==null)return null;
