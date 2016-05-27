@@ -13,10 +13,13 @@
  */
 package cn.ucai.superwechat.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,19 +34,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.superwechat.adapter.GroupAdapter;
+import cn.ucai.superwechat.bean.Group;
 
 import com.easemob.util.EMLog;
 
 public class GroupsActivity extends BaseActivity {
 	public static final String TAG = "GroupsActivity";
 	private ListView groupListView;
-	protected List<EMGroup> grouplist;
+	protected ArrayList<Group> grouplist;
 	private GroupAdapter groupAdapter;
 	private InputMethodManager inputMethodManager;
 	public static GroupsActivity instance;
@@ -88,7 +93,7 @@ public class GroupsActivity extends BaseActivity {
 
 		instance = this;
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		grouplist = EMGroupManager.getInstance().getAllGroups();
+		grouplist = SuperWeChatApplication.getInstance().getGroupList();
 		groupListView = (ListView) findViewById(cn.ucai.superwechat.R.id.list);
 		
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(cn.ucai.superwechat.R.id.swipe_layout);
@@ -167,7 +172,7 @@ public class GroupsActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		grouplist = EMGroupManager.getInstance().getAllGroups();
+		grouplist = SuperWeChatApplication.getInstance().getGroupList();
 		groupAdapter = new GroupAdapter(this, 1, grouplist);
 		groupListView.setAdapter(groupAdapter);
 		groupAdapter.notifyDataSetChanged();
@@ -179,13 +184,16 @@ public class GroupsActivity extends BaseActivity {
 			HXSDKHelper.getInstance().removeSyncGroupListener(syncListener);
 			syncListener = null;
 		}
+		if (mReceiver!=null) {
+			unregisterReceiver(mReceiver);
+		}
 		super.onDestroy();
 		instance = null;
 	}
 	
 	public void refresh() {
 		if (groupListView != null && groupAdapter != null) {
-			grouplist = EMGroupManager.getInstance().getAllGroups();
+			grouplist = SuperWeChatApplication.getInstance().getGroupList();
 			groupAdapter = new GroupAdapter(GroupsActivity.this, 1,
 					grouplist);
 			groupListView.setAdapter(groupAdapter);
@@ -201,4 +209,19 @@ public class GroupsActivity extends BaseActivity {
 	public void back(View view) {
 		finish();
 	}
+	class GroupListChangedReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			refresh();
+		}
+	}
+
+	private GroupListChangedReceiver mReceiver;
+
+	private void registerGroupListChangedReceiver() {
+		mReceiver = new GroupListChangedReceiver();
+		IntentFilter filter = new IntentFilter("update_group_list");
+		registerReceiver(mReceiver,filter);
+	}
+}
 }
