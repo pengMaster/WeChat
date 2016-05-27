@@ -98,10 +98,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			iconRightArrow.setVisibility(View.INVISIBLE);
 		}
 		if (username == null || username.equals(SuperWeChatApplication.getInstance().getUserName())) {
-			Log.e("main",SuperWeChatApplication.getInstance().getUserName());
 			tvUsername.setText(SuperWeChatApplication.getInstance().getUserName());
 			UserUtils.setCurrentUserBeanNick(tvNickName);
-			Log.e("main",SuperWeChatApplication.getInstance().getUser().getMUserNick());
 			UserUtils.setCurrentUserBeanAvatar(headAvatar);
 		} else {
 			tvUsername.setText(username);
