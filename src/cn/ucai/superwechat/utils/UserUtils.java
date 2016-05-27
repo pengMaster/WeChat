@@ -76,6 +76,29 @@ public class UserUtils {
 
 	}
 
+	/**
+	 * 加载服务器群组头像
+	 * @param mGroupHxid
+	 * @param imageView
+     */
+	public static void setGroupBeanAvatar(String mGroupHxid, NetworkImageView imageView) {
+		if (mGroupHxid!=null && !mGroupHxid.isEmpty()) {
+			setGroupAvatar(getGroupPath(mGroupHxid),imageView);
+		}
+	}
+
+	private static String getGroupPath(String hxid) {
+		if (hxid ==null || hxid.isEmpty()) return null;
+		return I.REQUEST_DOWNLOAD_AVATAR_GROUP + hxid;
+	}
+
+	private static void setGroupAvatar(String url, NetworkImageView imageView) {
+		if (url == null || url.isEmpty()) return;
+		imageView.setDefaultImageResId(R.drawable.group_icon);
+		imageView.setImageUrl(url, RequestManager.getImageLoader());
+		imageView.setErrorImageResId(R.drawable.group_icon);
+	}
+
 	public static void setUserBeanAvatar(User user , NetworkImageView imageView) {
 		if (user !=null && user.getMUserName()!=null) {
 			setUserAvatar(getAvatarPath(user.getMUserName()),imageView);

@@ -124,7 +124,7 @@ public class GroupsActivity extends BaseActivity {
 					Intent intent = new Intent(GroupsActivity.this, ChatActivity.class);
 					// it is group chat
 					intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-					intent.putExtra("groupId", groupAdapter.getItem(position - 3).getGroupId());
+					intent.putExtra("groupId", groupAdapter.getItem(position - 3).getMGroupId());
 					startActivityForResult(intent, 0);
 				}
 			}
@@ -155,6 +155,7 @@ public class GroupsActivity extends BaseActivity {
 		}
 		
 		refresh();
+		registerGroupListChangedReceiver();
 	}
 
 	/**
@@ -212,10 +213,19 @@ public class GroupsActivity extends BaseActivity {
 	class GroupListChangedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			if (groupAdapter.getCount()>=3) {
+				ArrayList<Group> list = SuperWeChatApplication.getInstance().getGroupList();
+				if (!grouplist.containsAll(list)) {
+					groupAdapter.initList(list);
+				}
+			}
 			refresh();
 		}
 	}
 
+	/**
+	 *注册DownloadGroupTask下载成功后的广播
+	 */
 	private GroupListChangedReceiver mReceiver;
 
 	private void registerGroupListChangedReceiver() {
@@ -224,4 +234,4 @@ public class GroupsActivity extends BaseActivity {
 		registerReceiver(mReceiver,filter);
 	}
 }
-}
+
