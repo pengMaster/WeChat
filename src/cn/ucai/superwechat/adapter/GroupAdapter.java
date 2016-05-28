@@ -108,7 +108,7 @@ public class GroupAdapter extends BaseAdapter implements SectionIndexer {
 			final ImageButton clearSearch = (ImageButton) convertView.findViewById(cn.ucai.superwechat.R.id.search_clear);
 			query.addTextChangedListener(new TextWatcher() {
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					//getFilter().filter(s);
+					getFilter().filter(s);
 					if (s.length() > 0) {
 						clearSearch.setVisibility(View.VISIBLE);
 					} else {
@@ -191,7 +191,7 @@ public class GroupAdapter extends BaseAdapter implements SectionIndexer {
 		for (int i = 1; i < count; i++) {
 
 			String letter = getItem(i).getHeader();
-			EMLog.d(TAG, "contactadapter getsection getHeader:" + letter + " name:" + getItem(i).getMGroupName());
+			Log.e(TAG, "contactadapter getsection getHeader:" + letter + " name:" + getItem(i).getMGroupName());
 			int section = list.size() - 1;
 			if (list.get(section) != null && !list.get(section).equals(letter)) {
 				list.add(letter);
