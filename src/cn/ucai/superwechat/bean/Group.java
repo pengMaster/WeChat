@@ -21,6 +21,15 @@ public class Group extends Location implements java.io.Serializable {
 	private Integer mgroupMaxUsers;
 	private Integer mgroupAffiliationsCount;
 	private Boolean mgroupIsPublic;
+	private String header;
+
+	public String getHeader() {
+		return header;
+	}
+
+	public void setHeader(String header) {
+		this.header = header;
+	}
 
 	@Override
 	public boolean equals(Object o) {

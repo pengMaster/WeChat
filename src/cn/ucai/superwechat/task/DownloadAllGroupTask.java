@@ -2,6 +2,7 @@ package cn.ucai.superwechat.task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.android.volley.Response;
 
@@ -18,7 +19,7 @@ import cn.ucai.superwechat.utils.Utils;
  * Created by sks on 2016/5/23.
  */
 public class DownloadAllGroupTask  extends BaseActivity {
-    private static final String TAG = DownloadContactListTask.class.getName();
+    private static final String TAG = DownloadAllGroupTask.class.getName();
     Context mContext;
     String username;
     String path;
@@ -32,7 +33,7 @@ public class DownloadAllGroupTask  extends BaseActivity {
     private void initPath() {
         try {
             path = new ApiParams()
-                    .with(I.Contact.USER_NAME, username)
+                    .with(I.User.USER_NAME, username)
                     .getRequestUrl(I.REQUEST_DOWNLOAD_GROUPS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,15 +51,16 @@ public class DownloadAllGroupTask  extends BaseActivity {
         return new Response.Listener<Group[]>() {
             @Override
             public void onResponse(Group[] response) {
-                if (response != null) {
+                if (response != null&&response.length>0) {
+                    Log.e("main","response::::"+response.length);
                     ArrayList<Group> contactArrayList = SuperWeChatApplication.getInstance().getGroupList();
                     ArrayList<Group> list = Utils.array2List(response);
                     contactArrayList.clear();
                     contactArrayList.addAll(list);
 
 
+                    mContext.sendStickyBroadcast(new Intent("update_group_list"));
                 }
-                mContext.sendStickyBroadcast(new Intent("update_group_list"));
             }
 
         };
