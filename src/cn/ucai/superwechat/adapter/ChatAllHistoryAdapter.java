@@ -44,6 +44,7 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.EMConversation.EMConversationType;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.domain.RobotUser;
 import cn.ucai.superwechat.utils.DateUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
@@ -100,9 +101,11 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		String username = conversation.getUserName();
 		if (conversation.getType() == EMConversationType.GroupChat) {
 			// 群聊消息，显示群聊头像
-			holder.avatar.setImageResource(cn.ucai.superwechat.R.drawable.group_icon);
-			EMGroup group = EMGroupManager.getInstance().getGroup(username);
-			holder.name.setText(group != null ? group.getGroupName() : username);
+			UserUtils.setGroupBeanAvatar(username,holder.avatar);
+			//holder.avatar.setImageResource(cn.ucai.superwechat.R.drawable.group_icon);
+			Group group = UserUtils.getGroupFromHXID(username);
+//			EMGroup group = EMGroupManager.getInstance().getGroup(username);
+			holder.name.setText(group != null ? group.getMGroupName() : username);
 		} else if(conversation.getType() == EMConversationType.ChatRoom){
 		    holder.avatar.setImageResource(cn.ucai.superwechat.R.drawable.group_icon);
             EMChatRoom room = EMChatManager.getInstance().getChatRoom(username);

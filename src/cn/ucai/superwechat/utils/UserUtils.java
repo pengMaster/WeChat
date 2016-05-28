@@ -12,6 +12,7 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Contact;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.RequestManager;
 import cn.ucai.superwechat.db.UserDao;
@@ -21,25 +22,29 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.util.HanziToPinyin;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class UserUtils {
-    /**
-     * 根据username获取相应user，由于demo没有真实的用户数据，这里给的模拟的数据；
-     * @param username
-     * @return
-     */
-    public static EMUser getUserInfo(String username){
-        EMUser user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getContactList().get(username);
-        if(user == null){
-            user = new EMUser(username);
-        }
-            
-        if(user != null){
-            //demo没有这些数据，临时填充
-        	if(TextUtils.isEmpty(user.getNick()))
-        		user.setNick(username);
-        }
-        return user;
-    }
+	/**
+	 * 根据username获取相应user，由于demo没有真实的用户数据，这里给的模拟的数据；
+	 *
+	 * @param username
+	 * @return
+	 */
+	public static EMUser getUserInfo(String username) {
+		EMUser user = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().get(username);
+		if (user == null) {
+			user = new EMUser(username);
+		}
+
+		if (user != null) {
+			//demo没有这些数据，临时填充
+			if (TextUtils.isEmpty(user.getNick()))
+				user.setNick(username);
+		}
+		return user;
+	}
+
 	public static Contact getUserBeanInfo(String username) {
 		Contact contact = SuperWeChatApplication.getInstance().getUserList().get(username);
 		return contact;
@@ -47,14 +52,15 @@ public class UserUtils {
 
 
 	/**
-     * 设置用户头像
-     * @param username
-     */
-    public static void setUserAvatar(Context context, String username, ImageView imageView){
+	 * 设置用户头像
+	 *
+	 * @param username
+	 */
+	public static void setUserAvatar(Context context, String username, ImageView imageView) {
 		EMUser user = getUserInfo(username);
-		if(user != null && user.getAvatar() != null){
+		if (user != null && user.getAvatar() != null) {
 			Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
-		}else{
+		} else {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
 		}
 	}
@@ -62,10 +68,11 @@ public class UserUtils {
 
 	/***
 	 * 设置加载服务器自己的头像
+	 *
 	 * @param username
 	 * @param imageView
-     */
-	public static void setUserBeanAvatar(String username , NetworkImageView imageView) {
+	 */
+	public static void setUserBeanAvatar(String username, NetworkImageView imageView) {
 		Contact contact = getUserBeanInfo(username);
 		if (contact != null && contact.getMContactCname() != null) {
 			setUserAvatar(getAvatarPath(username), imageView);
@@ -78,17 +85,18 @@ public class UserUtils {
 
 	/**
 	 * 加载服务器群组头像
+	 *
 	 * @param mGroupHxid
 	 * @param imageView
-     */
+	 */
 	public static void setGroupBeanAvatar(String mGroupHxid, NetworkImageView imageView) {
-		if (mGroupHxid!=null && !mGroupHxid.isEmpty()) {
-			setGroupAvatar(getGroupPath(mGroupHxid),imageView);
+		if (mGroupHxid != null && !mGroupHxid.isEmpty()) {
+			setGroupAvatar(getGroupPath(mGroupHxid), imageView);
 		}
 	}
 
 	private static String getGroupPath(String hxid) {
-		if (hxid ==null || hxid.isEmpty()) return null;
+		if (hxid == null || hxid.isEmpty()) return null;
 		return I.REQUEST_DOWNLOAD_AVATAR_GROUP + hxid;
 	}
 
@@ -99,16 +107,16 @@ public class UserUtils {
 		imageView.setErrorImageResId(R.drawable.group_icon);
 	}
 
-	public static void setUserBeanAvatar(User user , NetworkImageView imageView) {
-		if (user !=null && user.getMUserName()!=null) {
-			setUserAvatar(getAvatarPath(user.getMUserName()),imageView);
+	public static void setUserBeanAvatar(User user, NetworkImageView imageView) {
+		if (user != null && user.getMUserName() != null) {
+			setUserAvatar(getAvatarPath(user.getMUserName()), imageView);
 
 		}
 
 	}
 
-	private static void setUserAvatar(String url,NetworkImageView imageView) {
-		if (url ==null || url.isEmpty())return;
+	private static void setUserAvatar(String url, NetworkImageView imageView) {
+		if (url == null || url.isEmpty()) return;
 		imageView.setDefaultImageResId(R.drawable.default_avatar);
 		imageView.setImageUrl(url, RequestManager.getImageLoader());
 		imageView.setErrorImageResId(R.drawable.default_avatar);
@@ -116,29 +124,30 @@ public class UserUtils {
 	}
 
 	public static String getAvatarPath(String username) {
-		if (username==null || username.isEmpty()) return null;
+		if (username == null || username.isEmpty()) return null;
 		return I.REQUEST_DOWNLOAD_AVATAR_USER + username;
 
 	}
 
 	/**
-     * 设置当前用户头像
-     */
+	 * 设置当前用户头像
+	 */
 	public static void setCurrentUserAvatar(Context context, ImageView imageView) {
-		EMUser user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
+		EMUser user = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
 		if (user != null && user.getAvatar() != null) {
 			Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
 		} else {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
 		}
 	}
+
 	/**
 	 * 设置远端服务器的当前用户头像
 	 */
-	public static void setCurrentUserBeanAvatar( NetworkImageView imageView) {
+	public static void setCurrentUserBeanAvatar(NetworkImageView imageView) {
 		User user = SuperWeChatApplication.getInstance().getUser();
 		if (user != null) {
-			setUserAvatar(getAvatarPath(user.getMUserName()),imageView);
+			setUserAvatar(getAvatarPath(user.getMUserName()), imageView);
 
 		}
 	}
@@ -146,21 +155,22 @@ public class UserUtils {
 	/**
 	 * 设置用户昵称
 	 */
-	public static void setUserNick(String username,TextView textView){
+	public static void setUserNick(String username, TextView textView) {
 		EMUser user = getUserInfo(username);
-		if(user != null){
+		if (user != null) {
 			textView.setText(user.getNick());
-		}else{
+		} else {
 			textView.setText(username);
 		}
 	}
 
 	/**
 	 * 设置显示远端服务器的昵称
+	 *
 	 * @param username
 	 * @param textView
-     */
-	public static void setUserBeanNick(String username,TextView textView) {
+	 */
+	public static void setUserBeanNick(String username, TextView textView) {
 		Contact userBeanInfo = getUserBeanInfo(username);
 		if (userBeanInfo != null) {
 			if (userBeanInfo.getMUserNick() != null) {
@@ -176,7 +186,7 @@ public class UserUtils {
 
 	}
 
-	public static void setUserBeanNick(User user,TextView textView) {
+	public static void setUserBeanNick(User user, TextView textView) {
 		if (user != null) {
 			if (user.getMUserNick() != null) {
 
@@ -190,25 +200,27 @@ public class UserUtils {
 	}
 
 	/**
-     * 设置当前用户昵称
-     */
-    public static void setCurrentUserNick(TextView textView){
-    	EMUser user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
-    	if(textView != null){
-    		textView.setText(user.getNick());
-    	}
-    }
+	 * 设置当前用户昵称
+	 */
+	public static void setCurrentUserNick(TextView textView) {
+		EMUser user = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
+		if (textView != null) {
+			textView.setText(user.getNick());
+		}
+	}
 
-	public static void setCurrentUserBeanNick(TextView textView){
+	public static void setCurrentUserBeanNick(TextView textView) {
 		User user = SuperWeChatApplication.getInstance().getUser();
-		if(textView != null && user.getMUserNick()!=null && user.getMUserName()!=null){
+		if (textView != null && user.getMUserNick() != null && user.getMUserName() != null) {
 			textView.setText(user.getMUserNick());
 		}
 	}
+
 	/**
-     * 保存或更新某个用户
-     * @param newUser
-     */
+	 * 保存或更新某个用户
+	 *
+	 * @param newUser
+	 */
 	public static void saveUserInfo(EMUser newUser) {
 		if (newUser == null || newUser.getUsername() == null) {
 			return;
@@ -230,7 +242,7 @@ public class UserUtils {
 			headerName = user.getMContactUserName();
 		}
 		if (username.equals(Constant.NEW_FRIENDS_USERNAME)
-		|| username.equals(Constant.GROUP_USERNAME)){
+				|| username.equals(Constant.GROUP_USERNAME)) {
 			user.setHeader("");
 		} else if (Character.isDigit(headerName.charAt(0))) {
 			user.setHeader("#");
@@ -243,6 +255,8 @@ public class UserUtils {
 			}
 		}
 	}
+
+
 
 	/**
 	 * 汉字转拼音
@@ -258,5 +272,23 @@ public class UserUtils {
 					.get(s).get(0).target.toLowerCase();
 		}
 		return pinyin;
+	}
+	/**
+	 * 根据环信ID获取群组
+	 *
+	 * @param hxid
+	 * @return
+	 */
+
+	public static Group getGroupFromHXID(String hxid) {
+		if (hxid != null && !hxid.isEmpty()) {
+			ArrayList<Group> groups = SuperWeChatApplication.getInstance().getGroupList();
+			for (Group group : groups) {
+				if (group.getMGroupHxid().equals(hxid)) {
+					return group;
+				}
+			}
+		}
+		return null;
 	}
 }
