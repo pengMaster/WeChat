@@ -244,9 +244,8 @@ public class GroupAdapter extends BaseAdapter implements SectionIndexer {
 				for(int i=0;i<count;i++){
 					final Group group = mOriginalList.get(i);
 					String username = group.getMGroupName();
-					String nick = UserUtils.getPinYinFromHanZi(group.getMGroupHxid());
 
-					if(username.contains(prefixString) || nick.contains(prefixString)){
+					if(username.contains(prefixString) ){
 						newValues.add(group);
 					}
 					else{
