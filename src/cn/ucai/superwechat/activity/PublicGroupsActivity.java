@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.chat.EMCursorResult;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
@@ -44,6 +47,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.task.DownloadPublicGroupTask;
+import cn.ucai.superwechat.utils.UserUtils;
 
 import com.easemob.exceptions.EaseMobException;
 
@@ -52,7 +56,7 @@ public class PublicGroupsActivity extends BaseActivity {
 	private ListView listView;
 	private GroupsAdapter adapter;
 	
-	private List<Group> groupsList;
+	private ArrayList<Group> groupsList;
 	private boolean isLoading;
 	private boolean isFirstLoading = true;
 	private boolean hasMoreData = true;
@@ -63,15 +67,16 @@ public class PublicGroupsActivity extends BaseActivity {
     private TextView footLoadingText;
     private Button searchBtn;
     private int pageId = 0;
+    PublicGroupsActivity mContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         initView();
-        loadAndShowData();
         //获取及显示数据
         setListener();
-	}
+        mContext = this;
+    }
 
     private void setListener() {
         setItemClickListener();
@@ -87,12 +92,14 @@ public class PublicGroupsActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if(scrollState == OnScrollListener.SCROLL_STATE_IDLE){
                     if(listView.getCount() != 0){
+                        Log.e("main", "listView.getCount():" + listView.getCount());
                         int lasPos = view.getLastVisiblePosition();
                         if(hasMoreData && !isLoading && lasPos == listView.getCount()-1){
                             pageId++;
                             new DownloadPublicGroupTask(PublicGroupsActivity.this,SuperWeChatApplication.getInstance().getUserName(),
                                     pageId,pagesize).execute();
                             loadAndShowData();
+                            Log.e("main","pageId++:"+pageId);
                         }
                     }
                 }
@@ -166,14 +173,15 @@ public class PublicGroupsActivity extends BaseActivity {
                             if(publicGroupList.size() != 0){
                                 //获取cursor
 //                                cursor = result.getCursor();
-                                if(publicGroupList.size() ==(pageId+1)*pagesize)
+                                if(groupsList.size()<publicGroupList.size())
                                     footLoadingLayout.setVisibility(View.VISIBLE);
+                                Log.e("main","publicGroupList.size():::"+publicGroupList.size());
                             }
                             if(isFirstLoading){
                                 pb.setVisibility(View.INVISIBLE);
                                 isFirstLoading = false;
                                 //设置adapter
-                                adapter = new GroupsAdapter(PublicGroupsActivity.this, 1, groupsList);
+                                adapter = new GroupsAdapter(mContext,1,groupsList);
                                 listView.setAdapter(adapter);
                             }else{
                                 if(groupsList.size() < (pageId+1)*pagesize){
@@ -205,22 +213,39 @@ public class PublicGroupsActivity extends BaseActivity {
 	 * adapter
 	 *
 	 */
-	private class GroupsAdapter extends ArrayAdapter<Group> {
+	private class GroupsAdapter extends BaseAdapter {
 
 		private LayoutInflater inflater;
+        ArrayList<Group> mGroupList;
 
-		public GroupsAdapter(Context context, int res, List<Group> groups) {
-			super(context, res, groups);
+		public GroupsAdapter(Context context,int res , ArrayList<Group> groups) {
 			this.inflater = LayoutInflater.from(context);
-		}
+            mGroupList = groups;
+        }
 
-		@Override
+        @Override
+        public int getCount() {
+            return mGroupList!=null?mGroupList.size():0;
+        }
+
+        @Override
+        public Group getItem(int position) {
+            return mGroupList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.row_group, null);
 			}
-
-			((TextView) convertView.findViewById(R.id.name)).setText(getItem(position).getMGroupName());
+           Group group =  getItem(position);
+            ((TextView) convertView.findViewById(R.id.name)).setText(group.getMGroupName());
+            UserUtils.setGroupBeanAvatar(group.getMGroupHxid(), (NetworkImageView) convertView.findViewById(R.id.avatar));
 
 			return convertView;
 		}

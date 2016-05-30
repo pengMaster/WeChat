@@ -6,74 +6,68 @@ import android.content.Intent;
 import com.android.volley.Response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.activity.BaseActivity;
-import cn.ucai.superwechat.bean.Contact;
 import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.data.ApiParams;
 import cn.ucai.superwechat.data.GsonRequest;
 import cn.ucai.superwechat.utils.Utils;
 
 /**
- * Created by sks on 2016/5/23.
+ * Created by Administrator on 2016/5/23 0023.
  */
-public class DownloadPublicGroupTask  extends BaseActivity {
-    private static final String TAG = DownloadContactListTask.class.getName();
+public class DownloadPublicGroupTask extends BaseActivity {
+    private static final String TAG = DownloadPublicGroupTask.class.getName();
     Context mContext;
-    String username;
+    String userName;
+    int page_id;
+    int page_size;
     String path;
-    int pageid;
-    int pagesize;
 
-    public DownloadPublicGroupTask(Context mContext, String username, int pageid, int pagesize) {
+    public DownloadPublicGroupTask(Context mContext, String userName, int page_id, int page_size) {
         this.mContext = mContext;
-        this.username = username;
-        this.pageid = pageid;
-        this.pagesize = pagesize;
+        this.userName = userName;
+        this.page_id = page_id;
+        this.page_size = page_size;
         initPath();
     }
-
 
     private void initPath() {
         try {
             path = new ApiParams()
-                    .with(I.Contact.USER_NAME, username)
-                    .with(I.PAGE_ID,pageid+"")
-                    .with(I.PAGE_SIZE,pagesize+"")
+                    .with(I.User.USER_NAME, userName)
+                    .with(I.PAGE_ID, page_id + "")
+                    .with(I.PAGE_SIZE, page_size + "")
                     .getRequestUrl(I.REQUEST_FIND_PUBLIC_GROUPS);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    public void execute() {
-        executeRequest(new GsonRequest<Group[]>(path, Group[].class,
-                responseDownloadGroupListTaskListener(), errorListener()));
+    public void execute(){
+        executeRequest(new GsonRequest<Group[]>(path,Group[].class,
+                responseDownloadPublicGroupTaskListener(),errorListener()));
     }
 
-    private Response.Listener<Group[]> responseDownloadGroupListTaskListener() {
+    private Response.Listener<Group[]> responseDownloadPublicGroupTaskListener() {
         return new Response.Listener<Group[]>() {
             @Override
             public void onResponse(Group[] response) {
-                if (response != null) {
-                    ArrayList<Group> contactGroupList = SuperWeChatApplication.getInstance().getGroupList();
+                if (response!=null){
+                    ArrayList<Group> publicGroupList = SuperWeChatApplication.getInstance().getPublicGroupList();
                     ArrayList<Group> list = Utils.array2List(response);
-                    //contactGroupList.clear();
-                    for (Group g : list) {
-                        if (!contactGroupList.contains(g)) {
-                            contactGroupList.add(g);
+                    for (Group g:list){
+                        if (!publicGroupList.contains(g)){
+                            publicGroupList.add(g);
                         }
                     }
+                   /* publicGroupList.clear();
+                    publicGroupList.addAll(list);*/
                     mContext.sendStickyBroadcast(new Intent("update_public_group"));
                 }
-
             }
         };
-
     }
 }

@@ -229,7 +229,7 @@ public class NewGroupActivity extends BaseActivity {
 				.addParam(I.Group.NAME, groupName)
 				.addParam(I.Group.DESCRIPTION, desc)
 				.addParam(I.Group.OWNER, user.getMUserName())
-				.addParam(I.Group.IS_PUBLIC, isInvites + "")
+				.addParam(I.Group.IS_PUBLIC, isPublic + "")
 				.addParam(I.Group.ALLOW_INVITES, isInvites + "")
 				.addParam(I.User.USER_ID, user.getMUserId() + "")
 				.targetClass(Group.class)
