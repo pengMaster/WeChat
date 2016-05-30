@@ -50,11 +50,7 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_simle_details);
-		if(group != null){
-			Log.e("main","GroupSimpleDetailActivity.group:"+group);
-			showGroupDetail();
-			return;
-		}
+
 
 		tv_name = (TextView) findViewById(R.id.name);
 		tv_admin = (TextView) findViewById(R.id.tv_admin);
@@ -64,11 +60,13 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 
 		niv_avatar = (NetworkImageView) findViewById(R.id.avatar);
 
-		Group groupInfo = (Group) getIntent().getSerializableExtra("groupinfo");
+		Group  groupInfo= (Group) getIntent().getSerializableExtra("groupinfo");
 		String groupname = null;
 		if(groupInfo != null){
 		    groupname = groupInfo.getMGroupName();
-		    groupid = groupInfo.getMGroupHxid();
+			groupid = groupInfo.getMGroupHxid();
+			group = groupInfo;
+			Log.e("main","GroupSimpleDetailActivity.groupname:"+groupname);
 		}/*else{
 		    group = PublicGroupsSeachActivity.searchedGroup;
 		    if(group == null)
@@ -79,8 +77,12 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 		
 		tv_name.setText(groupname);
 
-
-
+		Log.e("main","GroupSimpleDetailActivity.group:"+group);
+		if(group!= null){
+			Log.e("main","GroupSimpleDetailActivity.group:"+group);
+			showGroupDetail();
+		    return;
+		}
 		new Thread(new Runnable() {
 
 			public void run() {

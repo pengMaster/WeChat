@@ -156,6 +156,7 @@ public class PublicGroupsActivity extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("main","onItemClick.GroupSimpleDetailActivity");
                 startActivity(new Intent(PublicGroupsActivity.this, GroupSimpleDetailActivity.class).
                         putExtra("groupinfo", adapter.getItem(position)));
             }
