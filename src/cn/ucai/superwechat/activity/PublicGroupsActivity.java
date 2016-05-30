@@ -41,6 +41,10 @@ import com.easemob.chat.EMCursorResult;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.bean.Group;
+import cn.ucai.superwechat.task.DownloadPublicGroupTask;
+
 import com.easemob.exceptions.EaseMobException;
 
 public class PublicGroupsActivity extends BaseActivity {
@@ -48,7 +52,7 @@ public class PublicGroupsActivity extends BaseActivity {
 	private ListView listView;
 	private GroupsAdapter adapter;
 	
-	private List<EMGroupInfo> groupsList;
+	private List<Group> groupsList;
 	private boolean isLoading;
 	private boolean isFirstLoading = true;
 	private boolean hasMoreData = true;
@@ -58,12 +62,13 @@ public class PublicGroupsActivity extends BaseActivity {
     private ProgressBar footLoadingPB;
     private TextView footLoadingText;
     private Button searchBtn;
-    
+    private int pageId = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         initView();
+        loadAndShowData();
         //获取及显示数据
         setListener();
 	}
@@ -84,6 +89,9 @@ public class PublicGroupsActivity extends BaseActivity {
                     if(listView.getCount() != 0){
                         int lasPos = view.getLastVisiblePosition();
                         if(hasMoreData && !isLoading && lasPos == listView.getCount()-1){
+                            pageId++;
+                            new DownloadPublicGroupTask(PublicGroupsActivity.this,SuperWeChatApplication.getInstance().getUserName(),
+                                    pageId,pagesize).execute();
                             loadAndShowData();
                         }
                     }
@@ -116,7 +124,7 @@ public class PublicGroupsActivity extends BaseActivity {
 
         pb = (ProgressBar) findViewById(R.id.progressBar);
         listView = (ListView) findViewById(R.id.list);
-        groupsList = new ArrayList<EMGroupInfo>();
+        groupsList = new ArrayList<Group>();
         searchBtn = (Button) findViewById(R.id.btn_search);
 
         View footView = getLayoutInflater().inflate(R.layout.listview_footer_view, null);
@@ -141,18 +149,24 @@ public class PublicGroupsActivity extends BaseActivity {
             public void run() {
                 try {
                     isLoading = true;
-                    final EMCursorResult<EMGroupInfo> result = EMGroupManager.getInstance().getPublicGroupsFromServer(pagesize, cursor);
+                    final ArrayList<Group> publicGroupList = SuperWeChatApplication.getInstance().getPublicGroupList();
+                    for(Group group : publicGroupList){
+                        if (!groupsList.contains(group)) {
+                            groupsList.add(group);
+                        }
+                    }
+//                    final EMCursorResult<Group> result = EMGroupManager.getInstance().getPublicGroupsFromServer(pagesize, cursor);
                     //获取group list
-                    final List<EMGroupInfo> returnGroups = result.getData();
-                    runOnUiThread(new Runnable() {
-
-                        public void run() {
+//                    final List<Group> returnGroups = result.getData();
+//                    runOnUiThread(new Runnable() {
+//
+//                        public void run() {
                             searchBtn.setVisibility(View.VISIBLE);
-                            groupsList.addAll(returnGroups);
-                            if(returnGroups.size() != 0){
+//                            groupsList.addAll(returnGroups);
+                            if(publicGroupList.size() != 0){
                                 //获取cursor
-                                cursor = result.getCursor();
-                                if(returnGroups.size() == pagesize)
+//                                cursor = result.getCursor();
+                                if(publicGroupList.size() ==(pageId+1)*pagesize)
                                     footLoadingLayout.setVisibility(View.VISIBLE);
                             }
                             if(isFirstLoading){
@@ -162,7 +176,7 @@ public class PublicGroupsActivity extends BaseActivity {
                                 adapter = new GroupsAdapter(PublicGroupsActivity.this, 1, groupsList);
                                 listView.setAdapter(adapter);
                             }else{
-                                if(returnGroups.size() < pagesize){
+                                if(groupsList.size() < (pageId+1)*pagesize){
                                     hasMoreData = false;
                                     footLoadingLayout.setVisibility(View.VISIBLE);
                                     footLoadingPB.setVisibility(View.GONE);
@@ -171,16 +185,16 @@ public class PublicGroupsActivity extends BaseActivity {
                                 adapter.notifyDataSetChanged();
                             }
                             isLoading = false;
-                        }
-                    });
-                } catch (EaseMobException e) {
+//                        }
+//                    });
+                } catch (Exception e) {
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         public void run() {
                             isLoading = false;
                             pb.setVisibility(View.INVISIBLE);
                             footLoadingLayout.setVisibility(View.GONE);
-                            Toast.makeText(PublicGroupsActivity.this, "加载数据失败，请检查网络或稍后重试", 0).show();
+                            Toast.makeText(PublicGroupsActivity.this, "加载数据失败，请检查网络或稍后重试", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -191,11 +205,11 @@ public class PublicGroupsActivity extends BaseActivity {
 	 * adapter
 	 *
 	 */
-	private class GroupsAdapter extends ArrayAdapter<EMGroupInfo> {
+	private class GroupsAdapter extends ArrayAdapter<Group> {
 
 		private LayoutInflater inflater;
 
-		public GroupsAdapter(Context context, int res, List<EMGroupInfo> groups) {
+		public GroupsAdapter(Context context, int res, List<Group> groups) {
 			super(context, res, groups);
 			this.inflater = LayoutInflater.from(context);
 		}
@@ -206,7 +220,7 @@ public class PublicGroupsActivity extends BaseActivity {
 				convertView = inflater.inflate(R.layout.row_group, null);
 			}
 
-			((TextView) convertView.findViewById(R.id.name)).setText(getItem(position).getGroupName());
+			((TextView) convertView.findViewById(R.id.name)).setText(getItem(position).getMGroupName());
 
 			return convertView;
 		}
