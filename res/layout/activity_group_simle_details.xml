@@ -40,7 +40,7 @@
         android:layout_marginRight="8dp"
         android:gravity="center_vertical" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/avatar"
             android:layout_width="55dp"
             android:layout_height="55dp"
