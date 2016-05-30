@@ -50,7 +50,11 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_simle_details);
-
+		if(group != null){
+			Log.e("main","GroupSimpleDetailActivity.group:"+group);
+			showGroupDetail();
+			return;
+		}
 
 		tv_name = (TextView) findViewById(R.id.name);
 		tv_admin = (TextView) findViewById(R.id.tv_admin);
@@ -74,12 +78,9 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 		}*/
 		
 		tv_name.setText(groupname);
-		
-		
-		if(group != null){
-		    showGroupDetail();
-		    return;
-		}
+
+
+
 		new Thread(new Runnable() {
 
 			public void run() {

@@ -22,7 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +36,13 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +57,7 @@ import cn.ucai.superwechat.task.DownloadPublicGroupTask;
 import cn.ucai.superwechat.utils.UserUtils;
 
 import com.easemob.exceptions.EaseMobException;
+import com.easemob.util.EMLog;
 
 public class PublicGroupsActivity extends BaseActivity {
 	private ProgressBar pb;
@@ -68,6 +76,7 @@ public class PublicGroupsActivity extends BaseActivity {
     private Button searchBtn;
     private int pageId = 0;
     PublicGroupsActivity mContext;
+    private static final String TAG = PublicGroupsActivity.class.getName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +91,34 @@ public class PublicGroupsActivity extends BaseActivity {
         setItemClickListener();
         setScrollListener();
         registerPublicGroupChangedReceiver();
+        setQueryChangedListener();
+    }
+
+    private void setQueryChangedListener() {
+        final EditText query = (EditText) findViewById(cn.ucai.superwechat.R.id.query);
+        final ImageButton clearSearch = (ImageButton) findViewById(cn.ucai.superwechat.R.id.search_clear);
+        query.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+                if (s.length() > 0) {
+                    clearSearch.setVisibility(View.VISIBLE);
+                } else {
+                    clearSearch.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        clearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.getText().clear();
+            }
+        });
     }
 
     private void setScrollListener() {
@@ -213,14 +250,29 @@ public class PublicGroupsActivity extends BaseActivity {
 	 * adapter
 	 *
 	 */
-	private class GroupsAdapter extends BaseAdapter {
+	private class GroupsAdapter extends BaseAdapter implements SectionIndexer {
 
 		private LayoutInflater inflater;
         ArrayList<Group> mGroupList;
+        Context mContext;
+        List<String> list;
+
+        List<Group> copyGroupList;
+        private LayoutInflater layoutInflater;
+        private SparseIntArray positionOfSection;
+        private SparseIntArray sectionOfPosition;
+        private int res;
+        private MyFilter myFilter;
+        private boolean notiyfyByFilter;
 
 		public GroupsAdapter(Context context,int res , ArrayList<Group> groups) {
 			this.inflater = LayoutInflater.from(context);
             mGroupList = groups;
+            this.mGroupList = groups;
+            this.mContext = context;
+            this.res = res;
+            copyGroupList = new ArrayList<Group>();
+            copyGroupList.addAll(groups);
         }
 
         @Override
@@ -249,6 +301,120 @@ public class PublicGroupsActivity extends BaseActivity {
 
 			return convertView;
 		}
+        @Override
+        public Object[] getSections() {
+            positionOfSection = new SparseIntArray();
+            sectionOfPosition = new SparseIntArray();
+            int count = getCount();
+            list = new ArrayList<String>();
+            list.add(mContext.getString(R.string.search_header));
+            positionOfSection.put(0, 0);
+            sectionOfPosition.put(0, 0);
+            for (int i = 1; i < count; i++) {
+
+                String letter = getItem(i).getHeader();
+                Log.e(TAG, "contactadapter getsection getHeader:" + letter + " name:" + getItem(i).getMGroupName());
+                int section = list.size() - 1;
+                if (list.get(section) != null && !list.get(section).equals(letter)) {
+                    list.add(letter);
+                    section++;
+                    positionOfSection.put(section, i);
+                }
+                sectionOfPosition.put(i, section);
+            }
+            return list.toArray(new String[list.size()]);
+        }
+
+        @Override
+        public int getPositionForSection(int section) {
+            return positionOfSection.get(section);
+        }
+
+        @Override
+        public int getSectionForPosition(int position) {
+            return sectionOfPosition.get(position);
+        }
+        public Filter getFilter() {
+            if(myFilter==null){
+                myFilter = new MyFilter(mGroupList);
+            }
+            return myFilter;
+        }
+        private class  MyFilter extends Filter {
+            List<Group> mOriginalList = null;
+
+            public MyFilter(List<Group> myList) {
+                this.mOriginalList = myList;
+            }
+
+            @Override
+            protected synchronized FilterResults performFiltering(CharSequence prefix) {
+                FilterResults results = new FilterResults();
+                if(mOriginalList==null){
+                    mOriginalList = new ArrayList<Group>();
+                }
+                Log.d(TAG, "contacts original size: " + mOriginalList.size());
+                Log.d(TAG, "contacts copy size: " + copyGroupList.size());
+
+                if(prefix==null || prefix.length()==0){
+                    results.values = copyGroupList;
+                    results.count = copyGroupList.size();
+                }else{
+                    String prefixString = prefix.toString();
+                    final int count = mOriginalList.size();
+                    final ArrayList<Group> newValues = new ArrayList<Group>();
+                    for(int i=0;i<count;i++){
+                        final Group group = mOriginalList.get(i);
+                        String username = group.getMGroupName();
+
+                        if(username.contains(prefixString) ){
+                            newValues.add(group);
+                        }
+                        else{
+                            final String[] words = username.split(" ");
+                            final int wordCount = words.length;
+
+                            // Start at index 0, in case valueText starts with space(s)
+                            for (int k = 0; k < wordCount; k++) {
+                                if (words[k].contains(prefixString)) {
+                                    newValues.add(group);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    results.values=newValues;
+                    results.count=newValues.size();
+                }
+                EMLog.d(TAG, "contacts filter results size: " + results.count);
+                return results;
+            }
+
+            @Override
+            protected synchronized void publishResults(CharSequence constraint,
+                                                       FilterResults results) {
+                mGroupList.clear();
+                mGroupList.addAll((List<Group>)results.values);
+                EMLog.d(TAG, "publish contacts filter results size: " + results.count);
+                if (results.count > 0) {
+                    notiyfyByFilter = true;
+                    notifyDataSetChanged();
+                    notiyfyByFilter = false;
+                } else {
+                    notifyDataSetInvalidated();
+                }
+            }
+        }
+
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            if(!notiyfyByFilter){
+                copyGroupList.clear();
+                copyGroupList.addAll(mGroupList);
+            }
+        }
 	}
 	
 	public void back(View view){
