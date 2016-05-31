@@ -14,6 +14,7 @@ import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.bean.Contact;
 import cn.ucai.superwechat.bean.Group;
+import cn.ucai.superwechat.bean.Member;
 import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.RequestManager;
 import cn.ucai.superwechat.db.UserDao;
@@ -130,6 +131,27 @@ public class UserUtils {
 		return I.REQUEST_DOWNLOAD_AVATAR_USER + username;
 
 	}
+
+	private static Member getGroupMember(String hxid, String username) {
+		ArrayList<Member> members = SuperWeChatApplication.getInstance().getGroupMembers().get(hxid);
+		if (members != null) {
+			for (Member member : members) {
+				if (member.getMMemberUserName().equals(username)) {
+					return member;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static void setGroupMenberNick(String hxid, String username, TextView textView) {
+		Member groupMember = getGroupMember(hxid, username);
+		if (groupMember!=null) {
+			setUserBeanNick(groupMember,textView);
+		}
+	}
+
+
 
 	/**
 	 * 设置当前用户头像

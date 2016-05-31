@@ -66,11 +66,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.easemob.EMChatRoomChangeListener;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.EMValueCallBack;
+
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.applib.model.GroupRemoveListener;
 import com.easemob.chat.EMChatManager;
@@ -96,7 +99,11 @@ import cn.ucai.superwechat.adapter.ExpressionPagerAdapter;
 import cn.ucai.superwechat.adapter.MessageAdapter;
 import cn.ucai.superwechat.adapter.VoicePlayClickListener;
 import cn.ucai.superwechat.bean.Group;
+import cn.ucai.superwechat.bean.Member;
+import cn.ucai.superwechat.data.ApiParams;
+import cn.ucai.superwechat.data.GsonRequest;
 import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.task.DownloadGroupMemberTask;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.ImageUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
@@ -193,6 +200,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	private boolean haveMoreData = true;
 	private Button btnMore;
 	public String playMsgId;
+	ArrayList<Member> members;
 
 	private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -513,8 +521,26 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 
 	protected void onGroupViewCreation(){
+		 members = SuperWeChatApplication.getInstance().getGroupMembers().get(toChatUsername);
 		group = EMGroupManager.getInstance().getGroup(toChatUsername);
-        if (group != null){
+		if (members != null) {
+
+		} else {
+			members = new ArrayList<Member>();
+			new DownloadGroupMemberTask(ChatActivity.this,toChatUsername).execute();
+			try {
+				String path = new ApiParams()
+                        .with(I.Member.GROUP_HX_ID, toChatUsername)
+                        .getRequestUrl(I.REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_HXID);
+				executeRequest(new GsonRequest<Member[]>(path,Member[].class,
+						responseDownloadGroupMember(),errorListener()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+		}
+		if (group != null){
             ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
         }else{
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
@@ -524,7 +550,21 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
 	}
-	
+
+	private Response.Listener<Member[]> responseDownloadGroupMember() {
+		return new Response.Listener<Member[]>() {
+			@Override
+			public void onResponse(Member[] list) {
+				if (list!=null) {
+					members.addAll(Utils.array2List(list));
+					adapter.notifyDataSetChanged();
+
+				}
+
+			}
+		};
+	}
+
 	protected void onChatRoomViewCreation(){
         
         final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
