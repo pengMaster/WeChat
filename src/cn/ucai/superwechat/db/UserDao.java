@@ -53,7 +53,7 @@ public class UserDao extends SQLiteOpenHelper{
     public User findUserByUserName(String userName) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = "select * from " + TABLE_NAME + " where " + I.User.USER_NAME + "=?";
-        Cursor c = db.rawQuery(sql, new String[]{userName});
+        Cursor c = db.rawQuery(sql,new String[]{userName});
         if (c.moveToNext()) {
             int uid = c.getInt(c.getColumnIndex(I.User.USER_ID));
             String nike = c.getString(c.getColumnIndex(I.User.NICK));

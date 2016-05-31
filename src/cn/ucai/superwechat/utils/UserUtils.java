@@ -2,6 +2,7 @@ package cn.ucai.superwechat.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -119,6 +120,7 @@ public class UserUtils {
 		if (url == null || url.isEmpty()) return;
 		imageView.setDefaultImageResId(R.drawable.default_avatar);
 		imageView.setImageUrl(url, RequestManager.getImageLoader());
+		Log.e("main","url:::::::"+url);
 		imageView.setErrorImageResId(R.drawable.default_avatar);
 
 	}

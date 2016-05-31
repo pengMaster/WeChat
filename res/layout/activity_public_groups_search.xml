@@ -56,7 +56,7 @@
         android:background="@drawable/mm_listitem"
         android:visibility="gone" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
