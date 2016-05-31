@@ -31,11 +31,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWeChatApplication;
+import cn.ucai.superwechat.activity.NewFriendsMsgActivity;
+import cn.ucai.superwechat.bean.User;
+import cn.ucai.superwechat.data.ApiParams;
+import cn.ucai.superwechat.data.GsonRequest;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.InviteMessage;
 import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
@@ -89,7 +96,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			}
 			
 			holder.reason.setText(msg.getReason());
-			holder.name.setText(msg.getFrom());
+			//holder.name.setText(msg.getFrom());
 			Log.i("main", "msg.getFrom() :" + msg.getFrom().toString());
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
@@ -132,14 +139,32 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
 
 		}
-
-		UserUtils.setUserBeanAvatar(msg.getFrom(),holder.avator);
-		UserUtils.setUserBeanNick(msg.getFrom(),holder.name);
-
-
+		UserUtils.setUserAvatar(UserUtils.getAvatarPath(msg.getFrom()), holder.avator);
+		//设置昵称
+		try {
+			String path = new ApiParams()
+                    .with(I.User.USER_NAME, msg.getFrom())
+                    .getRequestUrl(I.REQUEST_FIND_USER);
+			((NewFriendsMsgActivity)context).executeRequest(new GsonRequest<User>(path,User.class,
+					responseFindUserListener(holder.name),((NewFriendsMsgActivity) context).errorListener()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return convertView;
 
 
+
+	}
+
+	private Response.Listener<User> responseFindUserListener(final TextView name) {
+		return new Response.Listener<User>() {
+			@Override
+			public void onResponse(User user) {
+				if (user!=null) {
+					UserUtils.setUserBeanNick(user,name);
+				}
+			}
+		};
 	}
 
 	/**
