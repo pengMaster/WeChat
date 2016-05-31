@@ -146,6 +146,7 @@ public class UserUtils {
 
 	public static void setGroupMenberNick(String hxid, String username, TextView textView) {
 		Member groupMember = getGroupMember(hxid, username);
+		Log.e("main","groupMember"+groupMember);
 		if (groupMember!=null) {
 			setUserBeanNick(groupMember,textView);
 		}
@@ -211,12 +212,10 @@ public class UserUtils {
 	}
 
 	public static void setUserBeanNick(User user, TextView textView) {
-		if (user != null) {
-			if (user.getMUserNick() != null) {
-
+		if(user!=null){
+			if(user.getMUserName()!=null){
 				textView.setText(user.getMUserNick());
-			} else if (user.getMUserName() != null) {
-
+			}else {
 				textView.setText(user.getMUserName());
 			}
 		}

@@ -29,6 +29,7 @@ import cn.ucai.superwechat.utils.Utils;
 public class PublicGroupsSeachActivity extends BaseActivity{
     private RelativeLayout containerLayout;
     private EditText idET;
+
     private TextView nameText;
     public static Group searchedGroup;
     ProgressDialog pd;

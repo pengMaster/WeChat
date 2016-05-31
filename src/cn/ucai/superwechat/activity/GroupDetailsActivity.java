@@ -42,6 +42,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.Group;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.widget.ExpandGridView;
 import com.easemob.exceptions.EaseMobException;
@@ -89,7 +90,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private RelativeLayout changeGroupNameLayout;
     private RelativeLayout idLayout;
     private TextView idText;
-
+	Group mGroup;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -97,9 +98,10 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	    // 获取传过来的groupid
         groupId = getIntent().getStringExtra("groupId");
         group = EMGroupManager.getInstance().getGroup(groupId);
+		mGroup = (Group) getIntent().getSerializableExtra("mGroup");
 
         // we are not supposed to show the group if we don't find the group
-        if(group == null){
+        if(group == null || mGroup ==null){
             finish();
             return;
         }
@@ -290,7 +292,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void refreshMembers(){
-	    adapter.clear();
+		String groupTitle = mGroup + "(" + mGroup.getMGroupAffiliationsCount() + ")";
+		((TextView)findViewById(R.id.group_name)).setText(groupTitle);
+		adapter.clear();
         
         List<String> members = new ArrayList<String>();
         members.addAll(group.getMembers());
