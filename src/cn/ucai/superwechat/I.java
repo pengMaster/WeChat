@@ -176,6 +176,8 @@ public interface I {
 	String REQUEST_UPLOAD_LOCATION 					= 		"upload_location";
 	/** 客户端发送的更新位置请求 */
 	String REQUEST_UPDATE_LOCATION 					= 		"update_location";
+	/** 客户端发送的添加群成员请求 */
+	String REQUEST_ADD_GROUP_MEMBER_BY_USERNAME		= 		"add_group_member_by_username";
 	/** 客户端发送的下载位置请求 */
 	String REQUEST_DOWNLOAD_LOCATION 				= 		"download_location";
 	/** 客户端发送的创建群组请求 */
