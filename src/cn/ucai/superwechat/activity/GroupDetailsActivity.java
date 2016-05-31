@@ -307,7 +307,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	 * 点击退出群组按钮
 	 * 
 	 * @param view
-	 */
+	 */  
 	public void exitGroup(View view) {
 		startActivityForResult(new Intent(this, ExitGroupDialog.class), REQUEST_CODE_EXIT);
 
