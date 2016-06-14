@@ -5,7 +5,7 @@
     android:background="#000"
     android:orientation="vertical" >
 
-    <cn.ucai.superwechat.widget.photoview.PhotoView
+    <cn.ucai.fulicenter.widget.photoview.PhotoView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

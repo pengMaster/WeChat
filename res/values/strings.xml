@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">SuperWeChat</string>
+    <string name="app_name">FuLiCenter</string>
+    <string name="groupavatar">groupavatar</string>
+    <string name="user_nick">user_nick</string>
+    <string name="avatar">avatar</string>
     <string name="text_ack_msg">Read</string>
     <string name="text_delivered_msg">Delivered</string>
     <string name="back">Back</string>
@@ -73,9 +76,12 @@
     <string name="yangshengqi">Use speaker</string>
     <string name="book_black">Black list</string>
     <string name="session">Conversation</string>
+    <string name="message">Messages</string>
     <string name="address_book">Address book</string>
+    <string name="contact_list">Contact List</string>
     <string name="setting">Settings</string>
     <string name="now_refresh_list">Refreshing contact list</string>
+    <string name="now_refresh">Refreshing...</string>
     <string name="Application_and_notify">Invitation and notification</string>
     <string name="save_new_nickname">Save new nickname</string>
     <string name="group_chat">Group chat</string>
@@ -101,14 +107,11 @@
     <string name="Group_of_Lord">The group owner</string>
     <string name="Introduction">Brief</string>
     <string name="To_join_the_chat">Join the group</string>
-    <string name="login">登录</string>
-    <string name="user_name">用户名</string>
-    <string name="user_nick">昵称</string>
-    <string name="password">密码</string>
-    <string name="register">注册</string>
-    <string name="avatar">头像</string>
-    <string name="groupavatar">群头像</string>
-    <string name="confirmpassword">确认密码</string>
+    <string name="login">Login</string>
+    <string name="user_name">User name</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="confirmpassword">Confirm password</string>
     <string name="downwaiting">Downloading the file, please try again later</string>
     <string name="mute">Mute</string>
     <string name="Hands_free">Hands free</string>
@@ -129,6 +132,7 @@
     <string name="Add_a_friend">Let me to be your friend!</string>
     <string name="send_successful">Request was sent, waiting for the peer to accept</string>
     <string name="Request_add_buddy_failure">Request add buddy failure:</string>
+    <string name="Add_buddy_success">add buddy success</string>
     <string name="Network_error">Network error</string>
     <string name="Making_sure_your_location">Making sure your location..</string>
     <string name="please_check">key validation error!Please on AndroidManifest.xml file check the key set</string>
@@ -197,6 +201,7 @@
     <string name="temporary_does_not">Currently the video size greater than 10M is not supported!</string>
     <string name="Video_footage">Video record</string>
     <string name="User_name_cannot_be_empty">User name cannot be empty!</string>
+    <string name="Nick_name_cannot_be_empty">Nick name cannot be empty!</string>
     <string name="Password_cannot_be_empty">Password cannot be empty!</string>
     <string name="please_set_the_current">"Please set the current user's nickname \ n to ios offline push not userid but Nick, see comments"</string>
     <string name="Is_landing">logining..</string>
@@ -212,8 +217,11 @@
     <string name="Logoff_notification">Logoff notification</string>
     <string name="Remove_the_notification">Remove the notification</string>
     <string name="Group_name_cannot_be_empty">Group name cannot be empty</string>
+    <string name="Group_name_existed">Group name existed</string>
     <string name="Is_to_create_a_group_chat">Creating the group</string>
     <string name="Failed_to_create_groups">Failed to create groups</string>
+    <string name="Create_groups_Success">Success to create groups</string>
+    <string name="Create_groups_Failed">Failed to create groups</string>
     <string name="The_video_to_start">The video to start</string>
     <string name="Whether_to_send">Are you sure to send?</string>
     <string name="Open_the_equipment_failure">Open the equipment failure!</string>
@@ -283,6 +291,7 @@
     <string name="robot_chat">Robot chat</string>
     <string name="title_user_profile">User Profile</string>
     <string name="nickname">NickName</string>
+    <string name="photo">photo</string>
     <string name="dl_title_upload_photo">Upload Photo</string>
     <string name="dl_msg_local_upload">Local Upload</string>
     <string name="dl_msg_take_photo">Task Photo</string>
@@ -298,64 +307,33 @@
     <string name="toast_updatenick_fail">update nickname fail!</string>
     <string name="toast_updatephoto_success">update photo success!</string>
     <string name="toast_updatephoto_fail">update photo fail!</string>
-
-
-
-    <string name="msg_900">msg:connection success				     </string>
-    <string name="msg_901">msg:connection fail					     </string>
-    <string name="msg_902">msg:upload avatar success			     </string>
-    <string name="msg_903">msg:upload avatar fail				     </string>
-    <string name="msg_101">msg:register success				     </string>
-    <string name="msg_102">msg:register username exists		     </string>
-    <string name="msg_103">msg:register upload avatar fail		     </string>
-    <string name="msg_104">msg:register upload avatar success	     </string>
-    <string name="msg_105">msg:register fail					     </string>
-    <string name="msg_106">msg:unregister success				     </string>
-    <string name="msg_107">msg:unregister fail					     </string>
-    <string name="msg_201">msg:contact firended				     </string>
-    <string name="msg_202">msg:contact fail					     </string>
-    <string name="msg_301">msg:group create scuuess			     </string>
-    <string name="msg_302">msg:group hxid exists				     </string>
-    <string name="msg_303">msg:group create fail				     </string>
-    <string name="msg_304">msg:group add member fail			     </string>
-    <string name="msg_305">msg:group add member scuuess		     </string>
-    <string name="msg_306">msg:group unkonw					     </string>
-    <string name="msg_307">msg:group same name					     </string>
-    <string name="msg_308">msg:group update name success		     </string>
-    <string name="msg_309">msg:group update name fail			     </string>
-    <string name="msg_310">msg:group delete member success		     </string>
-    <string name="msg_311">msg:group delete member fail		     </string>
-    <string name="msg_312">msg:group delete success			     </string>
-    <string name="msg_313">msg:group delete fail				     </string>
-    <string name="msg_401">msg:login unknow user				     </string>
-    <string name="msg_402">msg:login error password			     </string>
-    <string name="msg_403">msg:login success					     </string>
-    <string name="msg_404">msg:user same nick					     </string>
-    <string name="msg_405">msg:user update nick success		     </string>
-    <string name="msg_406">msg:user update nick fail			     </string>
-    <string name="msg_407">msg:user same password				     </string>
-    <string name="msg_408">msg:user update password success	     </string>
-    <string name="msg_409">msg:user update password fail		     </string>
-    <string name="msg_501">msg:location upload success			     </string>
-    <string name="msg_502">msg:location upload fail			     </string>
-    <string name="msg_503">msg:location update success			     </string>
-    <string name="msg_504">msg:location update fail			     </string>
-    <string name="msg_999">msg:unknow							     </string>
-
-
-    <string name="send_message">Send Message</string>
-    <string name="Delete_successfully">Removed successfuly</string>
-    <string name="User_name_cannot_be_wd">user name can be num,word！</string>
-    <string name="upload_avatar_failed">upload avatar failed!</string>
-    <string name="cancel_register_failed">cancel register failed</string>
-    <string name="Add_buddy_success">add buddy success</string>
-    <string name="Add_buddy_failed">add buddy failed</string>
-    <string name="Nick_name_cannot_be_empty">Nick name cannot be empty!</string>
-    <string name="Group_name_existed">Group name existed</string>
-    <string name="Create_groups_Success">Success to create groups</string>
-    <string name="Create_groups_Failed">Failed to create groups</string>
-    <string name="photo">photo</string>
+    <string name="title_activity_good_details">GoodDetailsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_boutique_child">BoutiqueChildActivity</string>
+    <string name="title_activity_category_child">CategoryChildActivity</string>
+    <string name="title_activity_my_setting">MySettingActivity</string>
+    <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_buy">BuyActivity</string>
     <string name="near_people_hint">See nearby people\'s function will get your location information, your location information will be kept for a period of time. Through the list of the top right corner to remove functions can be manually remove location information at any time.</string>
+
+    <!-- 支付的字符串资源 -->
+    <string name="title_activity_pay">支付</string>
+    <string name="title_activity_pay_sucessed">支付成功</string>
+    <string name="title_activity_pay_filed">支付失败</string>
+    <string name="title_activity_success">支付成功</string>
+    <string name="generic_server_down">generic server down</string>
+    <string name="no_internet">no internet</string>
+    <string name="generic_error">generic error</string>
+    <string name="title_activity_bill_list">BillListActivity</string>
+    <string name="title_activity_refund_orders">RefundOrdersActivity</string>
+    <string name="title_activity_refund_status">RefundStatusActivity</string>
+    <string name="title_activity_gen_qrcode">GenQRCodeActivity</string>
+    <string name="title_activity_aliqrcode">ALIQRCodeActivity</string>
+    <string name="title_activity_orders_entry">OrdersEntryActivity</string>
+    <string name="title_activity_pay_pal_un_synced_list">PayPalUnSyncedListActivity</string>
+    <string name="share">share</string>
+    <string name="user_qrcode">user qrcode</string>
 
 
 </resources>
