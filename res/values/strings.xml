@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="app_name">FuLiCenter</string>
     <string name="groupavatar">groupavatar</string>
     <string name="user_nick">user_nick</string>
@@ -126,7 +126,7 @@
     <string name="is_down_please_wait">Downloading video, please try again later</string>
     <string name="Exit_the_group_chat">Exit the group</string>
     <string name="Please_enter_a_username">Please enter a username</string>
-    
+
     <string name="not_add_myself">"Can't add myself"</string>
     <string name="This_user_is_already_your_friend">This user is already your friend</string>
     <string name="Add_a_friend">Let me to be your friend!</string>
@@ -263,14 +263,14 @@
     <string name="Is_download_voice_click_later">Downloading the voice message, click later</string>
     <string name="Send_the_following_pictures">Send the following pictures?</string>
     <string name="search_new">Search</string>
-    
+
     <string name="Delete_the_contact">Delete the contact</string>
     <string name="Move_into_the_blacklist_new">Move into the blacklist</string>
     <string name="Change_the_group_name">Change group name</string>
     <string name="dismiss_group">Dismiss group</string>
     <string name="add_public_group_chat">Add public group</string>
     <string name="gorup_not_found">Can not find this group</string>
-    <string name= "no_more_messages">no more messages</string>
+    <string name="no_more_messages">no more messages</string>
     <string name="join_public_group">Join public group</string>
     <string name="chatroom_allow_owner_leave">Allow chatroom owner leave</string>
     <string name="group_id">Group ID</string>
