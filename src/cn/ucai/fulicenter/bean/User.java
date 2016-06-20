@@ -4,7 +4,7 @@ package cn.ucai.fulicenter.bean;
 /**
  * EMUser entity. @author MyEclipse Persistence Tools
  */
-public class User extends Location implements java.io.Serializable {
+public class User extends Message implements java.io.Serializable {
 	private static final long serialVersionUID = 6848921231724157394L;
 
 	// Fields

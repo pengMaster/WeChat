@@ -13,8 +13,6 @@ import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Contact;
-import cn.ucai.fulicenter.bean.Group;
-import cn.ucai.fulicenter.bean.Member;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.data.RequestManager;
 import cn.ucai.fulicenter.domain.EMUser;
@@ -84,29 +82,6 @@ public class UserUtils {
 
 	}
 
-	/**
-	 * 加载服务器群组头像
-	 *
-	 * @param mGroupHxid
-	 * @param imageView
-	 */
-	public static void setGroupBeanAvatar(String mGroupHxid, NetworkImageView imageView) {
-		if (mGroupHxid != null && !mGroupHxid.isEmpty()) {
-			setGroupAvatar(getGroupPath(mGroupHxid), imageView);
-		}
-	}
-
-	private static String getGroupPath(String hxid) {
-		if (hxid == null || hxid.isEmpty()) return null;
-		return I.REQUEST_DOWNLOAD_AVATAR_GROUP + hxid;
-	}
-
-	private static void setGroupAvatar(String url, NetworkImageView imageView) {
-		if (url == null || url.isEmpty()) return;
-		imageView.setDefaultImageResId(R.drawable.group_icon);
-		imageView.setImageUrl(url, RequestManager.getImageLoader());
-		imageView.setErrorImageResId(R.drawable.group_icon);
-	}
 
 	public static void setUserBeanAvatar(User user, NetworkImageView imageView) {
 		if (user != null && user.getMUserName() != null) {
@@ -131,25 +106,6 @@ public class UserUtils {
 
 	}
 
-	private static Member getGroupMember(String hxid, String username) {
-		ArrayList<Member> members = FuliCenterApplication.getInstance().getGroupMembers().get(hxid);
-		if (members != null) {
-			for (Member member : members) {
-				if (member.getMMemberUserName().equals(username)) {
-					return member;
-				}
-			}
-		}
-		return null;
-	}
-
-	public static void setGroupMenberNick(String hxid, String username, TextView textView) {
-		Member groupMember = getGroupMember(hxid, username);
-		Log.e("main","groupMember"+groupMember);
-		if (groupMember!=null) {
-			setUserBeanNick(groupMember,textView);
-		}
-	}
 
 
 
@@ -294,23 +250,5 @@ public class UserUtils {
 					.get(s).get(0).target.toLowerCase();
 		}
 		return pinyin;
-	}
-	/**
-	 * 根据环信ID获取群组
-	 *
-	 * @param hxid
-	 * @return
-	 */
-
-	public static Group getGroupFromHXID(String hxid) {
-		if (hxid != null && !hxid.isEmpty()) {
-			ArrayList<Group> groups = FuliCenterApplication.getInstance().getGroupList();
-			for (Group group : groups) {
-				if (group.getMGroupHxid().equals(hxid)) {
-					return group;
-				}
-			}
-		}
-		return null;
 	}
 }

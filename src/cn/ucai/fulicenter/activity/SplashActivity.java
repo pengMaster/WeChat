@@ -19,9 +19,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.db.UserDao;
-import cn.ucai.fulicenter.task.DownloadAllGroupTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.task.DownloadPublicGroupTask;
 
 
 /**
@@ -63,8 +61,6 @@ public class SplashActivity extends BaseActivity {
 				FuliCenterApplication.getInstance().setUser(user);
 			}
 			new DownloadContactListTask(mContext,currentUsername).execute();
-			new DownloadAllGroupTask(mContext,currentUsername).execute();
-			new DownloadPublicGroupTask(mContext, currentUsername, I.PAGE_ID_DEFAULT, I.PAGE_SIZE_DEFAULT).execute();
 
 		}
 		new Thread(new Runnable() {
