@@ -755,6 +755,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 						if (NetUtils.hasNetwork(MainActivity.this))
 							chatHistoryFragment.errorText.setText(st1);
 						else
+
 							chatHistoryFragment.errorText.setText(st2);
 
 					}
