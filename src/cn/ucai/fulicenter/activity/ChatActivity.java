@@ -203,8 +203,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			micImage.setImageDrawable(micImages[msg.what]);
 		}
 	};
-	public EMGroup group;
-	public EMChatRoom room;
+
 	public boolean isRobot;
 	
 	@Override
@@ -214,7 +213,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		activityInstance = this;
 		initView();
 		setUpView();
-		registerGroupMemberUpdate();
+
 	}
 
 	/**
@@ -336,20 +335,18 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		                         @Override
 		                         public void run() {
 		                                 if (listView.getFirstVisiblePosition() == 0 && !isloading && haveMoreData) {
-		                                         List<EMMessage> messages;
+		                                         List<EMMessage> messages = null;
 		                                         try {
 	                                                 if (chatType == CHATTYPE_SINGLE){
                                                          messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
 	                                                 }
-	                                                 else{
-                                                         messages = conversation.loadMoreGroupMsgFromDB(adapter.getItem(0).getMsgId(), pagesize);
-	                                                 }
+
 		                                         } catch (Exception e1) {
 	                                                 swipeRefreshLayout.setRefreshing(false);
 	                                                 return;
 		                                         }
 		                                         
-		                                         if (messages.size() > 0) {
+		                                         if (messages != null && messages.size() > 0) {
 	                                                 adapter.notifyDataSetChanged();
 	                                                 adapter.refreshSeekTo(messages.size() - 1);
 	                                                 if (messages.size() != pagesize){
@@ -385,55 +382,39 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 		if (chatType == CHATTYPE_SINGLE) { // 单聊
 			toChatUsername = getIntent().getStringExtra("userId");
-			Map<String,RobotUser> robotMap=((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotList();
-			if(robotMap!=null&&robotMap.containsKey(toChatUsername)){
+			Map<String, RobotUser> robotMap = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getRobotList();
+			if (robotMap != null && robotMap.containsKey(toChatUsername)) {
 				isRobot = true;
 				String nick = robotMap.get(toChatUsername).getNick();
-				if(!TextUtils.isEmpty(nick)){
+				if (!TextUtils.isEmpty(nick)) {
 					((TextView) findViewById(R.id.name)).setText(nick);
-				}else{
+				} else {
 					((TextView) findViewById(R.id.name)).setText(toChatUsername);
 				}
-			}else{
+			} else {
 				// 设置单聊中显示自己的昵称
 				UserUtils.setUserBeanNick(toChatUsername, (TextView) findViewById(R.id.name));
 			}
-		} else {
-			// 群聊
-			findViewById(R.id.container_to_group).setVisibility(View.VISIBLE);
-			findViewById(R.id.container_remove).setVisibility(View.GONE);
-			findViewById(R.id.container_voice_call).setVisibility(View.GONE);
-			findViewById(R.id.container_video_call).setVisibility(View.GONE);
-			toChatUsername = getIntent().getStringExtra("groupId");
 
-			if(chatType == CHATTYPE_GROUP){
-			}else{
-			    onChatRoomViewCreation();
+			// for chatroom type, we only init conversation and create view adapter on success
+			if (chatType != CHATTYPE_CHATROOM) {
+				onConversationInit();
+
+				onListViewCreation();
+
+				// show forward message if the message is not null
+				String forward_msg_id = getIntent().getStringExtra("forward_msg_id");
+				if (forward_msg_id != null) {
+					// 显示发送要转发的消息
+					forwardMessage(forward_msg_id);
+				}
 			}
-		}
-        
-		// for chatroom type, we only init conversation and create view adapter on success
-		if(chatType != CHATTYPE_CHATROOM){
-		    onConversationInit();
-	        
-	        onListViewCreation();
-	        
-	        // show forward message if the message is not null
-	        String forward_msg_id = getIntent().getStringExtra("forward_msg_id");
-	        if (forward_msg_id != null) {
-	            // 显示发送要转发的消息
-	            forwardMessage(forward_msg_id);
-	        }
 		}
 	}
 
 	protected void onConversationInit(){
 	    if(chatType == CHATTYPE_SINGLE){
 	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername,EMConversationType.Chat);
-	    }else if(chatType == CHATTYPE_GROUP){
-	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername,EMConversationType.GroupChat);
-	    }else if(chatType == CHATTYPE_CHATROOM){
-	        conversation = EMChatManager.getInstance().getConversationByType(toChatUsername,EMConversationType.ChatRoom);
 	    }
 	     
         // 把此会话的未读数置为0
@@ -450,43 +431,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
             }
             if (chatType == CHATTYPE_SINGLE) {
                 conversation.loadMoreMsgFromDB(msgId, pagesize);
-            } else {
-                conversation.loadMoreGroupMsgFromDB(msgId, pagesize);
             }
         }
         
-        EMChatManager.getInstance().addChatRoomChangeListener(new EMChatRoomChangeListener(){
-
-            @Override
-            public void onChatRoomDestroyed(String roomId, String roomName) {
-                if(roomId.equals(toChatUsername)){
-                    finish();
-                }
-            }
-
-            @Override
-            public void onMemberJoined(String roomId, String participant) {                
-            }
-
-            @Override
-            public void onMemberExited(String roomId, String roomName,
-                    String participant) {
-                
-            }
-
-            @Override
-            public void onMemberKicked(String roomId, String roomName,
-                    String participant) {
-                if(roomId.equals(toChatUsername)){
-                    String curUser = EMChatManager.getInstance().getCurrentUser();
-                    if(curUser.equals(participant)){
-                        EMChatManager.getInstance().leaveChatRoom(toChatUsername);
-                        finish();
-                    }
-                }
-            }
-            
-        });
 	}
 	
 	protected void onListViewCreation(){
@@ -512,48 +459,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         });
 	}
 
-	protected void onChatRoomViewCreation(){
-        
-        final ProgressDialog pd = ProgressDialog.show(this, "", "Joining......");
-        EMChatManager.getInstance().joinChatRoom(toChatUsername, new EMValueCallBack<EMChatRoom>() {
-        
-        @Override
-        public void onSuccess(EMChatRoom value) {
-            // TODO Auto-generated method stub
-             runOnUiThread(new Runnable(){
-                   @Override
-                   public void run(){
-                        pd.dismiss();
-                        room = EMChatManager.getInstance().getChatRoom(toChatUsername);
-                        if(room !=null){
-                            ((TextView) findViewById(R.id.name)).setText(room.getName());
-                        }else{
-                            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
-                        }
-                        EMLog.d(TAG, "join room success : " + room.getName());
-                        
-                        onConversationInit();
-                        
-                        onListViewCreation();
-                   }
-               });
-        }
-        
-        @Override
-        public void onError(final int error, String errorMsg) {
-                // TODO Auto-generated method stub
-                EMLog.d(TAG, "join room failure : " + error);
-               runOnUiThread(new Runnable(){
-                   @Override
-                   public void run(){
-                       pd.dismiss();
-                   }
-               });
-               finish();
-            }
-        });
-	}
-	
+
 	/**
 	 * onActivityResult
 	 */
@@ -1437,17 +1343,13 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	protected void onDestroy() {
 		super.onDestroy();
 		activityInstance = null;
-		if (memberReceiver!=null) {
-			unregisterReceiver(memberReceiver);
 
-		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (group != null)
-			((TextView) findViewById(R.id.name)).setText(group.getGroupName());
+
 		voiceCallBtn.setEnabled(true);
 		videoCallBtn.setEnabled(true);
 
@@ -1581,42 +1483,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 			switch (scrollState) {
 			case OnScrollListener.SCROLL_STATE_IDLE:
-				/*if (view.getFirstVisiblePosition() == 0 && !isloading && haveMoreData && conversation.getAllMessages().size() != 0) {
-					isloading = true;
-					loadmorePB.setVisibility(View.VISIBLE);
-					// sdk初始化加载的聊天记录为20条，到顶时去db里获取更多					
-					List<EMMessage> messages;
-					EMMessage firstMsg = conversation.getAllMessages().get(0);
-					try {
-						// 获取更多messges，调用此方法的时候从db获取的messages
-						// sdk会自动存入到此conversation中
-						if (chatType == CHATTYPE_SINGLE)
-							messages = conversation.loadMoreMsgFromDB(firstMsg.getMsgId(), pagesize);
-						else
-							messages = conversation.loadMoreGroupMsgFromDB(firstMsg.getMsgId(), pagesize);
-					} catch (Exception e1) {
-						loadmorePB.setVisibility(View.GONE);
-						return;
-					}
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-					}
-					if (messages.size() != 0) {
-						// 刷新ui
-						if (messages.size() > 0) {
-							adapter.refreshSeekTo(messages.size() - 1);
-						}
-						
-						if (messages.size() != pagesize)
-							haveMoreData = false;
-					} else {
-						haveMoreData = false;
-					}
-					loadmorePB.setVisibility(View.GONE);
-					isloading = false;
-
-				}*/
 				break;
 			}
 		}
@@ -1686,22 +1552,5 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		return listView;
 	}
 
-	class GroupMemberReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			adapter.notifyDataSetChanged();
-
-		}
-	}
-
-	GroupMemberReceiver memberReceiver;
-
-	private void registerGroupMemberUpdate() {
-
-		memberReceiver = new GroupMemberReceiver();
-		IntentFilter intentFilter = new IntentFilter("update_member_list");
-		registerReceiver(memberReceiver, intentFilter);
-	}
 
 }
