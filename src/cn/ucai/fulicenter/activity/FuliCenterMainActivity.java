@@ -67,6 +67,8 @@ public class FuliCenterMainActivity extends BaseActivity {
         mRadioCart = (RadioButton) findViewById(R.id.cart);
         mRadioPersonalCenter = (RadioButton) findViewById(R.id.personal_center);
         mtvCount = (TextView) findViewById(R.id.tvCartHint);
+
+
         mRadios[0] = mRadioNewGood;
         mRadios[1] = mRadioBoutique;
         mRadios[2] = mRadioCategory;
@@ -96,13 +98,14 @@ public class FuliCenterMainActivity extends BaseActivity {
                 break;
         }
         if (currentTabIndex != index) {
-            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-            trx.hide(mFragments[currentTabIndex]);
-            if (!mFragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, mFragments[index]);
-            }
-            trx.show(mFragments[index]).commit();
+//            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+//            trx.hide(mFragments[currentTabIndex]);
+//            if (!mFragments[index].isAdded()) {
+//                trx.add(R.id.fragment_container, mFragments[index]);
+//            }
+//            trx.show(mFragments[index]).commit();
             setRadioChecked(index);
+//            mRadios[index].setSelected(true);
             currentTabIndex = index;
         }
     }
