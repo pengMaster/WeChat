@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
 import cn.ucai.fulicenter.adapter.GroupAdapter;
@@ -171,7 +171,7 @@ public class GroupsActivity extends BaseActivity {
 
 		instance = this;
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		grouplist = SuperWeChatApplication.getInstance().getGroupList();
+		grouplist = FuliCenterApplication.getInstance().getGroupList();
 		groupListView = (ListView) findViewById(cn.ucai.fulicenter.R.id.list);
 
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(cn.ucai.fulicenter.R.id.swipe_layout);
@@ -195,7 +195,7 @@ public class GroupsActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		grouplist = SuperWeChatApplication.getInstance().getGroupList();
+		grouplist = FuliCenterApplication.getInstance().getGroupList();
 		groupAdapter = new GroupAdapter(this, 1, grouplist);
 		groupListView.setAdapter(groupAdapter);
 		groupAdapter.notifyDataSetChanged();
@@ -216,7 +216,7 @@ public class GroupsActivity extends BaseActivity {
 	
 	public void refresh() {
 		if (groupListView != null && groupAdapter != null) {
-			grouplist = SuperWeChatApplication.getInstance().getGroupList();
+			grouplist = FuliCenterApplication.getInstance().getGroupList();
 			groupAdapter = new GroupAdapter(GroupsActivity.this, 1,
 					grouplist);
 			groupListView.setAdapter(groupAdapter);
@@ -236,7 +236,7 @@ public class GroupsActivity extends BaseActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (groupAdapter.getCount()>=3) {
-				ArrayList<Group> list = SuperWeChatApplication.getInstance().getGroupList();
+				ArrayList<Group> list = FuliCenterApplication.getInstance().getGroupList();
 				if (!grouplist.containsAll(list)) {
 					groupAdapter.initList(list);
 				}

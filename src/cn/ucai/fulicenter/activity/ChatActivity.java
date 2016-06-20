@@ -90,7 +90,7 @@ import com.easemob.chat.NormalFileMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.ExpressionAdapter;
@@ -520,7 +520,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	}
 
 	protected void onGroupViewCreation(){
-		 members = SuperWeChatApplication.getInstance().getGroupMembers().get(toChatUsername);
+		 members = FuliCenterApplication.getInstance().getGroupMembers().get(toChatUsername);
 		group = EMGroupManager.getInstance().getGroup(toChatUsername);
 		if (members == null){
 			members = new ArrayList<Member>();
@@ -541,7 +541,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ArrayList<Group> groupList = SuperWeChatApplication.getInstance().getGroupList();
+				ArrayList<Group> groupList = FuliCenterApplication.getInstance().getGroupList();
 				for (Group group : groupList) {
 					if (group.getMGroupHxid().equals(toChatUsername)) {
 						mGroup = group;
@@ -911,7 +911,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			return;
 		}
 
-		cameraFile = new File(PathUtil.getInstance().getImagePath(), SuperWeChatApplication.getInstance().getUserName()
+		cameraFile = new File(PathUtil.getInstance().getImagePath(), FuliCenterApplication.getInstance().getUserName()
 				+ System.currentTimeMillis() + ".jpg");
 		cameraFile.getParentFile().mkdirs();
 		startActivityForResult(

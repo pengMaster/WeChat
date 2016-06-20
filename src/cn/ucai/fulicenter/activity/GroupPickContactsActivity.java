@@ -30,7 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.fulicenter.Constant;
@@ -67,7 +67,7 @@ public class GroupPickContactsActivity extends BaseActivity {
 			exitingMembers = new ArrayList<String>();
 		// 获取好友列表
 		final ArrayList<Contact> alluserList = new ArrayList<Contact>();
-		for (Contact user : SuperWeChatApplication.getInstance().getUserList().values()) {
+		for (Contact user : FuliCenterApplication.getInstance().getUserList().values()) {
 			if (!user.getMContactCname().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getMContactCname().equals(Constant.GROUP_USERNAME) & !user.getMContactCname().equals(Constant.CHAT_ROOM) & !user.getMContactCname().equals(Constant.CHAT_ROBOT))
 				alluserList.add(user);
 		}

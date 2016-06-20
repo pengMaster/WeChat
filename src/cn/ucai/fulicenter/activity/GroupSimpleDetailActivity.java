@@ -29,7 +29,7 @@ import com.easemob.exceptions.EaseMobException;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.Group;
 import cn.ucai.fulicenter.data.ApiParams;
 import cn.ucai.fulicenter.data.GsonRequest;
@@ -174,7 +174,7 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 			private void showGroupDetail() {
 				progressBar.setVisibility(View.INVISIBLE);
 				//获取详情成功，并且自己不在群中，才让加入群聊按钮可点击
-        if(!SuperWeChatApplication.getInstance().getGroupList().contains(group))
+        if(!FuliCenterApplication.getInstance().getGroupList().contains(group))
              btn_add_group.setEnabled(true);
 				tv_name.setText(group.getMGroupName());
 				tv_admin.setText(group.getMGroupOwner());

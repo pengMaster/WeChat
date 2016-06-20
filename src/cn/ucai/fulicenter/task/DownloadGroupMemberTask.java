@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.activity.BaseActivity;
 import cn.ucai.fulicenter.bean.Member;
 import cn.ucai.fulicenter.data.ApiParams;
@@ -56,7 +56,7 @@ public class DownloadGroupMemberTask extends BaseActivity {
                 if (response != null&&response.length>0) {
                     Log.e("main","response::::"+response.length);
                     ArrayList<Member> list = Utils.array2List(response);
-                    HashMap<String, ArrayList<Member>> groupMembers = SuperWeChatApplication.getInstance().getGroupMembers();
+                    HashMap<String, ArrayList<Member>> groupMembers = FuliCenterApplication.getInstance().getGroupMembers();
                     ArrayList<Member> memberArrayList = groupMembers.get(hxid);
                     if (memberArrayList != null) {
 

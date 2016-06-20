@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
@@ -47,7 +47,7 @@ public class UserUtils {
 	}
 
 	public static Contact getUserBeanInfo(String username) {
-		Contact contact = SuperWeChatApplication.getInstance().getUserList().get(username);
+		Contact contact = FuliCenterApplication.getInstance().getUserList().get(username);
 		return contact;
 	}
 
@@ -132,7 +132,7 @@ public class UserUtils {
 	}
 
 	private static Member getGroupMember(String hxid, String username) {
-		ArrayList<Member> members = SuperWeChatApplication.getInstance().getGroupMembers().get(hxid);
+		ArrayList<Member> members = FuliCenterApplication.getInstance().getGroupMembers().get(hxid);
 		if (members != null) {
 			for (Member member : members) {
 				if (member.getMMemberUserName().equals(username)) {
@@ -169,7 +169,7 @@ public class UserUtils {
 	 * 设置远端服务器的当前用户头像
 	 */
 	public static void setCurrentUserBeanAvatar(NetworkImageView imageView) {
-		User user = SuperWeChatApplication.getInstance().getUser();
+		User user = FuliCenterApplication.getInstance().getUser();
 		if (user != null) {
 			setUserAvatar(getAvatarPath(user.getMUserName()), imageView);
 
@@ -232,7 +232,7 @@ public class UserUtils {
 	}
 
 	public static void setCurrentUserBeanNick(TextView textView) {
-		User user = SuperWeChatApplication.getInstance().getUser();
+		User user = FuliCenterApplication.getInstance().getUser();
 		if (textView != null && user.getMUserNick() != null && user.getMUserName() != null) {
 			textView.setText(user.getMUserNick());
 		}
@@ -304,7 +304,7 @@ public class UserUtils {
 
 	public static Group getGroupFromHXID(String hxid) {
 		if (hxid != null && !hxid.isEmpty()) {
-			ArrayList<Group> groups = SuperWeChatApplication.getInstance().getGroupList();
+			ArrayList<Group> groups = FuliCenterApplication.getInstance().getGroupList();
 			for (Group group : groups) {
 				if (group.getMGroupHxid().equals(hxid)) {
 					return group;

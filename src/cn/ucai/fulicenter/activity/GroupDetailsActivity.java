@@ -44,7 +44,7 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.Group;
 import cn.ucai.fulicenter.bean.Member;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -107,9 +107,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	    // 获取传过来的groupid
         groupId = getIntent().getStringExtra("groupId");
         group = EMGroupManager.getInstance().getGroup(groupId);
-		groupMembers = SuperWeChatApplication.getInstance().getGroupMembers().get(groupId);
+		groupMembers = FuliCenterApplication.getInstance().getGroupMembers().get(groupId);
 		mGroup= (Group) getIntent().getSerializableExtra("mGroup");
-		currentUserName = SuperWeChatApplication.getInstance().getUserName();
+		currentUserName = FuliCenterApplication.getInstance().getUserName();
 
         // we are not supposed to show the group if we don't find the group
         if(group == null || mGroup==null){
@@ -305,7 +305,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	private void refreshMembers(){
 		String groupTitle = mGroup.getMGroupName() + "(" + mGroup.getMGroupAffiliationsCount() +")";
 		((TextView) findViewById(R.id.group_name)).setText(groupTitle);
-		ArrayList<Member> list = SuperWeChatApplication.getInstance().getGroupMembers().get(groupId);
+		ArrayList<Member> list = FuliCenterApplication.getInstance().getGroupMembers().get(groupId);
 	    adapter.clear();
 
 

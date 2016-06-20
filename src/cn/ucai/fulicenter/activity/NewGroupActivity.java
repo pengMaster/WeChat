@@ -35,7 +35,7 @@ import java.io.File;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.Group;
 import cn.ucai.fulicenter.bean.Message;
@@ -214,7 +214,7 @@ public class NewGroupActivity extends BaseActivity {
 	}
 
 	private void createNewGroupAppServer(final String hxid, String groupName, String desc, final  Contact[] contacts) {
-		User user = SuperWeChatApplication.getInstance().getUser();
+		User user = FuliCenterApplication.getInstance().getUser();
 		boolean isPublic = checkBox.isChecked();
 		boolean isInvites = memberCheckbox.isChecked();
 		//首先注册远端服务器账号，并上传头像----okhttp
@@ -223,7 +223,7 @@ public class NewGroupActivity extends BaseActivity {
 		File file = new File(ImageUtils.getAvatarPath(mcontext, I.AVATAR_TYPE_GROUP_PATH),
 				avatarName + I.AVATAR_SUFFIX_JPG);
 		OkHttpUtils<Group> utils = new OkHttpUtils<Group>();
-		utils.url(SuperWeChatApplication.SERVER_ROOT)
+		utils.url(FuliCenterApplication.SERVER_ROOT)
 				.addParam(I.KEY_REQUEST,I.REQUEST_CREATE_GROUP)
 				.addParam(I.Group.HX_ID, hxid)
 				.addParam(I.Group.NAME, groupName)
@@ -241,7 +241,7 @@ public class NewGroupActivity extends BaseActivity {
 							if (contacts != null) {
 								addGroupMembers(group,contacts);
 							} else {
-								SuperWeChatApplication.getInstance().getGroupList().add(group);
+								FuliCenterApplication.getInstance().getGroupList().add(group);
 								progressDialog.dismiss();
 								setResult(RESULT_OK);
 								mcontext.sendBroadcast(new Intent("update_group_list"));
@@ -287,7 +287,7 @@ public class NewGroupActivity extends BaseActivity {
 			@Override
 			public void onResponse(Message message) {
 				if (message.isResult()) {
-					SuperWeChatApplication.getInstance().getGroupList().add(group);
+					FuliCenterApplication.getInstance().getGroupList().add(group);
 					progressDialog.dismiss();
 					setResult(RESULT_OK);
 					mcontext.sendBroadcast(new Intent("update_group_list"));

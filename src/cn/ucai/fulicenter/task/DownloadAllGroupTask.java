@@ -8,7 +8,7 @@ import com.android.volley.Response;
 
 import java.util.ArrayList;
 import cn.ucai.fulicenter.I;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.activity.BaseActivity;
 import cn.ucai.fulicenter.bean.Group;
 import cn.ucai.fulicenter.data.ApiParams;
@@ -53,7 +53,7 @@ public class DownloadAllGroupTask  extends BaseActivity {
             public void onResponse(Group[] response) {
                 if (response != null&&response.length>0) {
                     Log.e("main","response::::"+response.length);
-                    ArrayList<Group> contactArrayList = SuperWeChatApplication.getInstance().getGroupList();
+                    ArrayList<Group> contactArrayList = FuliCenterApplication.getInstance().getGroupList();
                     ArrayList<Group> list = Utils.array2List(response);
                     contactArrayList.clear();
                     contactArrayList.addAll(list);

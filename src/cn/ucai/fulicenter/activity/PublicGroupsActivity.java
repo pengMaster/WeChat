@@ -48,7 +48,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.NetworkImageView;
 
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.Group;
 import cn.ucai.fulicenter.task.DownloadPublicGroupTask;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -129,7 +129,7 @@ public class PublicGroupsActivity extends BaseActivity {
                         int lasPos = view.getLastVisiblePosition();
                         if(hasMoreData && !isLoading && lasPos == listView.getCount()-1){
                             pageId++;
-                            new DownloadPublicGroupTask(PublicGroupsActivity.this,SuperWeChatApplication.getInstance().getUserName(),
+                            new DownloadPublicGroupTask(PublicGroupsActivity.this, FuliCenterApplication.getInstance().getUserName(),
                                     pageId,pagesize).execute();
                             loadAndShowData();
                             Log.e("main","pageId++:"+pageId);
@@ -190,7 +190,7 @@ public class PublicGroupsActivity extends BaseActivity {
             public void run() {
                 try {
                     isLoading = true;
-                    final ArrayList<Group> publicGroupList = SuperWeChatApplication.getInstance().getPublicGroupList();
+                    final ArrayList<Group> publicGroupList = FuliCenterApplication.getInstance().getPublicGroupList();
                     for(Group group : publicGroupList){
                         if (!groupsList.contains(group)) {
                             groupsList.add(group);

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 
 /**
  * Created by yao on 2016/4/6.
@@ -57,7 +57,7 @@ public class OkHttpUtils<T> {
         mUrl = new StringBuilder();
         mokHttpClient = new OkHttpClient();
         //处理服务端响应成功和失败的消息
-        mHandler = new Handler(SuperWeChatApplication.applicationContext.getMainLooper()) {
+        mHandler = new Handler(FuliCenterApplication.applicationContext.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {

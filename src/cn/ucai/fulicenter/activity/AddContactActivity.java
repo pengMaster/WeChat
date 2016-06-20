@@ -36,7 +36,7 @@ import com.easemob.chat.EMContactManager;
 
 import java.util.HashMap;
 
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.User;
@@ -89,7 +89,7 @@ public class AddContactActivity extends BaseActivity{
 				startActivity(new Intent(this, AlertDialog.class).putExtra("msg", st));
 				return;
 			}
-		if(SuperWeChatApplication.getInstance().getUserName().equals(name.trim())){
+		if(FuliCenterApplication.getInstance().getUserName().equals(name.trim())){
 			String str = getString(cn.ucai.fulicenter.R.string.not_add_myself);
 			startActivity(new Intent(this, AlertDialog.class).putExtra("msg", str));
 			return;
@@ -113,7 +113,7 @@ public class AddContactActivity extends BaseActivity{
 			@Override
 			public void onResponse(User user) {
 				if (user!=null) {
-					HashMap<String, Contact> userList = SuperWeChatApplication.getInstance().getUserList();
+					HashMap<String, Contact> userList = FuliCenterApplication.getInstance().getUserList();
 					if (userList.containsKey(user.getMUserName())) {
 						startActivity(new Intent(AddContactActivity.this, UserProfileActivity.class)
 								.putExtra("username", user.getMUserName()));
