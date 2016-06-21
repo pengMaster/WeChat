@@ -97,7 +97,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/iv_group_avatar"
             android:background="@null"
-            android:hint="@string/groupavatar"
+            android:hint="@string/avatar"
             android:inputType="textPassword"
             android:paddingLeft="10dip"
             android:singleLine="true"

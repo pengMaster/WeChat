@@ -124,7 +124,7 @@ public class GoodDetailActivity extends BaseActivity{
     }
 
     private void updateColor(int i) {
-        Albums[] albums = mGoodDetails.getPropertyBean()[i].getAlbumBean();
+        Albums[] albums = mGoodDetails.getPropertyBean()[i].getAlbums();
         String[] albumImgUrl = new String[albums.length];
         for (int j= 0 ;j<albumImgUrl.length;j++) {
             albumImgUrl[j]=albums[j].getImgUrl();

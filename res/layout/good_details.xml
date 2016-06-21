@@ -58,34 +58,37 @@
             android:id="@+id/tv_english_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:textSize="30dp"
-            android:text="dafadf"/>
+            android:paddingLeft="10dp"
+            android:textSize="25dp"
+            android:text="first"/>
         <TextView
             android:id="@+id/tv_chinese_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_english_name"
-            android:text="第三方龙卡"
+            android:text="搞起来"
             android:textColor="#000"
-            android:textSize="30dp"
-            android:paddingLeft="30dp"/>
+            android:textSize="25dp"
+            android:paddingLeft="10dp"/>
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_english_name"
-            android:text="1000"
+            android:text="￥123"
             android:textSize="30dp"
             android:paddingLeft="30dp"
+            android:layout_marginLeft="40dp"
             />
         <TextView
             android:id="@+id/tv_now_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4444"
+            android:text="￥123"
             android:paddingLeft="30dp"
+            android:layout_marginLeft="40dp"
             android:textSize="30dp"
+            android:textColor="#ff3333"
             android:layout_toRightOf="@id/tv_chinese_name"
             android:layout_below="@id/tv_price"
             />

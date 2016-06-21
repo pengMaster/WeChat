@@ -23,7 +23,7 @@ import java.util.zip.Inflater;
 
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.fuliCenterMainActivity;
+import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -32,7 +32,7 @@ import cn.ucai.fulicenter.utils.UserUtils;
  * Created by Administrator on 2016/6/20 0020.
  */
 public class PersonalCenterFragment extends Fragment {
-    fuliCenterMainActivity mContext;
+    FuliCenterMainActivity mContext;
     TextView mtvSettings;
     ImageView mivPersonalCenterMsg;
     NetworkImageView nivUserAvatar;
@@ -47,7 +47,7 @@ public class PersonalCenterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.personal_center, container, false);
-        mContext = (fuliCenterMainActivity) getActivity();
+        mContext = (FuliCenterMainActivity) getActivity();
 
         registerCollectCountChangedListener();
         registerUpdateUserReceiver();

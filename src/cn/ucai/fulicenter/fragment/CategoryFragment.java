@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.fuliCenterMainActivity;
+import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
 import cn.ucai.fulicenter.adapter.CategoryAdapter;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
@@ -34,7 +34,7 @@ import cn.ucai.fulicenter.utils.Utils;
 public class CategoryFragment extends Fragment {
     ArrayList<CategoryGroupBean> mGroupList;
     ArrayList<ArrayList<CategoryChildBean>> mChildList;
-    fuliCenterMainActivity mContext;
+    FuliCenterMainActivity mContext;
     String path ;
     String ChildPath ;
     ExpandableListView melv;
@@ -50,7 +50,7 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_category, container, false);
-        mContext = (fuliCenterMainActivity)getActivity();
+        mContext = (FuliCenterMainActivity)getActivity();
 
         initView(layout);
         initData();

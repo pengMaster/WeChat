@@ -9,7 +9,6 @@ import java.util.List;
 
 import cn.ucai.fulicenter.I;
 
-
 /**
  * Created by clawpo on 16/3/28.
  */
@@ -17,11 +16,11 @@ public class Utils {
     public static String getPackageName(Context context){
         return context.getPackageName();
     }
-    
+
     public static void showToast(Context context,String text,int time){
         Toast.makeText(context,text,time).show();
     }
-    
+
     public static void showToast(Context context,int  strId,int time){
         Toast.makeText(context, strId, time).show();
     }
@@ -56,4 +55,14 @@ public class Utils {
         int resId = context.getResources().getIdentifier(msgStr, "string", context.getPackageName());
         return context.getResources().getString(resId);
     }
+    public static int px2dp(Context context,int px){
+        int density = (int) context.getResources().getDisplayMetrics().density;
+        return px/density;
+    }
+
+    public static int dp2px(Context context,int dp){
+        int density = (int) context.getResources().getDisplayMetrics().density;
+        return dp*density;
+    }
+
 }

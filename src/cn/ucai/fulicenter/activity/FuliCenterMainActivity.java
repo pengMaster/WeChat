@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.http.LoggingEventHandler;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,54 +11,53 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
-import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
-//import cn.ucai.fulicenter.fragment.BoutiqueFragment;
-//import cn.ucai.fulicenter.fragment.CategoryFragment;
-//import cn.ucai.fulicenter.fragment.NewGoodFragment;
-//import cn.ucai.fulicenter.fragment.PersonalCenterFragment;
-//import cn.ucai.fulicenter.view.DisPlayUtils;
+import cn.ucai.fulicenter.FuliCenterApplication;
+import cn.ucai.fulicenter.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter.fragment.CategoryFragment;
+import cn.ucai.fulicenter.fragment.NewGoodFragment;
+import cn.ucai.fulicenter.fragment.PersonalCenterFragment;
+import cn.ucai.fulicenter.view.DisPlayUtils;
 
 public class FuliCenterMainActivity extends BaseActivity {
-    public static final String TAG = "FuliCenterMainActivity";
+    public static final String TAG = "fuliCenterMainActivity";
     RadioButton mRadioNewGood,mRadioBoutique,mRadioCategory,mRadioCart,mRadioPersonalCenter;
     TextView mtvCount;
     int index;
     int currentTabIndex;
     RadioButton[] mRadios = new RadioButton[5];
-//    NewGoodFragment mNewGoodFragment;
-//    BoutiqueFragment mBoutiqueFragment;
-//    CategoryFragment mCategoryFragment;
-//    PersonalCenterFragment mPersonalCenterFragment;
+    NewGoodFragment mNewGoodFragment;
+    BoutiqueFragment mBoutiqueFragment;
+    CategoryFragment mCategoryFragment;
+    PersonalCenterFragment mPersonalCenterFragment;
     Fragment[] mFragments = new Fragment[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fuli_center_main);
+        initView();
         initFragment();
 //        mFragments = new Fragment[] { mNewGoodFragment ,mBoutiqueFragment,mCategoryFragment};
         // 添加显示第一个fragment
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.fl_contains, mNewGoodFragment)
-//                .add(R.id.fl_contains,mBoutiqueFragment).hide(mBoutiqueFragment)
-////                .add(R.id.fragment_container, contactListFragment)
-//                .add(R.id.fl_contains,mCategoryFragment).hide(mCategoryFragment)
-//                .show(mNewGoodFragment)
-//                .commit();
-        initView();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fl_contains, mNewGoodFragment)
+                .add(R.id.fl_contains,mBoutiqueFragment).hide(mBoutiqueFragment)
+//                .add(R.id.fragment_container, contactListFragment)
+                .add(R.id.fl_contains,mCategoryFragment).hide(mCategoryFragment)
+                .show(mNewGoodFragment)
+                .commit();
     }
 
     private void initFragment() {
-//        mNewGoodFragment = new NewGoodFragment();
-//        mBoutiqueFragment = new BoutiqueFragment();
-//        mCategoryFragment= new CategoryFragment();
-//        mPersonalCenterFragment = new PersonalCenterFragment();
-//        mFragments[0] = mNewGoodFragment;
-//        mFragments[1] = mBoutiqueFragment;
-//        mFragments[2] = mCategoryFragment;
-//        mFragments[4] = mPersonalCenterFragment;
+        mNewGoodFragment = new NewGoodFragment();
+        mBoutiqueFragment = new BoutiqueFragment();
+        mCategoryFragment= new CategoryFragment();
+        mPersonalCenterFragment = new PersonalCenterFragment();
+        mFragments[0] = mNewGoodFragment;
+        mFragments[1] = mBoutiqueFragment;
+        mFragments[2] = mCategoryFragment;
+        mFragments[4] = mPersonalCenterFragment;
     }
 
     private void initView() {
@@ -67,8 +67,6 @@ public class FuliCenterMainActivity extends BaseActivity {
         mRadioCart = (RadioButton) findViewById(R.id.cart);
         mRadioPersonalCenter = (RadioButton) findViewById(R.id.personal_center);
         mtvCount = (TextView) findViewById(R.id.tvCartHint);
-
-
         mRadios[0] = mRadioNewGood;
         mRadios[1] = mRadioBoutique;
         mRadios[2] = mRadioCategory;
@@ -98,20 +96,21 @@ public class FuliCenterMainActivity extends BaseActivity {
                 break;
         }
         if (currentTabIndex != index) {
-//            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-//            trx.hide(mFragments[currentTabIndex]);
-//            if (!mFragments[index].isAdded()) {
-//                trx.add(R.id.fragment_container, mFragments[index]);
-//            }
-//            trx.show(mFragments[index]).commit();
+            Log.e(TAG, "index" + index);
+            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+            trx.hide(mFragments[currentTabIndex]);
+            if (!mFragments[index].isAdded()) {
+                trx.add(R.id.fl_contains, mFragments[index]);
+            }
+            trx.show(mFragments[index]).commit();
             setRadioChecked(index);
-//            mRadios[index].setSelected(true);
             currentTabIndex = index;
+            Log.e(TAG, "currentTabIndex=" + currentTabIndex);
         }
     }
 
     private void gotoLogin() {
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this,LoginActivity.class).putExtra("action","personal"));
     }
 
     private void setRadioChecked(int index) {
@@ -129,20 +128,23 @@ public class FuliCenterMainActivity extends BaseActivity {
         super.onResume();
         Log.e(TAG, "currentTabIndex =" + currentTabIndex+",index="+index);
         Log.e(TAG,"user="+FuliCenterApplication.getInstance().getUser());
-        if (FuliCenterApplication.getInstance().getUser() != null) {
-            index = 4;
-            if (currentTabIndex != index) {
-                FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-                trx.hide(mFragments[currentTabIndex]);
-                if (!mFragments[index].isAdded()) {
-                    trx.add(R.id.fragment_container, mFragments[index]);
-                }
-                trx.show(mFragments[index]).commit();
-                setRadioChecked(index);
-                currentTabIndex = index;
+        String action = getIntent().getStringExtra("action");
+        if (action!=null&&FuliCenterApplication.getInstance().getUser() != null) {
+            if (action.equals("personal")) {
+                index = 4;
             }
         } else {
             setRadioChecked(index);
+        }
+        if (currentTabIndex != index) {
+            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+            trx.hide(mFragments[currentTabIndex]);
+            if (!mFragments[index].isAdded()) {
+                trx.add(R.id.fl_contains, mFragments[index]);
+            }
+            trx.show(mFragments[index]).commit();
+            setRadioChecked(index);
+            currentTabIndex = index;
         }
     }
 }

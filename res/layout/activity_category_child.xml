@@ -36,7 +36,7 @@
         android:id="@+id/layout_sort"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/main_orange2"
+        android:background="@color/main_orange"
         android:orientation="horizontal">
 
         <Button

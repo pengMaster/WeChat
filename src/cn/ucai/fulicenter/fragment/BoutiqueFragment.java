@@ -19,7 +19,8 @@ import java.util.ArrayList;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.fuliCenterMainActivity;
+import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
+//import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.data.ApiParams;
@@ -30,7 +31,7 @@ import cn.ucai.fulicenter.utils.Utils;
  * A simple {@link Fragment} subclass.
  */
 public class BoutiqueFragment extends Fragment {
-    fuliCenterMainActivity mContext;
+   FuliCenterMainActivity mContext;
     ArrayList<BoutiqueBean> mBoutiqueList;
     BoutiqueAdapter mAdapter;
     private int action = I.ACTION_DOWNLOAD;
@@ -52,7 +53,7 @@ public class BoutiqueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mContext = (fuliCenterMainActivity)getActivity();
+        mContext = (FuliCenterMainActivity)getActivity();
         View layout = inflater.inflate(R.layout.fragment_boutique, container, false);
         mBoutiqueList = new ArrayList<BoutiqueBean>();
         initView(layout);

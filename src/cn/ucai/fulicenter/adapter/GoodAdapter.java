@@ -18,6 +18,7 @@ import java.util.Comparator;
 import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.GoodDetailActivity;
 import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.view.FooterViewHolder;

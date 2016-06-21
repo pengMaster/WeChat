@@ -15,6 +15,8 @@
     <string name="attach_video">视频</string>
     <string name="attach_file">文件</string>
     <string name="attach_voice_call">语音电话</string>
+    <string name="user_nick">昵称</string>
+    <string name="avatar">头像</string>
     <string name="attach_video_call">视频通话</string>
     <string name="user_card">名片</string>
     <string name="move_up_to_cancel">手指上滑，取消发送</string>
