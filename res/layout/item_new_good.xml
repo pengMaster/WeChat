@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:id="@+id/layout_good">
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/nivAvatar"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:src="@drawable/default_face"
+        android:scaleType="fitXY"/>
+    <TextView
+        android:id="@+id/tv_good_name"
+        android:layout_below="@id/nivAvatar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="#000"/>
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_below="@id/tv_good_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="#000"/>
+
+</LinearLayout>

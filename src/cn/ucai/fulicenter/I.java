@@ -216,7 +216,7 @@ public interface I {
 	}
 
 	//C:\superwechatDB
-	String AVATAR_PATH 								= 		"E:/fulishe/fulicenter-server&data-20160620/FuLiCenter-data/";
+	String AVATAR_PATH 								= 		"E:/fulishe/fulicenter-server&data-20160620/FuLiCenter-data/images/";
 	String ISON8859_1 								= 		"iso8859-1";
 	String UTF_8 									= 		"utf-8";
 	String PAGE_ID 									= 		"page_id";						//分页的起始下标
