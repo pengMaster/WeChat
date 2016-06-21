@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/6/13 0013.
  */
-public class PropertyBean implements Serializable {
+public class Properties implements Serializable {
 
     /**
      * id : 9529
@@ -24,7 +24,7 @@ public class PropertyBean implements Serializable {
     private String colorCode;
     private String colorImg;
     private String colorUrl;
-    private AlbumBean[] albums;
+    private Albums[] albums;
 
     public int getId() {
         return id;
@@ -82,17 +82,17 @@ public class PropertyBean implements Serializable {
         this.colorUrl = colorUrl;
     }
 
-    public AlbumBean[] getAlbums() {
+    public Albums[] getAlbums() {
         return albums;
     }
 
-    public void setAlbums(AlbumBean[] albums) {
+    public void setAlbums(Albums[] albums) {
         this.albums = albums;
     }
 
     @Override
     public String toString() {
-        return "PropertyBean{" +
+        return "Properties{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", colorId=" + colorId +
@@ -108,9 +108,9 @@ public class PropertyBean implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PropertyBean)) return false;
+        if (!(o instanceof Properties)) return false;
 
-        PropertyBean that = (PropertyBean) o;
+        Properties that = (Properties) o;
 
         return getGoodsId() == that.getGoodsId();
 

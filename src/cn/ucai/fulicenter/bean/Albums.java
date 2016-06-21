@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/6/13 0013.
  */
-public class AlbumBean implements Serializable {
+public class Albums implements Serializable {
 
     /**
      * pid : 7677
@@ -53,14 +53,11 @@ public class AlbumBean implements Serializable {
 
     @Override
     public String toString() {
-        return "AlbumBean{" +
+        return "Albums{" +
                 "pid=" + pid +
                 ", imgId=" + imgId +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", thumbUrl='" + thumbUrl + '\'' +
                 '}';
     }
-
-
-
 }

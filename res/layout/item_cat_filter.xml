@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_category_child"
+    android:layout_width="match_parent"
+    android:layout_height="44dp">
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/ivCategoryChildThumb"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/category_child"/>
+    <TextView
+        android:id="@+id/tvCategoryChildName"
+        android:layout_toRightOf="@id/ivCategoryChildThumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="鞋子"
+        android:textColor="#fff"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/divid_explist_group"/>
+
+</RelativeLayout>

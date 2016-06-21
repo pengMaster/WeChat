@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/divid_explist_group"
+    android:id="@+id/rl_collect">
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/niv_category"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:src="@drawable/nopic"
+        android:background="#000000"
+        />
+    <TextView
+        android:id="@+id/tv_category_name"
+        android:layout_marginLeft="@dimen/ebpay_dimen_20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_toRightOf="@id/niv_category"
+        android:layout_centerVertical="true"
+        android:text="111"/>
+    <ImageView
+        android:id="@+id/iv_expand"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/expand_on"
+        android:layout_centerVertical="true"
+        />
+</RelativeLayout>

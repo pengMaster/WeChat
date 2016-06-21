@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="25dp">
+        <include layout="@layout/item_back" />
+
+        <cn.ucai.fulicenter.view.CatChildFilterButton
+            android:id="@+id/btnCatChildFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:drawableRight="@drawable/arrow2_up"
+            android:text="分类"
+            android:textColor="@color/white" />
+
+        <cn.ucai.fulicenter.view.ColorFilterButton
+            android:id="@+id/btnColorFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#f90"
+            android:text="筛选"
+            android:textColor="#fff" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/layout_sort"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/main_orange2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_price_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableRight="@drawable/arrow_order_down"
+            android:paddingRight="5dp"
+            android:text="价格"
+            android:textColor="#000"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_add_time_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableRight="@drawable/arrow_order_down"
+            android:paddingRight="5dp"
+            android:text="上架时间"
+            android:textColor="#000"
+            android:textSize="13sp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvRefreshHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="刷新中..."
+        android:visibility="gone"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_category_child"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/list_background">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_category_child"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
