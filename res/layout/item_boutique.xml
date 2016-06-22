@@ -9,6 +9,7 @@
         android:id="@+id/niv_boutique_avatar"
         android:layout_width="200dp"
         android:layout_height="250dp"
+        android:background="#000"
         android:src="@drawable/default_face"
         android:scaleType="fitXY"/>
     <LinearLayout

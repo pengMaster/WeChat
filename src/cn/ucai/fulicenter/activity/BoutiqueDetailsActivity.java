@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -99,6 +100,7 @@ public class BoutiqueDetailsActivity extends BaseActivity {
                     .with(I.PAGE_ID, pageId + "")
                     .with(I.PAGE_SIZE, I.PAGE_SIZE_DEFAULT + "")
                     .getRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS);
+            Log.e("main", "BoutiqueDetailsActivity.path  :" + path);
             return path;
         } catch (Exception e) {
             e.printStackTrace();
