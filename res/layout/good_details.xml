@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:text="first-shen"/>
         <TextView
             android:id="@+id/tv_chinese_name"
@@ -68,16 +68,15 @@
             android:layout_below="@id/tv_english_name"
             android:text="一颗肾"
             android:textColor="#000"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:paddingLeft="10dp"/>
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_english_name"
-            android:text="￥1,234"
             android:lines="1"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:paddingLeft="30dp"
             />
         <TextView
@@ -86,7 +85,8 @@
             android:layout_height="wrap_content"
             android:text="￥1,234"
             android:paddingLeft="30dp"
-            android:textSize="30dp"
+            android:textSize="20dp"
+            android:lines="1"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/tv_chinese_name"
             android:layout_below="@id/tv_price"

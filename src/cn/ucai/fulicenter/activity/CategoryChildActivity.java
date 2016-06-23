@@ -93,7 +93,8 @@ public class CategoryChildActivity extends BaseActivity {
         mGoodList = new ArrayList<NewGoodBean>();
         initView();
         initData();
-        setListener();
+        setListen
+        er();
     }
 
 

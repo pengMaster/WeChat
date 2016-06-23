@@ -5,33 +5,9 @@
     android:background="#eff2f6"
     android:orientation="vertical" >
 
+    <include layout="@layout/item_back_title_white"/>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerInParent="true">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:src="@drawable/mobile" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/black_deep"/>
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1" >
@@ -40,8 +16,6 @@
             android:id="@+id/rl_username"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
             android:background="#fff" >
 
             <ImageView
@@ -71,9 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_below="@id/rl_username"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="#fff" >
 
             <ImageView
@@ -99,56 +71,54 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/ll_register_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_password"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal" >
-
+            android:orientation="vertical" >
             <Button
-                android:layout_width="0dp"
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_weight="1"
-                android:background="@drawable/button_register_bg"
+                android:background="@color/orange"
                 android:gravity="center"
-                android:id="@+id/btnLoginRegister"
-                android:paddingBottom="7dp"
-                android:paddingTop="7dp"
-                android:text="@string/register"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:background="@drawable/button_login_bg"
-                android:gravity="center"
-                android:id="@+id/btnLoginLogin"
                 android:onClick="login"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="@string/login"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ebpay_dimen_20dp"
+                android:layout_marginLeft="100dip"
+                android:layout_marginRight="100dip"
+                android:layout_weight="1"
+                android:background="#fadfa1"
+                android:gravity="center"
+                android:onClick="register"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp"
+                android:text="@string/register"
+                android:textColor="@color/orange"
+                android:textSize="18sp" />
+
+
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:textColor="#000"
-            android:text="设置IP"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/ll_register_login"
-            android:id="@+id/btnSetIP"/>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvServerIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="设置服务器IP地址"/>
 
 </LinearLayout>

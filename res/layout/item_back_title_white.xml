@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    >
+    <ImageView
+        android:id="@+id/iv_good_details_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_press"
+        android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/tv_good_details"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:text="账户登录"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_centerHorizontal="true"
+        />
+</RelativeLayout>
