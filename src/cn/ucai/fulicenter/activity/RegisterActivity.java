@@ -20,12 +20,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
 
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
@@ -35,7 +33,10 @@ import cn.ucai.fulicenter.data.OkHttpUtils;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.DisPlayUtils;
 
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 
 import java.io.File;
@@ -45,44 +46,42 @@ import java.io.File;
  * 
  */
 public class RegisterActivity extends BaseActivity {
-	private final static String TAG = RegisterActivity.class.getName();
-	Activity mcontext;
 	private EditText userNameEditText;
-	private EditText userNickEditText;
 	private EditText passwordEditText;
+	private EditText userNikeEditText;
 	private EditText confirmPwdEditText;
-	ImageView mIVAvatar;
-	String avatarName;
-
+	private ImageView iv_avatar;
+	private Button btnLogin,btnRegister;
+	private Activity mActivity;
+	private String avatarName;
 	OnSetAvatarListener mOnSetAvatarListener;
-
 	String username;
 	String pwd;
-	String nick;
-
+	String nike;
 	ProgressDialog pd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		mcontext = this;
+
 		initView();
 		setListener();
-
 	}
 
 	private void setListener() {
-		OnSetRegisterListener();
-		OnSetLoginListener();
-		OnSetAvatarListener();
+		setAvatarListener();
+//		setOnLoginListener();
+		setOnRegisterListener();
 	}
 
-	private void OnSetAvatarListener() {
-		findViewById(R.id.layout_user_avatar).setOnClickListener(new View.OnClickListener() {
+
+	private void setAvatarListener() {
+		findViewById(R.id.layout_avatar).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mOnSetAvatarListener = new OnSetAvatarListener(mcontext, R.id.layout_register, getAvatarName(), I.AVATAR_TYPE_USER_PATH);
+				mOnSetAvatarListener = new OnSetAvatarListener(mActivity, R.id.Register, getAvatarName(), I.AVATAR_TYPE_USER_PATH);
+
 			}
 		});
 	}
@@ -91,110 +90,116 @@ public class RegisterActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			mOnSetAvatarListener.setAvatar(requestCode, data, mIVAvatar);
+			mOnSetAvatarListener.setAvatar(requestCode,data,iv_avatar);
 		}
 	}
 
-	private String getAvatarName() {
-		avatarName = System.currentTimeMillis() + "";
-		return avatarName;
-	}
 	private void initView() {
-		userNameEditText = (EditText) findViewById(R.id.username);
+		userNameEditText = (EditText) findViewById(R.id.username		);
 		passwordEditText = (EditText) findViewById(R.id.password);
+		userNikeEditText = (EditText) findViewById(R.id.ed_nike);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
-		userNickEditText = (EditText) findViewById(R.id.nick);
-		mIVAvatar = (ImageView) findViewById(R.id.iv_avatar);
+		iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+		btnLogin = (Button) findViewById(R.id.btn_login);
+		btnRegister = (Button) findViewById(R.id.btn_register);
+		mActivity = this;
+		DisPlayUtils.initBackwithTitle(this,"账户注册");
 	}
 
 	/**
 	 * 注册
+	 * 
+	 *
 	 */
-	private void OnSetRegisterListener() {
-		findViewById(R.id.btnregister).setOnClickListener(new View.OnClickListener() {
+	public void setOnRegisterListener() {
+		btnRegister.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				username = userNameEditText.getText().toString().trim();
-				nick = userNickEditText.getText().toString().trim();
 				pwd = passwordEditText.getText().toString().trim();
+				nike = userNameEditText.getText().toString().trim();
 				String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 				if (TextUtils.isEmpty(username)) {
 					userNameEditText.requestFocus();
 					userNameEditText.setError(getResources().getString(R.string.User_name_cannot_be_empty));
+
 					return;
-				}else if (!username.matches("[\\w][\\w\\d_]+")){
+				} else if (!username.matches("[\\w][\\w\\d_]+")) {
 					userNameEditText.requestFocus();
 					userNameEditText.setError(getResources().getString(R.string.User_name_cannot_be_wd));
-					return;
-				} else if (TextUtils.isEmpty(nick)) {
-					userNickEditText.requestFocus();
-					userNickEditText.setError(getResources().getString(R.string.Nick_name_cannot_be_empty));
-					return;
+				} else if (TextUtils.isEmpty(nike)) {
+					userNikeEditText.requestFocus();
+					userNikeEditText.setError(getResources().getString(R.string.Nick_name_cannot_be_empty));
 				} else if (TextUtils.isEmpty(pwd)) {
 					passwordEditText.requestFocus();
 					passwordEditText.setError(getResources().getString(R.string.Password_cannot_be_empty));
 					return;
 				} else if (TextUtils.isEmpty(confirm_pwd)) {
 					confirmPwdEditText.requestFocus();
-					confirmPwdEditText.setError(getResources().getString(R.string.Confirm_password_cannot_be_empty));
+					confirmPwdEditText.setError( getResources().getString(R.string.Confirm_password_cannot_be_empty));
 					return;
 				} else if (!pwd.equals(confirm_pwd)) {
-					confirmPwdEditText.requestFocus();
-					confirmPwdEditText.setError(getResources().getString(R.string.Two_input_password));
+					Toast.makeText(mActivity, getResources().getString(R.string.Two_input_password), Toast.LENGTH_SHORT).show();
 					return;
 				}
 
 				if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
-					pd = new ProgressDialog(mcontext);
+					pd = new ProgressDialog(mActivity);
 					pd.setMessage(getResources().getString(R.string.Is_the_registered));
 					pd.show();
-
 					registerAppServer();
 				}
 			}
 		});
 
 	}
-
 	private void registerAppServer() {
-		//首先注册远端服务器账号，并上传头像----okhttp
-		//注册环信的账号
-		//如果环信注册失败，调用取消注册的方法，删除远端账号和图片
-		File file = new File(ImageUtils.getAvatarPath(mcontext, I.AVATAR_TYPE_USER_PATH),
-				avatarName + I.AVATAR_SUFFIX_JPG);
+		File file = new File(ImageUtils.getAvatarPath(mActivity, I.AVATAR_TYPE_USER_PATH),avatarName+I.AVATAR_SUFFIX_JPG);
 		OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
 		utils.url(FuliCenterApplication.SERVER_ROOT)
 				.addParam(I.KEY_REQUEST,I.REQUEST_REGISTER)
 				.addParam(I.User.USER_NAME,username)
-				.addParam(I.User.NICK,nick)
 				.addParam(I.User.PASSWORD,pwd)
+				.addParam(I.User.NICK,nike)
 				.targetClass(Message.class)
 				.addFile(file)
 				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
 					@Override
 					public void onSuccess(Message result) {
 						if (result.isResult()) {
-							registerEMServer();
+							EMRegister();
 						} else {
+							Utils.showToast(mActivity,Utils.getResourceString(mActivity,result.getMsg()),Toast.LENGTH_LONG);
 							pd.dismiss();
-							Utils.showToast(mcontext, Utils.getResourceString(mcontext, result.getMsg()), Toast.LENGTH_SHORT);
-							Log.e(TAG, "register fail,error:" + result.getMsg());
 						}
 					}
 
 					@Override
 					public void onError(String error) {
 						pd.dismiss();
-						Utils.showToast(mcontext, error, Toast.LENGTH_SHORT);
-						Log.e(TAG, "register fail,error: " + error);
+						Log.e(error, "register fail,error:" + error);
 					}
 				});
 	}
+	public void unRegister() {
+		OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
+		utils.url(FuliCenterApplication.SERVER_ROOT)
+				.addParam(I.KEY_REQUEST,I.REQUEST_UNREGISTER)
+				.addParam(I.User.USER_NAME,username)
+				.targetClass(Message.class)
+				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
+					@Override
+					public void onSuccess(Message result) {
 
-	/**
-	 * 注册环信账号
-	 */
-	private void registerEMServer(){
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
+	}
+	public void EMRegister() {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -214,8 +219,9 @@ public class RegisterActivity extends BaseActivity {
 					unRegister();
 					runOnUiThread(new Runnable() {
 						public void run() {
-							if (!RegisterActivity.this.isFinishing())
+							if (!RegisterActivity.this.isFinishing() )
 								pd.dismiss();
+
 							int errorCode=e.getErrorCode();
 							if(errorCode==EMError.NONETWORK_ERROR){
 								Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
@@ -233,46 +239,24 @@ public class RegisterActivity extends BaseActivity {
 				}
 			}
 		}).start();
-
 	}
 
-	private void unRegister() {
-		//url=http://10.0.2.2:8080/SuperWeChatServer/Server?request=unregister&m_user_name=
-		OkHttpUtils<Message> utils = new OkHttpUtils<Message>();
-		utils.url(FuliCenterApplication.SERVER_ROOT)
-				.addParam(I.KEY_REQUEST,I.REQUEST_UNREGISTER)
-				.addParam(I.User.USER_NAME,username)
-				.targetClass(Message.class)
-				.execute(new OkHttpUtils.OnCompleteListener<Message>() {
-					@Override
-					public void onSuccess(Message result) {
-
-					}
-
-					@Override
-					public void onError(String error) {
-
-					}
-				});
+	private String getAvatarName() {
+		avatarName = System.currentTimeMillis()+"";
+		return avatarName;
 	}
 
-	/**
-	 * 登录
-	 */
+	public void back(View view) {
+		finish();
+	}
 
-	private void OnSetLoginListener() {
-		findViewById(R.id.btnlogin).setOnClickListener(new View.OnClickListener() {
+	public void setOnLoginListener() {
+		btnLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				finish();
 			}
 		});
-//		Intent intent = new Intent(this,LoginActivity.class);
-//		startActivity(intent);
 
 	}
-	public void back(View view) {
-		finish();
-	}
-
 }

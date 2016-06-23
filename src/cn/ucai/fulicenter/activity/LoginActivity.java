@@ -61,6 +61,7 @@ import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.MD5;
 import cn.ucai.fulicenter.utils.Utils;
+import cn.ucai.fulicenter.view.DisPlayUtils;
 
 /**
  * 登陆页面
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity {
 		// 如果用户名密码都有，直接进入主页面
 		if (DemoHXSDKHelper.getInstance().isLogined()) {
 			autoLogin = true;
-			startActivity(new Intent(LoginActivity.this, MainActivity.class));
+			startActivity(new Intent(LoginActivity.this, FuliCenterMainActivity.class));
 
 			return;
 		}
@@ -96,6 +97,7 @@ public class LoginActivity extends BaseActivity {
 
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
+        DisPlayUtils.initBackwithTitle(this,"账户登录");
 
 		setListener();
 
@@ -155,7 +157,7 @@ public class LoginActivity extends BaseActivity {
 	 *
 	 */
 	public void setLoginClickListener() {
-        findViewById(R.id.btnLoginLogin).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!CommonUtils.isNetWorkConnected(mContext)) {
@@ -301,7 +303,6 @@ public class LoginActivity extends BaseActivity {
                     Log.e(TAG,"start download contact,group,public group");
                     //下载联系人集合
                     new DownloadContactListTask(mContext,currentUsername).execute();
-
                 }
             });
 
@@ -328,10 +329,14 @@ public class LoginActivity extends BaseActivity {
         if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
             pd.dismiss();
         }
-        // 进入主页面
-        Intent intent = new Intent(LoginActivity.this,
-                MainActivity.class);
-        startActivity(intent);
+        String action = getIntent().getStringExtra("action");
+        if (action != null) {
+            // 进入主页面
+            Intent intent = new Intent(LoginActivity.this,
+                    FuliCenterMainActivity.class)
+                    .putExtra("action",action);
+            startActivity(intent);
+        }
 
         finish();
     }
@@ -346,14 +351,7 @@ public class LoginActivity extends BaseActivity {
 		newFriends.setNick(strChat);
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-		// 添加"群聊"
-		EMUser groupUser = new EMUser();
-		String strGroup = getResources().getString(R.string.group_chat);
-		groupUser.setUsername(Constant.GROUP_USERNAME);
-		groupUser.setNick(strGroup);
-		groupUser.setHeader("");
-		userlist.put(Constant.GROUP_USERNAME, groupUser);
-		
+
 //		// 添加"Robot"
 //		EMUser robotUser = new EMUser();
 //		String strRobot = getResources().getString(R.string.robot_chat);
@@ -375,7 +373,7 @@ public class LoginActivity extends BaseActivity {
 	 *
 	 */
 	public void setRegisterClickListener() {
-        findViewById(R.id.btnLoginRegister).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(mContext, RegisterActivity.class), 0);
