@@ -133,16 +133,7 @@
 
             </LinearLayout>
         </LinearLayout>
-        <WebView
-            android:id="@+id/wv_good_brief"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_below="@id/layoutColor"
-            android:background="@color/good_detail_bg_white"
-            >
 
-        </WebView>
 
     </RelativeLayout>
 

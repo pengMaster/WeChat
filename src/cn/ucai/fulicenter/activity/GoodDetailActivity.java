@@ -94,9 +94,9 @@ public class GoodDetailActivity extends BaseActivity {
                     tvGoodEngishName.setText(mGoodDetails.getGoodsEnglishName());
                     Log.e("main", "mGoodDetails.getGoodsEnglishName()= " + mGoodDetails.getGoodsEnglishName());
                     tvGoodName.setText(mGoodDetails.getGoodsName());
-                    wvGoodBrief.loadDataWithBaseURL(null, mGoodDetails.getGoodsBrief().trim(), D.TEXT_HTML, D.UTF_8, null);
+//                    wvGoodBrief.loadDataWithBaseURL(null, mGoodDetails.getGoodsBrief().trim(), D.TEXT_HTML, D.UTF_8, null);
                     //初始化颜色面板
-//                    initColorsBanner();
+                    initColorsBanner();
                 } else {
                     Utils.showToast(mContext, "商品详情下载失败", Toast.LENGTH_LONG);
                     finish();
@@ -149,10 +149,10 @@ public class GoodDetailActivity extends BaseActivity {
         tvGoodName = (TextView) findViewById(R.id.tv_chinese_name);
         tvShopPrice = (TextView) findViewById(R.id.tv_price);
         tvCurrencyPrice = (TextView) findViewById(R.id.tv_now_price);
-        wvGoodBrief = (WebView) findViewById(R.id.wv_good_brief);
-
-        WebSettings settings = wvGoodBrief.getSettings();
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        settings.setBuiltInZoomControls(true);
+//        wvGoodBrief = (WebView) findViewById(R.id.wv_good_brief);
+//
+//        WebSettings settings = wvGoodBrief.getSettings();
+//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//        settings.setBuiltInZoomControls(true);
     }
 }
