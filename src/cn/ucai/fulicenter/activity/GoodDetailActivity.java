@@ -63,7 +63,6 @@ public class GoodDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        Log.e("main", "GoodDetailActivity");
         super.onCreate(arg0);
         setContentView(R.layout.good_details);
         mContext = this;
@@ -77,7 +76,7 @@ public class GoodDetailActivity extends BaseActivity {
             String path = new ApiParams()
                     .with(D.NewGood.KEY_GOODS_ID, goodId + "")
                     .getRequestUrl(I.REQUEST_FIND_GOOD_DETAILS);
-            Log.e("main", "path  :" + path);
+            Log.e("main", " GoodDetailActivity  path  :" + path);
             executeRequest(new GsonRequest<GoodDetailsBean>(path, GoodDetailsBean.class, responseDownloadGoodDetailsListener(), errorListener()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +96,7 @@ public class GoodDetailActivity extends BaseActivity {
                     tvGoodName.setText(mGoodDetails.getGoodsName());
                     wvGoodBrief.loadDataWithBaseURL(null, mGoodDetails.getGoodsBrief().trim(), D.TEXT_HTML, D.UTF_8, null);
                     //初始化颜色面板
-                    initColorsBanner();
+//                    initColorsBanner();
                 } else {
                     Utils.showToast(mContext, "商品详情下载失败", Toast.LENGTH_LONG);
                     finish();

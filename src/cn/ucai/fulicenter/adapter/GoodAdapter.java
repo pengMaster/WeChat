@@ -173,7 +173,9 @@ public class GoodAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
+        if (position == getItemCount(
+
+        ) - 1) {
             return TYPE_FOOTER;
         } else {
             return TYPE_ITEM;

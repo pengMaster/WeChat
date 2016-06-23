@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class NewGoodFragment extends Fragment {
                     .with(I.PAGE_ID, pageId + "")
                     .with(I.PAGE_SIZE, I.PAGE_SIZE_DEFAULT + "")
                     .getRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS);
+            Log.e("main", "NewGoodActivity path :" + path);
             return path;
         } catch (Exception e) {
             e.printStackTrace();
