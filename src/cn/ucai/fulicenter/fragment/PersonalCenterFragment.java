@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import java.util.zip.Inflater;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
+import cn.ucai.fulicenter.activity.SettingsActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -40,7 +42,9 @@ public class PersonalCenterFragment extends Fragment {
     ImageView miv_user_qrcode;
 //    View layout;
     TextView mtvCollectCount;
+    RelativeLayout mrlavatar;
     int mCollectCount;
+    MySettingListener listener;
     public PersonalCenterFragment() {
     }
     @Override
@@ -49,13 +53,35 @@ public class PersonalCenterFragment extends Fragment {
         View layout = inflater.inflate(R.layout.personal_center, container, false);
         mContext = (FuliCenterMainActivity) getActivity();
 
-        registerCollectCountChangedListener();
-        registerUpdateUserReceiver();
+
         initView(layout);
         initData();
+        setListener();
         return layout;
     }
 
+    private void setListener() {
+        registerCollectCountChangedListener();
+        registerUpdateUserReceiver();
+        listener = new MySettingListener();
+        mrlavatar.setOnClickListener(listener);
+        mtvSettings.setOnClickListener(listener);
+
+    }
+
+    class MySettingListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+
+                case R.id.tv_personal_center_settings:
+                case R.id.bg_avatar:
+                    startActivity(new Intent(mContext, SettingsActivity.class));
+                    break;
+            }
+        }
+    }
     private void initData() {
         mCollectCount = FuliCenterApplication.getInstance().getCollectCount();
         mtvCollectCount.setText(""+mCollectCount);
@@ -73,6 +99,7 @@ public class PersonalCenterFragment extends Fragment {
         nivUserAvatar = (NetworkImageView) layout.findViewById(R.id.iv_user_avatar);
         initOrderList(layout);
         mtvCollectCount = (TextView) layout.findViewById(R.id.tvCollectCount);
+        mrlavatar = (RelativeLayout) layout.findViewById(R.id.bg_avatar);
     }
     private void initOrderList(View layout) {
         //显示GridView的界面

@@ -282,6 +282,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+
+        <activity android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
     </application>
 
 </manifest>

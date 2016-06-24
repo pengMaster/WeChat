@@ -124,6 +124,14 @@ public class FuliCenterMainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        String action = getIntent().getStringExtra("action");
+        Log.e("main", "onNewIntent.action =" + action);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Log.e(TAG, "currentTabIndex =" + currentTabIndex+",index="+index);
@@ -135,6 +143,9 @@ public class FuliCenterMainActivity extends BaseActivity {
             }
         } else {
             setRadioChecked(index);
+        }
+        if (currentTabIndex == 4 && FuliCenterApplication.getInstance().getUser() == null) {
+            index = 0;
         }
         if (currentTabIndex != index) {
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
