@@ -32,7 +32,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/bg_avatar"
+        android:id="@+id/rl_personal_center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#f55500"
@@ -119,6 +119,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_collect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"

@@ -62,7 +62,6 @@ public class BoutiqueFragment extends Fragment {
         return layout;
     }
     private void initData() {
-        Log.e("error", "boutique path=" + getPath());
         getPath();
         mContext.executeRequest(new GsonRequest<BoutiqueBean[]>(path, BoutiqueBean[].class,
                 responseDownloadBoutiqueListener(), mContext.errorListener()));
@@ -98,6 +97,7 @@ public class BoutiqueFragment extends Fragment {
         try {
             path = new ApiParams()
                     .getRequestUrl(I.REQUEST_FIND_BOUTIQUES);
+            Log.e("main", "boutique path=" + path);
             return path;
         } catch (Exception e) {
             e.printStackTrace();

@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import cn.ucai.fulicenter.utils.CommonUtils;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VideoMessageBody;
 import cn.ucai.fulicenter.activity.ShowVideoActivity;
-import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageCache;
 import com.easemob.util.ImageUtils;
 

@@ -20,8 +20,9 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import cn.ucai.fulicenter.utils.ImageCache;
 import cn.ucai.fulicenter.widget.photoview.PhotoView;
+import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.utils.ImageCache;
 import com.easemob.util.ImageUtils;
 
 public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
@@ -72,7 +73,7 @@ public class LoadLocalBigImgTask extends AsyncTask<Void, Void, Bitmap> {
 			ImageCache.getInstance().put(path, result);
 		else
 			result = BitmapFactory.decodeResource(context.getResources(),
-					cn.ucai.fulicenter.R.drawable.signin_local_gallry);
+					R.drawable.signin_local_gallry);
 		photoView.setImageBitmap(result);
 	}
 }

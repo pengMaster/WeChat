@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.zip.Inflater;
 
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.CollectActivity;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
 import cn.ucai.fulicenter.activity.SettingsActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
@@ -34,6 +38,7 @@ import cn.ucai.fulicenter.utils.UserUtils;
  * Created by Administrator on 2016/6/20 0020.
  */
 public class PersonalCenterFragment extends Fragment {
+    public static final String TAG = PersonalCenterFragment.class.getName();
     FuliCenterMainActivity mContext;
     TextView mtvSettings;
     ImageView mivPersonalCenterMsg;
@@ -42,9 +47,10 @@ public class PersonalCenterFragment extends Fragment {
     ImageView miv_user_qrcode;
 //    View layout;
     TextView mtvCollectCount;
-    RelativeLayout mrlavatar;
     int mCollectCount;
-    MySettingListener listener;
+    MyClickListener listener;
+    RelativeLayout mrlPersonalCenter;
+    LinearLayout mllCollect;
     public PersonalCenterFragment() {
     }
     @Override
@@ -63,25 +69,12 @@ public class PersonalCenterFragment extends Fragment {
     private void setListener() {
         registerCollectCountChangedListener();
         registerUpdateUserReceiver();
-        listener = new MySettingListener();
-        mrlavatar.setOnClickListener(listener);
+        listener = new MyClickListener();
+        mllCollect.setOnClickListener(listener);
         mtvSettings.setOnClickListener(listener);
-
+        mrlPersonalCenter.setOnClickListener(listener);
     }
 
-    class MySettingListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-
-                case R.id.tv_personal_center_settings:
-                case R.id.bg_avatar:
-                    startActivity(new Intent(mContext, SettingsActivity.class));
-                    break;
-            }
-        }
-    }
     private void initData() {
         mCollectCount = FuliCenterApplication.getInstance().getCollectCount();
         mtvCollectCount.setText(""+mCollectCount);
@@ -92,6 +85,8 @@ public class PersonalCenterFragment extends Fragment {
     }
 
     private void initView(View layout) {
+        mllCollect = (LinearLayout) layout.findViewById(R.id.ll_collect);
+        mrlPersonalCenter = (RelativeLayout) layout.findViewById(R.id.rl_personal_center);
         mtvSettings = (TextView) layout.findViewById(R.id.tv_personal_center_settings);
         mivPersonalCenterMsg = (ImageView) layout.findViewById(R.id.iv_personal_center_msg);
         mtvUserName = (TextView) layout.findViewById(R.id.tv_user_name);
@@ -99,7 +94,6 @@ public class PersonalCenterFragment extends Fragment {
         nivUserAvatar = (NetworkImageView) layout.findViewById(R.id.iv_user_avatar);
         initOrderList(layout);
         mtvCollectCount = (TextView) layout.findViewById(R.id.tvCollectCount);
-        mrlavatar = (RelativeLayout) layout.findViewById(R.id.bg_avatar);
     }
     private void initOrderList(View layout) {
         //显示GridView的界面
@@ -153,7 +147,7 @@ public class PersonalCenterFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            new DownloadCollectCountTask(mContext).execute();
+            new DownloadCollectCountTask(mContext).execute();
             initData();
         }
     }
@@ -163,5 +157,22 @@ public class PersonalCenterFragment extends Fragment {
         IntentFilter filter = new IntentFilter("update_user");
         mContext.registerReceiver(mUserReceiver, filter);
 
+    }
+
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_personal_center_settings:
+                case R.id.rl_personal_center:
+                    startActivity(new Intent(mContext, SettingsActivity.class));
+                    break;
+                case R.id.ll_collect:
+                    startActivity(new Intent(mContext,CollectActivity.class));
+                    Log.e("main", "llcollect=" + "点击进入收藏的宝贝");
+                    break;
+            }
+        }
     }
 }

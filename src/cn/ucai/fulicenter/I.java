@@ -9,7 +9,7 @@ public interface I {
 
     /** 上传图片的类型：user_avatar或group_icon*/
     public static final String FILE_NAME="file_name";
-    
+
 
     public static final int REQUEST_CODE_LOGIN = 1;
     public static final int ACTIVITY_REGISTER_REQUEST_CODE = 2;
@@ -47,7 +47,7 @@ public interface I {
     //货币单位
     public static final String CURRENCY_TYPE_CNY = "CNY";
     public static final String CURRENCY_TYPE_USD = "USD";
-    
+
     class Cart{
         public static final String ID="id";
         public static final String GOODS_ID="goods_id";
@@ -59,15 +59,15 @@ public interface I {
         public static final String IS_CHECKED="isChecked";
     }
 
-    
+
     class Collect{
         /** 商品id*/
         public static final String ID="id";
-        
+
         public static final String GOODS_ID="goods_id";
-        
-        public static final String USER_NAME="userName";
-        
+
+        public static final String USER_NAME="m_user_name";
+
         /** 商品的中文名称*/
         public static final String GOODS_NAME="goodsName";
         /** 商品的英文名称*/
@@ -76,7 +76,7 @@ public interface I {
         public static final String GOODS_IMG="goodsImg";
         public static final String ADD_TIME="addTime";
     }
-    
+
     class Boutique{
         public static final String TABLE_NAME="tb_boutique";
         public static final String ID="id";
@@ -86,7 +86,7 @@ public interface I {
         public static final String NAME="name";
         public static final String IMAGE_URL="imageurl";
     }
-    
+
     class NewAndBoutiqueGood{
         public static final String CAT_ID="cat_id";
         /** 颜色id*/
@@ -98,7 +98,7 @@ public interface I {
         /** 导购链接*/
         public static final String COLOR_URL="color_url";
     }
-    
+
 
     class CategoryGood{
         public static final String TABLE_NAME="tb_category_good";
@@ -132,7 +132,7 @@ public interface I {
         /** 分享地址*/
         public static final String SHARE_URL="share_url";
     }
-    
+
     class Property{
         public static final String ID="id";
         public static final String goodsId="goods_id";
@@ -142,7 +142,7 @@ public interface I {
         public static final String COLOR_IMG="colorimg";
         public static final String COLOR_URL="colorurl";
     }
-    
+
     class Album{
         public static final String TABLE_NAME="tb_album";
         public static final String ID="id";
@@ -171,22 +171,23 @@ public interface I {
         public static final String PARENT_ID="parent_id";
         public static final String CAT_ID="catId";
     }
-	interface User {
-		String TABLE_NAME							=		"t_superwechat_user";
-		String USER_ID 								= 		"m_user_id";					//主键
-		String USER_NAME 							= 		"m_user_name";					//用户账号
-		String PASSWORD 							= 		"m_user_password";				//用户密码
-		String NICK 								= 		"m_user_nick";					//用户昵称
-		String UN_READ_MSG_COUNT 					= 		"m_user_unread_msg_count";		//未读消息数量
-	}
-	 public enum ActionType {
+    interface User {
+        String TABLE_NAME							=		"t_superwechat_user";
+        String USER_ID 								= 		"m_user_id";					//主键
+        String USER_NAME 							= 		"m_user_name";					//用户账号
+        String USER_NAME_DELETE 					= 		"userName";
+        String PASSWORD 							= 		"m_user_password";				//用户密码
+        String NICK 								= 		"m_user_nick";					//用户昵称
+        String UN_READ_MSG_COUNT 					= 		"m_user_unread_msg_count";		//未读消息数量
+    }
+    public enum ActionType {
         ACTION_DOWNLOAD, ACTION_PULL_DOWN, ACTION_SCROLL
-    }    
+    }
 
     public final int NEW_GOOD=0;
     public final int CATEGORY_GOOD=1;
     public final int CAT_ID=0;
-    
+
     /**
      * 商品排序方式
      */
@@ -194,126 +195,136 @@ public interface I {
     public final int SORT_BY_PRICE_DESC=2;
     public final int SORT_BY_ADDTIME_ASC=3;
     public final int SORT_BY_ADDTIME_DESC=4;
-	
-	 interface Contact {
-		String TABLE_NAME 							= 		"t_superwechat_contact";
-		String CONTACT_ID 							= 		"m_contact_id";					//主键
-		String USER_ID 								= 		"m_contact_user_id";			//用户id
-		String USER_NAME 							= 		"m_contact_user_name";			//用户账号
-		String CU_ID 								= 		"m_contact_cid";				//好友id
-		String CU_NAME 								= 		"m_contact_cname";				//好友账号
-	}
-	
+
+    interface Contact {
+        String TABLE_NAME 							= 		"t_superwechat_contact";
+        String CONTACT_ID 							= 		"m_contact_id";					//主键
+        String USER_ID 								= 		"m_contact_user_id";			//用户id
+        String USER_NAME 							= 		"m_contact_user_name";			//用户账号
+        String CU_ID 								= 		"m_contact_cid";				//好友id
+        String CU_NAME 								= 		"m_contact_cname";				//好友账号
+    }
 
 
-	  interface Avatar {
-		String TABLE_NAME 							= 		"t_superwechat_avatar";
-		String AVATAR_ID 							= 		"m_avatar_id";					//主键
-		String USER_ID 								= 		"m_avatar_user_id";				//用户id或者群组id
-		String USER_NAME 							= 		"m_avatar_user_name";			//用户账号或者群组账号
-		String AVATAR_PATH 							= 		"m_avatar_path";				//保存路径
-		String AVATAR_TYPE 							= 		"m_avatar_type";				//头像类型：\n0:用户头像\n1:群组头像
-	}
 
-	//C:\superwechatDB
-	String AVATAR_PATH 								= 		"E:/fulishe/fulicenter-server&data-20160620/FuLiCenter-data/images/";
-	String ISON8859_1 								= 		"iso8859-1";
-	String UTF_8 									= 		"utf-8";
-	String PAGE_ID 									= 		"page_id";						//分页的起始下标
-	String PAGE_SIZE 								= 		"page_size";					//分页的每页数量
-	int PAGE_ID_DEFAULT 							= 		0;						//分页的起始下标默认值
-	int PAGE_SIZE_DEFAULT 						= 		10;					//分页的每页数量默认值
-	int ID_DEFAULT									=		0;								//ID默认值
-	int UN_READ_MSG_COUNT_DEFAULT					=		0;								//未读消息数量默认值
-	int PERMISSION_NORMAL							= 		0;								//普通用户群组权限
-	int PERMISSION_OWNER							= 		1;								//群组所有者群组权限
-	int AVATAR_TYPE_USER							=		0;								//用户头像
-	String BACKSLASH								= 		"/";							//反斜杠
-	String AVATAR_TYPE_USER_PATH					= 		"user_avatar";					//用户头像保存目录
-	String AVATAR_SUFFIX_PNG						=		".png";							//PNG图片后缀名
-	String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
-	String MSG_PREFIX_MSG							=		"msg_";							//返回的消息码前缀
-	int LOCATION_IS_SEARCH_ALLOW					=		1;								//可以被搜索到地理位置
-	int LOCATION_IS_SEARCH_INHIBIT					=		0;								//禁止被搜索到地理位置
-	int MSG_CONNECTION_SUCCESS						=  		900;							//连接服务器成功
-	int MSG_CONNECTION_FAIL							=  		901;							//连接服务器失败
-	int MSG_UPLOAD_AVATAR_SUCCESS					=		902;							//上传头像成功
-	int MSG_UPLOAD_AVATAR_FAIL						=		903;							//上传头像失败
-	int MSG_REGISTER_SUCCESS						=  		101;							//注册成功
-	int MSG_REGISTER_USERNAME_EXISTS				=		102;							//账号已经存在
-	int MSG_REGISTER_UPLOAD_AVATAR_FAIL				=		103;							//上传头像失败
-	int MSG_REGISTER_UPLOAD_AVATAR_SUCCESS			=		104;							//上传头像成功
-	int MSG_REGISTER_FAIL							=		105;							//注册失败
-	int MSG_UNREGISTER_SUCCESS						=  		106;							//注册成功
-	int MSG_UNREGISTER_FAIL							=		107;							//注册失败
-	int MSG_CONTACT_FIRENDED						=		201;							//已经是好友关系
-	int MSG_CONTACT_FAIL							=		202;							//好友关系
-	int MSG_LOGIN_UNKNOW_USER						=		401;							//账户不存在
-	int MSG_LOGIN_ERROR_PASSWORD					=		402;							//账户密码错误
-	int MSG_LOGIN_SUCCESS							=		403;							//登陆成功
-	int MSG_USER_SAME_NICK							=		404;							//昵称未修改
-	int MSG_USER_UPDATE_NICK_SUCCESS				=		405;							//昵称修改成功
-	int MSG_USER_UPDATE_NICK_FAIL					=		406;							//昵称修改失败
-	int MSG_USER_SAME_PASSWORD						=		407;							//昵称未修改
-	int MSG_USER_UPDATE_PASSWORD_SUCCESS			=		408;							//昵称修改成功
-	int MSG_USER_UPDATE_PASSWORD_FAIL				=		409;							//昵称修改失败
-	int MSG_LOCATION_UPLOAD_SUCCESS					=		501;							//用户上传地理位置成功
-	int MSG_LOCATION_UPLOAD_FAIL					=		502;							//用户上传地理位置失败
-	int MSG_LOCATION_UPDATE_SUCCESS					=		503;							//用户更新地理位置成功
-	int MSG_LOCATION_UPDATE_FAIL					=		504;							//用户更新地理位置失败
-	int MSG_UNKNOW									=		999;							//未知错误
-	String KEY_REQUEST 								= 		"request";
-	/** 上传图片的类型：user_avatar或group_icon */
-	String AVATAR_TYPE 								= 		"avatarType";
-	/** 服务器状态的请求 */
-	String REQUEST_SERVERSTATUS 					= 		"server_status";
-	/** 客户端发送的注册请求 */
-	String REQUEST_REGISTER		 					= 		"register";
-	/**  发送取消注册的请求 */
-	String REQUEST_UNREGISTER 						= 		"unregister";
-	/** 客户端上传头像的请求 */
-	String REQUEST_UPLOAD_AVATAR 					= 		"upload_avatar";
-	/** 客户端更新用户昵称的请求 */
-	String REQUEST_UPDATE_USER_NICK 				= 		"update_nick";
-	/** 客户端修改密码的请求 */
-	String REQUEST_UPDATE_USER_PASSWORD 			= 		"update_password";
-	/** 客户端上传头像的请求 */
-	String REQUEST_UPLOAD_AVATAR_ID  		 		= 		"upload_avatar_id";
-	/** 客户端发送的登陆请求 */
-	String REQUEST_LOGIN 							= 		"login";
-	/** 客户端发送的下载用户头像请求 */
-	String REQUEST_DOWNLOAD_AVATAR	 				= 		"download_avatar";
-	/** 客户端发送的下载联系人请求 */
-	String REQUEST_DOWNLOAD_CONTACTS			 	= 		"download_contacts";
-	/** 客户端发送的下载联系人所有集合请求 */
-	String REQUEST_DOWNLOAD_CONTACT_ALL_LIST 		= 		"download_contact_all_list";
-	/** 客户端发送的下载联系人集合请求 */
-	String REQUEST_DOWNLOAD_CONTACT_LIST 			= 		"download_contact_list";
-	/** 客户端发送的删除联系人请求 */
-	String REQUEST_DELETE_CONTACT 					= 		"delete_contact";
-	/** 客户端发送的添加联系人请求 */
-	String REQUEST_ADD_CONTACT 						= 		"add_contact";
-	/** 客户端发送的查找用户请求 */
-	String REQUEST_FIND_USER 						= 		"find_user";
-	/** 客户端发送的根据用户名模糊查找用户请求 */
-	String REQUEST_FIND_USERS 						= 		"find_users";
-	/** 客户端发送的根据用户昵称模糊查找用户请求 */
-	String REQUEST_FIND_USERS_BY_NICK 				= 		"find_users_by_nick";
-	/** 客户端发送的根据用户昵称模糊查找用户请求 */
-	String REQUEST_FIND_USERS_FOR_SEARCH			= 		"find_users_for_search";
-	/** 客户端发送的下载联系人请求 */
-	String REQUEST_DOWNLOAD_CONTACT 				= 		"download_contacts";
-	/** 客户端发送的上传位置请求 */
-	String REQUEST_UPLOAD_LOCATION 					= 		"upload_location";
-	/** 客户端发送的更新位置请求 */
-	String REQUEST_UPDATE_LOCATION 					= 		"update_location";
-	/** 客户端发送的下载位置请求 */
-	String REQUEST_DOWNLOAD_LOCATION 				= 		"download_location";
-	/** 客户端发送的根据群组环信id查找公开群组请求 */
-	String REQUEST_DOWNLOAD_AVATAR_USER					=	FuliCenterApplication.SERVER_ROOT+"?"+KEY_REQUEST+"="+REQUEST_DOWNLOAD_AVATAR+"&"+AVATAR_TYPE+"=";
+    interface Avatar {
+        String TABLE_NAME 							= 		"t_superwechat_avatar";
+        String AVATAR_ID 							= 		"m_avatar_id";					//主键
+        String USER_ID 								= 		"m_avatar_user_id";				//用户id或者群组id
+        String USER_NAME 							= 		"m_avatar_user_name";			//用户账号或者群组账号
+        String AVATAR_PATH 							= 		"m_avatar_path";				//保存路径
+        String AVATAR_TYPE 							= 		"m_avatar_type";				//头像类型：\n0:用户头像\n1:群组头像
+    }
 
-	 String REQUEST_FIND_CHARGE = "find_charge";
-    
+    interface Location {
+        String TABLE_NAME 							= 		"t_superwechat_location";
+        String LOCATION_ID 							= 		"m_location_id";				//主键
+        String USER_ID 								= 		"m_location_user_id";			//用户id
+        String USER_NAME 							= 		"m_location_user_name";			//用户账号
+        String LATITUDE 							= 		"m_location_latitude";			//纬度
+        String LONGITUDE 							= 		"m_location_longitude";			//经度
+        String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
+        String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
+    }
+    //C:\superwechatDB
+    String AVATAR_PATH 								= 		"//c/superwechatDB/";
+    String ISON8859_1 								= 		"iso8859-1";
+    String UTF_8 									= 		"utf-8";
+    String PAGE_ID 									= 		"page_id";						//分页的起始下标
+    String PAGE_SIZE 								= 		"page_size";					//分页的每页数量
+    int PAGE_ID_DEFAULT 							= 		0;						//分页的起始下标默认值
+    int PAGE_SIZE_DEFAULT 						= 		10;					//分页的每页数量默认值
+    int ID_DEFAULT									=		0;								//ID默认值
+    int UN_READ_MSG_COUNT_DEFAULT					=		0;								//未读消息数量默认值
+    int PERMISSION_NORMAL							= 		0;								//普通用户群组权限
+    int PERMISSION_OWNER							= 		1;								//群组所有者群组权限
+    int AVATAR_TYPE_USER							=		0;								//用户头像
+    String BACKSLASH								= 		"/";							//反斜杠
+    String AVATAR_TYPE_USER_PATH					= 		"user_avatar";					//用户头像保存目录
+    String AVATAR_SUFFIX_PNG						=		".png";							//PNG图片后缀名
+    String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
+    String MSG_PREFIX_MSG							=		"msg_";							//返回的消息码前缀
+    int LOCATION_IS_SEARCH_ALLOW					=		1;								//可以被搜索到地理位置
+    int LOCATION_IS_SEARCH_INHIBIT					=		0;								//禁止被搜索到地理位置
+    int MSG_CONNECTION_SUCCESS						=  		900;							//连接服务器成功
+    int MSG_CONNECTION_FAIL							=  		901;							//连接服务器失败
+    int MSG_UPLOAD_AVATAR_SUCCESS					=		902;							//上传头像成功
+    int MSG_UPLOAD_AVATAR_FAIL						=		903;							//上传头像失败
+    int MSG_REGISTER_SUCCESS						=  		101;							//注册成功
+    int MSG_REGISTER_USERNAME_EXISTS				=		102;							//账号已经存在
+    int MSG_REGISTER_UPLOAD_AVATAR_FAIL				=		103;							//上传头像失败
+    int MSG_REGISTER_UPLOAD_AVATAR_SUCCESS			=		104;							//上传头像成功
+    int MSG_REGISTER_FAIL							=		105;							//注册失败
+    int MSG_UNREGISTER_SUCCESS						=  		106;							//注册成功
+    int MSG_UNREGISTER_FAIL							=		107;							//注册失败
+    int MSG_CONTACT_FIRENDED						=		201;							//已经是好友关系
+    int MSG_CONTACT_FAIL							=		202;							//好友关系
+    int MSG_LOGIN_UNKNOW_USER						=		401;							//账户不存在
+    int MSG_LOGIN_ERROR_PASSWORD					=		402;							//账户密码错误
+    int MSG_LOGIN_SUCCESS							=		403;							//登陆成功
+    int MSG_USER_SAME_NICK							=		404;							//昵称未修改
+    int MSG_USER_UPDATE_NICK_SUCCESS				=		405;							//昵称修改成功
+    int MSG_USER_UPDATE_NICK_FAIL					=		406;							//昵称修改失败
+    int MSG_USER_SAME_PASSWORD						=		407;							//昵称未修改
+    int MSG_USER_UPDATE_PASSWORD_SUCCESS			=		408;							//昵称修改成功
+    int MSG_USER_UPDATE_PASSWORD_FAIL				=		409;							//昵称修改失败
+    int MSG_LOCATION_UPLOAD_SUCCESS					=		501;							//用户上传地理位置成功
+    int MSG_LOCATION_UPLOAD_FAIL					=		502;							//用户上传地理位置失败
+    int MSG_LOCATION_UPDATE_SUCCESS					=		503;							//用户更新地理位置成功
+    int MSG_LOCATION_UPDATE_FAIL					=		504;							//用户更新地理位置失败
+    int MSG_UNKNOW									=		999;							//未知错误
+    String KEY_REQUEST 								= 		"request";
+    /** 上传图片的类型：user_avatar或group_icon */
+    String AVATAR_TYPE 								= 		"avatarType";
+    /** 服务器状态的请求 */
+    String REQUEST_SERVERSTATUS 					= 		"server_status";
+    /** 客户端发送的注册请求 */
+    String REQUEST_REGISTER		 					= 		"register";
+    /**  发送取消注册的请求 */
+    String REQUEST_UNREGISTER 						= 		"unregister";
+    /** 客户端上传头像的请求 */
+    String REQUEST_UPLOAD_AVATAR 					= 		"upload_avatar";
+    /** 客户端更新用户昵称的请求 */
+    String REQUEST_UPDATE_USER_NICK 				= 		"update_nick";
+    /** 客户端修改密码的请求 */
+    String REQUEST_UPDATE_USER_PASSWORD 			= 		"update_password";
+    /** 客户端上传头像的请求 */
+    String REQUEST_UPLOAD_AVATAR_ID  		 		= 		"upload_avatar_id";
+    /** 客户端发送的登陆请求 */
+    String REQUEST_LOGIN 							= 		"login";
+    /** 客户端发送的下载用户头像请求 */
+    String REQUEST_DOWNLOAD_AVATAR	 				= 		"download_avatar";
+    /** 客户端发送的下载联系人请求 */
+    String REQUEST_DOWNLOAD_CONTACTS			 	= 		"download_contacts";
+    /** 客户端发送的下载联系人所有集合请求 */
+    String REQUEST_DOWNLOAD_CONTACT_ALL_LIST 		= 		"download_contact_all_list";
+    /** 客户端发送的下载联系人集合请求 */
+    String REQUEST_DOWNLOAD_CONTACT_LIST 			= 		"download_contact_list";
+    /** 客户端发送的删除联系人请求 */
+    String REQUEST_DELETE_CONTACT 					= 		"delete_contact";
+    /** 客户端发送的添加联系人请求 */
+    String REQUEST_ADD_CONTACT 						= 		"add_contact";
+    /** 客户端发送的查找用户请求 */
+    String REQUEST_FIND_USER 						= 		"find_user";
+    /** 客户端发送的根据用户名模糊查找用户请求 */
+    String REQUEST_FIND_USERS 						= 		"find_users";
+    /** 客户端发送的根据用户昵称模糊查找用户请求 */
+    String REQUEST_FIND_USERS_BY_NICK 				= 		"find_users_by_nick";
+    /** 客户端发送的根据用户昵称模糊查找用户请求 */
+    String REQUEST_FIND_USERS_FOR_SEARCH			= 		"find_users_for_search";
+    /** 客户端发送的下载联系人请求 */
+    String REQUEST_DOWNLOAD_CONTACT 				= 		"download_contacts";
+    /** 客户端发送的上传位置请求 */
+    String REQUEST_UPLOAD_LOCATION 					= 		"upload_location";
+    /** 客户端发送的更新位置请求 */
+    String REQUEST_UPDATE_LOCATION 					= 		"update_location";
+    /** 客户端发送的下载位置请求 */
+    String REQUEST_DOWNLOAD_LOCATION 				= 		"download_location";
+    /** 客户端发送的根据群组环信id查找公开群组请求 */
+    String REQUEST_DOWNLOAD_AVATAR_USER					=	FuliCenterApplication.SERVER_ROOT+"?"+KEY_REQUEST+"="+REQUEST_DOWNLOAD_AVATAR+"&"+AVATAR_TYPE+"=";
+
+    String REQUEST_FIND_CHARGE = "find_charge";
+
     /** 从服务端查询精选首页的数据*/
     String REQUEST_FIND_BOUTIQUES="find_boutiques";
     /** 从服务端查询新品或精选的商品*/
@@ -324,7 +335,7 @@ public interface I {
 
     /** 从服务端下载tb_category_child表的数据*/
     String REQUEST_FIND_CATEGORY_CHILDREN="find_category_children";
-    
+
     /** 从服务端下载tb_category_good表的数据*/
     String REQUEST_FIND_GOOD_DETAILS="find_good_details";
 
@@ -333,7 +344,7 @@ public interface I {
 
     /** 下载指定小类别的颜色列表*/
     String REQUEST_FIND_COLOR_LIST="find_color_list";
-    
+
     /** 查询是否已收藏*/
     String REQUEST_IS_COLLECT="is_collect";
     /** 添加收藏*/
@@ -344,61 +355,67 @@ public interface I {
     String REQUEST_FIND_COLLECTS="find_collects";
     /** 下载收藏的商品数量信息*/
     String REQUEST_FIND_COLLECT_COUNT="find_collect_count";
-    
+
     String REQUEST_ADD_CART="add_cart";
-    
+
     String REQUEST_FIND_CARTS="find_carts";
 
     String REQUEST_DELETE_CART="delete_cart";
-    
+
     String REQUEST_UPDATE_CART="update_cart";
-    
+
     /**下载新品首页商品图片*/
     String REQUEST_DOWNLOAD_NEW_GOOD = "download_new_good";
-    
+
     /**下载商品属性颜色的图片*/
     String REQUEST_DOWNLOAD_COLOR_IMG = "download_color_img";
-    
+
     /** 下载商品相册图像的URL*/
     String DOWNLOAD_AVATAR_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_AVATAR+"&avatar=";
-    
+            "?request="+REQUEST_DOWNLOAD_AVATAR+"&avatar=";
+
     /** 下载商品相册图像的请求*/
     String REQUEST_DOWNLOAD_ALBUM_IMG="download_album_img_url";
     /** 下载商品相册图像的接口*/
     String DOWNLOAD_ALBUM_IMG_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_ALBUM_IMG+"&img_url=";
-    
+            "?request="+REQUEST_DOWNLOAD_ALBUM_IMG+"&img_url=";
+
     /** 下载精选首页图像的请求*/
     String REQUEST_DOWNLOAD_BOUTIQUE_IMG="download_boutique_img";
     /** 下载精选首页图像的接口*/
     String DOWNLOAD_BOUTIQUE_IMG_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_BOUTIQUE_IMG+"&"+Boutique.IMAGE_URL+"=";
-    
+            "?request="+REQUEST_DOWNLOAD_BOUTIQUE_IMG+"&"+Boutique.IMAGE_URL+"=";
+
     /** 下载分类商品大类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE="download_category_group_image";
     /** 下载分类商品大类图像的接口*/
     String DOWNLOAD_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
-        +"&"+D.CategoryGroup.IMAGE_URL+"=";
+            "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
+            +"&"+D.CategoryGroup.IMAGE_URL+"=";
 
     /** 下载收藏商品图像的请求*/
     String REQUEST_DOWNLOAD_GOODS_THUMB="download_goods_thumb";
     /** 下载收藏商品图像的接口*/
     String DOWNLOAD_GOODS_THUMB_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_GOODS_THUMB
-        +"&"+Collect.GOODS_THUMB+"=";
-    
+            "?request="+REQUEST_DOWNLOAD_GOODS_THUMB
+            +"&"+Collect.GOODS_THUMB+"=";
+
     /** 下载分类商品小类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_image";
     /** 下载分类商品小类图像的接口*/
     String DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL= FuliCenterApplication.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE
-        +"&"+D.CategoryChild.IMAGE_URL+"=";
+            "?request="+REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE
+            +"&"+D.CategoryChild.IMAGE_URL+"=";
 
     String REQUEST_UPLOAD_NICK="upload_nick";
     //壹收款支付请求
     String REQUEST_PAY="pay";
     /**壹收款服务端支付URL*/
     String PAY_URL= FuliCenterApplication.SERVER_ROOT+"?request="+I.REQUEST_PAY;
+
+    int ACTION_ADD_COLLECT = 1;
+    int ACTION_DEL_COLLECT = 2;
+    String ACTION_CART= "cart";
+    String ACTION_PERSONAL = "personal";
+
 }

@@ -15,18 +15,22 @@ package cn.ucai.fulicenter;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.easemob.EMCallBack;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.Contact;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.data.RequestManager;
 
 public class FuliCenterApplication extends Application {
 	public static String SERVER_ROOT = "http://10.0.2.2:8080/FuLiCenterServer/Server";
+	//	public static String SERVER_ROOT = "http://192.168.1.44:8080/FuLiCenterServer/Server";
 	public static Context applicationContext;
 	private static FuliCenterApplication instance;
 	// login user name
@@ -34,7 +38,9 @@ public class FuliCenterApplication extends Application {
 	//全局的当前登录用户的收藏商品数量
 	private int collectCount;
 
+
 	public int getCollectCount() {
+		Log.e("main", "FuliCenterApplication.getCollectCount:" + collectCount);
 		return collectCount;
 	}
 
@@ -47,6 +53,15 @@ public class FuliCenterApplication extends Application {
 	 */
 	public static String currentUserNick = "";
 	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+	public ArrayList<CartBean> cartList = new ArrayList<CartBean>();
+
+	public ArrayList<CartBean> getCartList() {
+		return cartList;
+	}
+
+	public void setCartList(ArrayList<CartBean> cartList) {
+		this.cartList = cartList;
+	}
 
 	@Override
 	public void onCreate() {
@@ -100,7 +115,6 @@ public class FuliCenterApplication extends Application {
 
 	/**
 	 * 设置用户名
-	 *
 	 */
 	public void setUserName(String username) {
 		hxSDKHelper.setHXId(username);
@@ -119,13 +133,14 @@ public class FuliCenterApplication extends Application {
 	/**
 	 * 退出登录,清空数据
 	 */
-	public void logout(final boolean isGCM,final EMCallBack emCallBack) {
+	public void logout(final boolean isGCM, final EMCallBack emCallBack) {
 		// 先调用sdk logout，在清理app中自己的数据
-		hxSDKHelper.logout(isGCM,emCallBack);
+		hxSDKHelper.logout(isGCM, emCallBack);
 	}
+
 	private User user;
 	private ArrayList<Contact> contactList = new ArrayList<Contact>();
-	private HashMap<String, Contact> userList = new HashMap<String,Contact>();
+	private HashMap<String, Contact> userList = new HashMap<String, Contact>();
 
 	public HashMap<String, Contact> getUserList() {
 		return userList;

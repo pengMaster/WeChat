@@ -6,21 +6,22 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
-import cn.ucai.fulicenter.DemoHXSDKHelper;
-import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.db.UserDao;
+import cn.ucai.fulicenter.task.DownloadCartListTask;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-
 
 /**
  * 开屏页
@@ -29,8 +30,8 @@ import cn.ucai.fulicenter.task.DownloadContactListTask;
 public class SplashActivity extends BaseActivity {
 	private RelativeLayout rootLayout;
 	private TextView versionText;
-	Context mContext;
-	String currentUsername;
+	Context context;
+	User user;
 	
 	private static final int sleepTime = 2000;
 
@@ -38,7 +39,7 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle arg0) {
 		setContentView(R.layout.activity_splash);
 		super.onCreate(arg0);
-		mContext=this;
+		context = this;
 
 		rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
 		versionText = (TextView) findViewById(R.id.tv_version);
@@ -52,19 +53,20 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		if (DemoHXSDKHelper.getInstance().isLogined()) {
+			Log.e("error", "start download contact,group,public group");
 			String username = FuliCenterApplication.getInstance().getUserName();
-			UserDao dao = new UserDao(mContext);
-			if (username!=null) {
-				User user = dao.findUserByUserName(username);
-				FuliCenterApplication.getInstance().setUser(user);
-			}
-			new DownloadContactListTask(mContext,currentUsername).execute();
-
+			UserDao dao = new UserDao(context);
+			User user = dao.findUserByUserName(username);
+			Log.e("error", "splash user" + user);
+			FuliCenterApplication instance = FuliCenterApplication.getInstance();
+			instance.setUser(user);
+			Log.e("main", "Splash.username=" + username);
+			new DownloadContactListTask(context, username).execute();
+			new DownloadCartListTask(context).execute();
+			new DownloadCollectCountTask(context).execute();
 		}
 		new Thread(new Runnable() {
-
 			public void run() {
 				if (DemoHXSDKHelper.getInstance().isLogined()) {
 					// ** 免登陆情况 加载所有本地群和会话
@@ -82,7 +84,7 @@ public class SplashActivity extends BaseActivity {
 							e.printStackTrace();
 						}
 					}
-//					//进入主页面
+					//进入主页面
 //					startActivity(new Intent(SplashActivity.this, MainActivity.class));
 //					finish();
 				}else {
@@ -93,7 +95,6 @@ public class SplashActivity extends BaseActivity {
 //					startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 //					finish();
 				}
-
 				startActivity(new Intent(SplashActivity.this, FuliCenterMainActivity.class));
 				finish();
 			}
