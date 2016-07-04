@@ -1,10 +1,13 @@
 buildscript {
     repositories {
         jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
+
     }
+
 }
 apply plugin: 'com.android.application'
 
@@ -30,6 +33,10 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-2.7.2.jar')
     compile files('libs/ShareSDK-Wechat-Core-2.7.2.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.7.2.jar')
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
 
 android {
@@ -38,6 +45,9 @@ android {
 
     defaultConfig {
         applicationId "cn.ucai.fulicenter"
+    }
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
     }
     sourceSets {
         main {

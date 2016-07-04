@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.baidu.mapapi.search.busline.OnGetBusLineSearchResultListener;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.MissingFormatWidthException;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
@@ -183,4 +185,10 @@ public class NewGoodFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 }

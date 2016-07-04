@@ -72,6 +72,7 @@ import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.widget.Sidebar;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
+import com.squareup.leakcanary.RefWatcher;
 
 /**
  * 联系人列表页
@@ -478,6 +479,8 @@ public class ContactlistFragment extends Fragment {
 			getActivity().unregisterReceiver(mReceiver);
 		}
 		super.onDestroy();
+		RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
 	}
 	
 	public void showProgressBar(boolean show) {

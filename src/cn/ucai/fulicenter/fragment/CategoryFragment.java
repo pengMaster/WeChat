@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.android.volley.Response;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.okhttp.internal.Util;
 
 import java.util.ArrayList;
 
 import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.FuliCenterMainActivity;
@@ -167,4 +169,12 @@ public class CategoryFragment extends Fragment {
 //        }
 //        return ChildPath;
 //    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 }

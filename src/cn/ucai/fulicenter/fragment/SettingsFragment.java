@@ -42,6 +42,8 @@ import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.squareup.leakcanary.RefWatcher;
+
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKModel;
@@ -409,4 +411,11 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
         }
     }
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
+	}
 }

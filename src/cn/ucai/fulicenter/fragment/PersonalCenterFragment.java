@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,6 +136,8 @@ public class PersonalCenterFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
         if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);
         }
@@ -148,6 +151,7 @@ public class PersonalCenterFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             new DownloadCollectCountTask(mContext).execute();
+
             initData();
         }
     }

@@ -55,6 +55,8 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
+import com.squareup.leakcanary.RefWatcher;
+
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
@@ -275,6 +277,11 @@ public class ChatHistoryFragment extends Fragment {
 			refresh();
 		}
 	}
-	
-	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
+	}
 }

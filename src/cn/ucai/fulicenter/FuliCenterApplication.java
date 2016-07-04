@@ -18,6 +18,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.easemob.EMCallBack;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.data.RequestManager;
 
 public class FuliCenterApplication extends Application {
-	public static String SERVER_ROOT = "http://10.0.2.2:8080/FuLiCenterServer/Server";
+//	public static String SERVER_ROOT = "http://10.0.2.2:8080/FuLiCenterServer/Server";
+	public static String SERVER_ROOT = "http://192.168.8.11:8080/FuLiCenterServer/Server";
 	//	public static String SERVER_ROOT = "http://192.168.1.44:8080/FuLiCenterServer/Server";
 	public static Context applicationContext;
 	private static FuliCenterApplication instance;
@@ -88,8 +91,14 @@ public class FuliCenterApplication extends Application {
 		 * }
 		 */
 		hxSDKHelper.onInit(applicationContext);
+		instance = this;
+		refWatcher = LeakCanary.install(this);
 	}
 
+	private RefWatcher refWatcher;
+	public static RefWatcher getRefWatcher(Context context) {
+		return instance.refWatcher;
+	}
 	public static FuliCenterApplication getInstance() {
 		return instance;
 	}

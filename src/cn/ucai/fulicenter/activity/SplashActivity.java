@@ -56,15 +56,18 @@ public class SplashActivity extends BaseActivity {
 		if (DemoHXSDKHelper.getInstance().isLogined()) {
 			Log.e("error", "start download contact,group,public group");
 			String username = FuliCenterApplication.getInstance().getUserName();
-			UserDao dao = new UserDao(context);
-			User user = dao.findUserByUserName(username);
-			Log.e("error", "splash user" + user);
-			FuliCenterApplication instance = FuliCenterApplication.getInstance();
-			instance.setUser(user);
-			Log.e("main", "Splash.username=" + username);
-			new DownloadContactListTask(context, username).execute();
-			new DownloadCartListTask(context).execute();
-			new DownloadCollectCountTask(context).execute();
+			if (username!=null) {
+				UserDao dao = new UserDao(context);
+				User user = dao.findUserByUserName(username);
+				Log.e("error", "splash user" + user);
+				FuliCenterApplication instance = FuliCenterApplication.getInstance();
+				instance.setUser(user);
+				Log.e("main", "Splash.username=" + username);
+				new DownloadContactListTask(context, username).execute();
+				new DownloadCartListTask(context).execute();
+				new DownloadCollectCountTask(context).execute();
+			}
+
 		}
 		new Thread(new Runnable() {
 			public void run() {

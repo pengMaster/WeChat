@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 
@@ -247,6 +248,8 @@ public class CartFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
         if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);
         }

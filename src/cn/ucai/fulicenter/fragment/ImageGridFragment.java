@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.ucai.fulicenter.BuildConfig;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.RecorderVideoActivity;
 import cn.ucai.fulicenter.domain.VideoEntity;
@@ -41,6 +42,7 @@ import cn.ucai.fulicenter.widget.RecyclingImageView;
 import com.easemob.util.DateUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.TextFormater;
+import com.squareup.leakcanary.RefWatcher;
 
 public class ImageGridFragment extends Fragment implements OnItemClickListener {
 
@@ -163,6 +165,8 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 		super.onDestroy();
 		mImageResizer.closeCache();
 		mImageResizer.clearCache();
+		RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
 	}
 
 	@Override

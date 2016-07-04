@@ -39,6 +39,8 @@ import android.widget.Toast;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
+import com.squareup.leakcanary.RefWatcher;
+
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
@@ -326,4 +328,10 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
+	}
 }
