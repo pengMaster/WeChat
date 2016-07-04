@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import cn.ucai.superwechat.BuildConfig;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.activity.RecorderVideoActivity;
 import cn.ucai.superwechat.domain.VideoEntity;
 import cn.ucai.superwechat.video.util.ImageCache;
@@ -41,6 +42,7 @@ import cn.ucai.superwechat.widget.RecyclingImageView;
 import com.easemob.util.DateUtils;
 import com.easemob.util.EMLog;
 import com.easemob.util.TextFormater;
+import com.squareup.leakcanary.RefWatcher;
 
 public class ImageGridFragment extends Fragment implements OnItemClickListener {
 
@@ -163,6 +165,8 @@ public class ImageGridFragment extends Fragment implements OnItemClickListener {
 		super.onDestroy();
 		mImageResizer.closeCache();
 		mImageResizer.clearCache();
+		RefWatcher refWatcher = SuperWeChatApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
 	}
 
 	@Override

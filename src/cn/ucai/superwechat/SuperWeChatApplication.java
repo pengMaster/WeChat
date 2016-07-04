@@ -17,6 +17,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.easemob.EMCallBack;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +30,9 @@ import cn.ucai.superwechat.bean.User;
 import cn.ucai.superwechat.data.RequestManager;
 
 public class SuperWeChatApplication extends Application {
-	public  static String SERVER_ROOT = "http://10.0.2.2:8080/SuperWeChatServer/Server";
+//	public  static String SERVER_ROOT = "http://10.0.2.2:8080/SuperWeChatServer/Server";
 //	public  static String SERVER_ROOT = "http://192.168.191.1:8080/SuperWeChatServer/Server";
+	public  static String SERVER_ROOT = "http://192.168.8.11:8080/SuperWeChatServer/Server";
 
 	public static Context applicationContext;
 	private static SuperWeChatApplication instance;
@@ -68,8 +71,13 @@ public class SuperWeChatApplication extends Application {
          */
         hxSDKHelper.onInit(applicationContext);
 		RequestManager.init(applicationContext);
+		instance = this;
+		refWatcher = LeakCanary.install(this);
 	}
-
+	private RefWatcher refWatcher;
+	public static RefWatcher getRefWatcher(Context context) {
+		return instance.refWatcher;
+	}
 	public static SuperWeChatApplication getInstance() {
 		return instance;
 	}

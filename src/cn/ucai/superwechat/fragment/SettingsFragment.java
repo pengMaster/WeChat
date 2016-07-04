@@ -42,6 +42,8 @@ import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.squareup.leakcanary.RefWatcher;
+
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKModel;
@@ -412,4 +414,11 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
         }
     }
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		RefWatcher refWatcher = SuperWeChatApplication.getRefWatcher(getActivity());
+		refWatcher.watch(this);
+	}
 }
