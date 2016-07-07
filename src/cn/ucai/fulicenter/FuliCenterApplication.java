@@ -32,8 +32,8 @@ import cn.ucai.fulicenter.data.RequestManager;
 
 public class FuliCenterApplication extends Application {
 //	public static String SERVER_ROOT = "http://10.0.2.2:8080/FuLiCenterServer/Server";
-	public static String SERVER_ROOT = "http://192.168.8.11:8080/FuLiCenterServer/Server";
-	//	public static String SERVER_ROOT = "http://192.168.1.44:8080/FuLiCenterServer/Server";
+//	public static String SERVER_ROOT = "http://192.168.8.11:8080/FuLiCenterServer/Server";
+		public static String SERVER_ROOT = "http://192.168.191.1:8080/FuLiCenterServer/Server";
 	public static Context applicationContext;
 	private static FuliCenterApplication instance;
 	// login user name
