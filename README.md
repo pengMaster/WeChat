@@ -14,7 +14,6 @@
 <img src="https://github.com/pengMaster/WeChat/blob/master/pic/4.png" width="150" height="250" align="left" alt=""/>
 <img src="https://github.com/pengMaster/WeChat/blob/master/pic/5.png" width="150" height="250" align="left" alt=""/>
 <tr>
-
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/6.png" width="150" height="250" align="left" alt=""/>
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/7.png" width="150" height="250" align="left" alt=""/>
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/8.png" width="150" height="250" align="left" alt=""/>
