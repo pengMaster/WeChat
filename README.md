@@ -8,4 +8,11 @@
      - 朋友圈
 - 软件部分截图
 
-<img src="https://github.com/wp521/fingerLock/blob/master/pic/show.png" width="150" height="250" align="left" alt=""/>
+<img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+<img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+<img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+<img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+<tr>
+     <img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+     <img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
+     <img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
