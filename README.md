@@ -1,4 +1,29 @@
-# 微信聊天软件
+<h1 align="center">微信聊天软件</h1>
+
+<p align="center">
+    <img src="https://img.shields.io/badge/bintray-v2.3.5-brightgreen.svg" alt="Latest Stable Version" />
+  </a>
+  <a href="">
+    <img src="https://travis-ci.org/JessYanCoding/MVPArms.svg?branch=master" alt="Build Status" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat-square" alt="Min Sdk Version" />
+  </a>
+  <a href="">
+    <img src="http://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="License" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/QQ群-301733278-ff69b4.svg" alt="QQ Group" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="">
+    <b>开启旅程</b>
+  </a>
+</p> 
+
+## A common Architecture for Android Applications developing based on MVP，integrates many Open Source Projects( like Dagger2,RxJava,Retrofit... ),to make your developing quicker and easier.
 
 - 简介    
 本软件是一款基于环信SDK开发的即时通讯软件，涉及功能：
