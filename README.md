@@ -42,7 +42,8 @@
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/9.png" width="150" height="250" align="left" alt=""/>
     
     
-    #### 个人说明
+    
+#### 个人说明
 
  - 项目为原始项目，不足之处多多指教
  - QQ群：830556582
