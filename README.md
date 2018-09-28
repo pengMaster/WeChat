@@ -41,7 +41,7 @@
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/8.png" width="150" height="250" align="left" alt=""/>
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/9.png" width="150" height="250" align="left" alt=""/>
 <div/>   
-    
+<tr>  
     
 #### 个人说明
 
