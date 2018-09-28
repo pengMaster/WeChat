@@ -29,7 +29,7 @@
      
      
 - 软件部分截图
-
+<div>
 <img src="https://github.com/pengMaster/WeChat/blob/master/pic/1.png" width="150" height="250" align="left" alt=""/>
 <img src="https://github.com/pengMaster/WeChat/blob/master/pic/2.png" width="150" height="250" align="left" alt=""/>
 <img src="https://github.com/pengMaster/WeChat/blob/master/pic/3.png" width="150" height="250" align="left" alt=""/>
@@ -40,7 +40,7 @@
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/7.png" width="150" height="250" align="left" alt=""/>
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/8.png" width="150" height="250" align="left" alt=""/>
      <img src="https://github.com/pengMaster/WeChat/blob/master/pic/9.png" width="150" height="250" align="left" alt=""/>
-    
+<div/>   
     
     
 #### 个人说明
